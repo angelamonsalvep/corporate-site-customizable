@@ -44,7 +44,7 @@ const AdminPanel = () => {
     e.preventDefault();
     setLoginError('');
     try {
-      const res = await fetch('http://localhost:3001/api/verify-password', {
+      const res = await fetch('/api/verify-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password: passwordInput })

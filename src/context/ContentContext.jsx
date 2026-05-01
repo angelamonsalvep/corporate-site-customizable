@@ -11,7 +11,7 @@ export const ContentProvider = ({ children }) => {
 
   const fetchContent = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/content');
+      const response = await fetch('/api/content');
       if (!response.ok) throw new Error('Failed to fetch content');
       const data = await response.json();
       setContent(data);
@@ -32,7 +32,7 @@ export const ContentProvider = ({ children }) => {
   const updateContent = async (newContent) => {
     try {
       const password = sessionStorage.getItem('adminPassword');
-      const response = await fetch('http://localhost:3001/api/content', {
+      const response = await fetch('/api/content', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
