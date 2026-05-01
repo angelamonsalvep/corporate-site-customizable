@@ -15,7 +15,6 @@ const AdminPanel = () => {
   const handleLogoUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Validate file size (e.g., max 2MB)
       if (file.size > 2 * 1024 * 1024) {
         alert('La imagen es demasiado grande. Por favor, sube un archivo menor a 2MB.');
         return;
@@ -24,14 +23,30 @@ const AdminPanel = () => {
       reader.onloadend = () => {
         setFormData(prev => ({
           ...prev,
-          general: {
-            ...prev.general,
-            logoImage: reader.result
-          }
+          general: { ...prev.general, logoImage: reader.result }
         }));
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  // Generic image uploader for array items (products / services)
+  const handleArrayImageUpload = (section, arrayKey, index, field, e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      alert('La imagen es demasiado grande. Por favor, sube un archivo menor a 5MB.');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFormData(prev => {
+        const updatedArray = [...prev[section][arrayKey]];
+        updatedArray[index] = { ...updatedArray[index], [field]: reader.result };
+        return { ...prev, [section]: { ...prev[section], [arrayKey]: updatedArray } };
+      });
+    };
+    reader.readAsDataURL(file);
   };
 
   useEffect(() => {
@@ -272,8 +287,28 @@ const AdminPanel = () => {
                         <textarea className="form-control" rows="2" value={product.description} onChange={(e) => handleArrayChange('trade', 'products', index, 'description', e.target.value)}></textarea>
                       </div>
                       <div className="form-group">
-                        <label>URL de Imagen</label>
-                        <input type="text" className="form-control" value={product.image} onChange={(e) => handleArrayChange('trade', 'products', index, 'image', e.target.value)} />
+                        <label>Imagen del Producto</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="URL de imagen (opcional)"
+                          value={product.image}
+                          onChange={(e) => handleArrayChange('trade', 'products', index, 'image', e.target.value)}
+                        />
+                        <div style={{ marginTop: '0.5rem' }}>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="form-control"
+                            style={{ padding: '0.4rem' }}
+                            onChange={(e) => handleArrayImageUpload('trade', 'products', index, 'image', e)}
+                          />
+                        </div>
+                        {product.image && (
+                          <div style={{ marginTop: '0.75rem' }}>
+                            <img src={product.image} alt={product.name} style={{ height: '80px', borderRadius: '6px', objectFit: 'cover' }} />
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -303,8 +338,28 @@ const AdminPanel = () => {
                         <input type="text" className="form-control" value={service.name} onChange={(e) => handleArrayChange('financial', 'services', index, 'name', e.target.value)} />
                       </div>
                       <div className="form-group">
-                        <label>Imagen del Servicio (URL)</label>
-                        <input type="text" className="form-control" value={service.image || ''} onChange={(e) => handleArrayChange('financial', 'services', index, 'image', e.target.value)} />
+                        <label>Imagen del Servicio</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="URL de imagen (opcional)"
+                          value={service.image || ''}
+                          onChange={(e) => handleArrayChange('financial', 'services', index, 'image', e.target.value)}
+                        />
+                        <div style={{ marginTop: '0.5rem' }}>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="form-control"
+                            style={{ padding: '0.4rem' }}
+                            onChange={(e) => handleArrayImageUpload('financial', 'services', index, 'image', e)}
+                          />
+                        </div>
+                        {service.image && (
+                          <div style={{ marginTop: '0.75rem' }}>
+                            <img src={service.image} alt={service.name} style={{ height: '80px', borderRadius: '6px', objectFit: 'cover' }} />
+                          </div>
+                        )}
                       </div>
                       <div className="form-group">
                         <label>Descripción del Servicio</label>
