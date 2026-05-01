@@ -125,7 +125,11 @@ app.get('/api/cloudinary-gallery', async (req, res) => {
     res.json({ success: true, images: result.resources });
   } catch (error) {
     console.error('Error fetching from Cloudinary:', error);
-    res.status(500).json({ error: 'Failed to fetch images from Cloudinary' });
+    res.status(500).json({ 
+      error: 'Failed to fetch images from Cloudinary', 
+      details: error.message || error.toString(),
+      hasKeys: !!process.env.CLOUDINARY_API_KEY // Debug helper
+    });
   }
 });
 
