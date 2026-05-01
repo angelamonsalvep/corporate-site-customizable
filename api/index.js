@@ -99,7 +99,11 @@ app.post('/api/content', async (req, res) => {
     res.json({ success: true, message: 'Content updated successfully' });
   } catch (error) {
     console.error('Error writing database:', error);
-    res.status(500).json({ error: 'Failed to save content' });
+    res.status(500).json({ 
+      error: 'Failed to save content',
+      details: error.message || error.toString(),
+      isVercel: !!process.env.VERCEL
+    });
   }
 });
 
