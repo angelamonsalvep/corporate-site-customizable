@@ -2,7 +2,7 @@
   "general": {
     "companyName": "World Trading Corp.",
     "logoText": "GlobalCorp",
-    "logoImage": ""
+    "logoImage": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660328/clientes/world-trading-corp/xklpqubernf8rhultbez.png"
   },
   "hero": {
     "title": "Excelencia Corporativa a Nivel Latinoamerica",
@@ -25,25 +25,25 @@
         "id": "coffee",
         "name": "Café Colombiano Arábico",
         "description": "Café de exportación con aroma y sabor excepcionales, cultivado en las mejores tierras de Colombia.",
-        "image": "/images/coffee.png"
+        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660586/clientes/world-trading-corp/fvpeq44thaauwq7z15cl.jpg"
       },
       {
         "id": "sugar",
         "name": "Azúcar",
         "description": "Azúcar refinada y estándar de alta pureza para la industria alimentaria a nivel global.",
-        "image": "/images/sugar.png"
+        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660497/clientes/world-trading-corp/rwczdze2yqtedh0oafux.jpg"
       },
       {
         "id": "fuel",
         "name": "Combustibles",
         "description": "Suministro confiable y eficiente de combustibles para operaciones industriales y de transporte.",
-        "image": "/images/fuel.png"
+        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660659/clientes/world-trading-corp/zwvlod828h2mvod34eq1.jpg"
       },
       {
         "id": "others",
         "name": "Otros Productos",
         "description": "Gestión comercial de un amplio portafolio de commodities y productos internacionales.",
-        "image": "/images/others.png"
+        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660675/clientes/world-trading-corp/x6veubkfnktlom2ifvth.jpg"
       }
     ]
   },
@@ -55,25 +55,25 @@
         "id": "f1",
         "name": "Asesoría de Inversiones",
         "description": "Evaluación y estructuración de portafolios de inversión a nivel internacional.",
-        "image": "/images/fin_advisory.png"
+        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660723/clientes/world-trading-corp/dhadifelzymlfutkwxmv.jpg"
       },
       {
         "id": "f2",
         "name": "Gestión de Activos",
         "description": "Administración eficiente de activos corporativos para maximizar su rendimiento.",
-        "image": "/images/fin_assets.png"
+        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660733/clientes/world-trading-corp/qzkwzksrgkefx7xz7sdl.jpg"
       },
       {
         "id": "f3",
         "name": "Financiación Corporativa",
         "description": "Estructuración de créditos y líneas de financiación para grandes proyectos.",
-        "image": "/images/fin_finance.png"
+        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660741/clientes/world-trading-corp/pswlvcolmuzwgzm47oqs.jpg"
       },
       {
         "id": "f4",
         "name": "Consultoría de Riesgos",
         "description": "Análisis y mitigación de riesgos financieros en operaciones internacionales.",
-        "image": "/images/fin_risk.png"
+        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660748/clientes/world-trading-corp/vtbzwgfjjfn7eip0z3sa.jpg"
       }
     ]
   },

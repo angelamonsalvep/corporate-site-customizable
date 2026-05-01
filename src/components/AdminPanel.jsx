@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useContent } from '../context/ContentContext';
+import { uploadToCloudinary } from '../utils/cloudinaryUpload';
 import './AdminPanel.css';
 
 const AdminPanel = () => {
@@ -12,41 +13,41 @@ const AdminPanel = () => {
   const [passwordInput, setPasswordInput] = useState('');
   const [loginError, setLoginError] = useState('');
 
-  const handleLogoUpload = (e) => {
+  const [uploadingField, setUploadingField] = useState(null); // tracks which field is uploading
+  const [cloudinaryFolder, setCloudinaryFolder] = useState('clientes/world-trading-corp');
+
+  const handleLogoUpload = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      if (file.size > 2 * 1024 * 1024) {
-        alert('La imagen es demasiado grande. Por favor, sube un archivo menor a 2MB.');
-        return;
-      }
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData(prev => ({
-          ...prev,
-          general: { ...prev.general, logoImage: reader.result }
-        }));
-      };
-      reader.readAsDataURL(file);
+    if (!file) return;
+    setUploadingField('logo');
+    try {
+      const url = await uploadToCloudinary(file, cloudinaryFolder);
+      setFormData(prev => ({ ...prev, general: { ...prev.general, logoImage: url } }));
+    } catch (err) {
+      alert('Error al subir logo: ' + err.message);
+    } finally {
+      setUploadingField(null);
     }
   };
 
-  // Generic image uploader for array items (products / services)
-  const handleArrayImageUpload = (section, arrayKey, index, field, e) => {
+  // Generic image uploader for array items (products / services) → Cloudinary
+  const handleArrayImageUpload = async (section, arrayKey, index, field, e) => {
     const file = e.target.files[0];
     if (!file) return;
-    if (file.size > 5 * 1024 * 1024) {
-      alert('La imagen es demasiado grande. Por favor, sube un archivo menor a 5MB.');
-      return;
-    }
-    const reader = new FileReader();
-    reader.onloadend = () => {
+    const uploadKey = `${section}-${arrayKey}-${index}`;
+    setUploadingField(uploadKey);
+    try {
+      const url = await uploadToCloudinary(file, cloudinaryFolder);
       setFormData(prev => {
         const updatedArray = [...prev[section][arrayKey]];
-        updatedArray[index] = { ...updatedArray[index], [field]: reader.result };
+        updatedArray[index] = { ...updatedArray[index], [field]: url };
         return { ...prev, [section]: { ...prev[section], [arrayKey]: updatedArray } };
       });
-    };
-    reader.readAsDataURL(file);
+    } catch (err) {
+      alert('Error al subir imagen: ' + err.message);
+    } finally {
+      setUploadingField(null);
+    }
   };
 
   useEffect(() => {
@@ -178,6 +179,20 @@ const AdminPanel = () => {
             {activeTab === 'general' && (
               <div className="admin-section animate-fade-in">
                 <h2>Información General</h2>
+
+                {/* Cloudinary folder config */}
+                <div className="form-group" style={{background:'#f0f9ff',border:'1px solid #bae6fd',borderRadius:'8px',padding:'1rem',marginBottom:'1.5rem'}}>
+                  <label style={{color:'#0369a1',fontWeight:700}}>📁 Carpeta en Cloudinary (para imágenes de este cliente)</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={cloudinaryFolder}
+                    onChange={(e) => setCloudinaryFolder(e.target.value)}
+                    placeholder="clientes/nombre-cliente"
+                  />
+                  <small style={{color:'#0369a1'}}>Las imágenes que subas irán a esta carpeta en Cloudinary.</small>
+                </div>
+
                 <div className="form-group">
                   <label>Nombre de la Empresa</label>
                   <input type="text" className="form-control" value={formData.general.companyName} onChange={(e) => handleChange('general', 'companyName', e.target.value)} />
@@ -187,9 +202,17 @@ const AdminPanel = () => {
                   <label>Logo del Sitio (Pega una URL o sube una imagen)</label>
                   <input type="text" className="form-control" placeholder="URL de la imagen (Opcional)" value={formData.general.logoImage || ''} onChange={(e) => handleChange('general', 'logoImage', e.target.value)} />
                   <div style={{marginTop: '0.5rem'}}>
-                    <input type="file" accept="image/*" onChange={handleLogoUpload} className="form-control" style={{padding: '0.4rem'}} />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleLogoUpload}
+                      className="form-control"
+                      style={{padding: '0.4rem'}}
+                      disabled={uploadingField === 'logo'}
+                    />
+                    {uploadingField === 'logo' && <small style={{color:'#0369a1'}}>⏳ Subiendo a Cloudinary...</small>}
                   </div>
-                  <small style={{color: 'var(--color-text-muted)'}}>Recomendado: Imagen en formato PNG con fondo transparente (Máx 2MB).</small>
+                  <small style={{color: 'var(--color-text-muted)'}}>Recomendado: Imagen en formato PNG con fondo transparente.</small>
                   {formData.general.logoImage && (
                     <div style={{marginTop: '1rem', padding: '1rem', backgroundColor: '#f1f5f9', borderRadius: '4px', display: 'inline-block'}}>
                       <img src={formData.general.logoImage} alt="Logo Preview" style={{maxHeight: '60px', objectFit: 'contain'}} />
