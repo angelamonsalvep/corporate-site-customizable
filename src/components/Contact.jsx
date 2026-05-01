@@ -43,8 +43,6 @@ const Contact = () => {
       if (response.ok) {
         setSubmitStatus('success');
         setFormData({ name: '', email: '', company: '', message: '' });
-        // Importante: Formsubmit requiere una activación manual la primera vez
-        alert('Mensaje enviado. (NOTA: Si es la primera vez que envías a este correo, revisa tu bandeja de entrada para activar FormSubmit).');
       } else {
         setSubmitStatus('error');
       }
