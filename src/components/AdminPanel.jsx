@@ -287,6 +287,25 @@ const AdminPanel = () => {
                   <label>Dirección</label>
                   <input type="text" className="form-control" value={formData.contact.address} onChange={(e) => handleChange('contact', 'address', e.target.value)} />
                 </div>
+
+                <div className="form-group" style={{ display: 'flex', gap: '2rem', alignItems: 'center', marginTop: '1rem', background: '#f8fafc', padding: '1rem', borderRadius: '8px' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500 }}>
+                    <input 
+                      type="checkbox" 
+                      checked={formData.contact.showWhatsApp !== false} 
+                      onChange={(e) => handleChange('contact', 'showWhatsApp', e.target.checked)} 
+                    />
+                    Habilitar Botón WhatsApp
+                  </label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500 }}>
+                    <input 
+                      type="checkbox" 
+                      checked={formData.contact.showPhone !== false} 
+                      onChange={(e) => handleChange('contact', 'showPhone', e.target.checked)} 
+                    />
+                    Mostrar Teléfono en el Sitio
+                  </label>
+                </div>
               </div>
             )}
 

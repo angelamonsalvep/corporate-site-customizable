@@ -81,6 +81,8 @@
     "whatsappNumber": "573203774111",
     "email": "angelapmonsalve@gmail.com",
     "phoneDisplay": "+57 320 3774111",
-    "address": "PH BICSA FINANCIAL CENTER puso 47 of 4710 Av vasco Nuñez de Balboa, Provincia de Panamá; Panamá."
+    "address": "PH BICSA FINANCIAL CENTER puso 47 of 4710 Av vasco Nuñez de Balboa, Provincia de Panamá; Panamá.",
+    "showWhatsApp": true,
+    "showPhone": true
   }
 }

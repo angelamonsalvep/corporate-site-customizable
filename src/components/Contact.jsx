@@ -73,10 +73,12 @@ const Contact = () => {
                   <span className="icon">📍</span>
                   <span>{siteContent.contact.address}</span>
                 </li>
-                <li>
-                  <span className="icon">📞</span>
-                  <span>{siteContent.contact.phoneDisplay}</span>
-                </li>
+                {siteContent.contact.showPhone !== false && (
+                  <li>
+                    <span className="icon">📞</span>
+                    <span>{siteContent.contact.phoneDisplay}</span>
+                  </li>
+                )}
                 <li>
                   <span className="icon">✉️</span>
                   <span>{siteContent.contact.email}</span>

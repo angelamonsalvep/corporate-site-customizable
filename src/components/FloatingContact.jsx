@@ -3,7 +3,7 @@ import './FloatingContact.css';
 
 const FloatingContact = () => {
   const { content: siteContent } = useContent();
-  if (!siteContent) return null;
+  if (!siteContent || siteContent.contact?.showWhatsApp === false) return null;
   return (
     <div className="floating-contact">
       <a 
