@@ -113,11 +113,13 @@
 
 .service-card {
   background-color: var(--color-bg);
-  padding: 2rem;
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-sm);
   transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
   border-bottom: 4px solid transparent;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .service-card:hover {
@@ -135,7 +137,29 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.5rem;
+  margin: 1.5rem 1.5rem 0 1.5rem;
+}
+
+.service-image {
+  height: 200px;
+  overflow: hidden;
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+}
+
+.service-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.service-card:hover .service-image img {
+  transform: scale(1.1);
+}
+
+.service-info {
+  padding: 1.5rem;
+  flex-grow: 1;
 }
 
 .service-info h4 {
