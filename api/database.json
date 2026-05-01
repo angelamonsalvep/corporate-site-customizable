@@ -25,25 +25,29 @@
         "id": "coffee",
         "name": "Café Colombiano Arábico",
         "description": "Café de exportación con aroma y sabor excepcionales, cultivado en las mejores tierras de Colombia.",
-        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660586/clientes/world-trading-corp/fvpeq44thaauwq7z15cl.jpg"
+        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660586/clientes/world-trading-corp/fvpeq44thaauwq7z15cl.jpg",
+        "_id": "69f51186f739063feb6371c0"
       },
       {
         "id": "sugar",
         "name": "Azúcar",
         "description": "Azúcar refinada y estándar de alta pureza para la industria alimentaria a nivel global.",
-        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660497/clientes/world-trading-corp/rwczdze2yqtedh0oafux.jpg"
+        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660497/clientes/world-trading-corp/rwczdze2yqtedh0oafux.jpg",
+        "_id": "69f51186f739063feb6371c1"
       },
       {
         "id": "fuel",
         "name": "Combustibles",
         "description": "Suministro confiable y eficiente de combustibles para operaciones industriales y de transporte.",
-        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660659/clientes/world-trading-corp/zwvlod828h2mvod34eq1.jpg"
+        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660659/clientes/world-trading-corp/zwvlod828h2mvod34eq1.jpg",
+        "_id": "69f51186f739063feb6371c2"
       },
       {
         "id": "others",
         "name": "Otros Productos",
         "description": "Gestión comercial de un amplio portafolio de commodities y productos internacionales.",
-        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660675/clientes/world-trading-corp/x6veubkfnktlom2ifvth.jpg"
+        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660675/clientes/world-trading-corp/x6veubkfnktlom2ifvth.jpg",
+        "_id": "69f51186f739063feb6371c3"
       }
     ]
   },
@@ -55,34 +59,43 @@
         "id": "f1",
         "name": "Asesoría de Inversiones",
         "description": "Evaluación y estructuración de portafolios de inversión a nivel internacional.",
-        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660723/clientes/world-trading-corp/dhadifelzymlfutkwxmv.jpg"
+        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660723/clientes/world-trading-corp/dhadifelzymlfutkwxmv.jpg",
+        "_id": "69f51186f739063feb6371c4"
       },
       {
         "id": "f2",
         "name": "Gestión de Activos",
         "description": "Administración eficiente de activos corporativos para maximizar su rendimiento.",
-        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660733/clientes/world-trading-corp/qzkwzksrgkefx7xz7sdl.jpg"
+        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660733/clientes/world-trading-corp/qzkwzksrgkefx7xz7sdl.jpg",
+        "_id": "69f51186f739063feb6371c5"
       },
       {
         "id": "f3",
         "name": "Financiación Corporativa",
         "description": "Estructuración de créditos y líneas de financiación para grandes proyectos.",
-        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660741/clientes/world-trading-corp/pswlvcolmuzwgzm47oqs.jpg"
+        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660741/clientes/world-trading-corp/pswlvcolmuzwgzm47oqs.jpg",
+        "_id": "69f51186f739063feb6371c6"
       },
       {
         "id": "f4",
         "name": "Consultoría de Riesgos",
         "description": "Análisis y mitigación de riesgos financieros en operaciones internacionales.",
-        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660748/clientes/world-trading-corp/vtbzwgfjjfn7eip0z3sa.jpg"
+        "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660748/clientes/world-trading-corp/vtbzwgfjjfn7eip0z3sa.jpg",
+        "_id": "69f51186f739063feb6371c7"
       }
     ]
   },
   "contact": {
+    "showWhatsApp": false,
+    "showPhone": true,
     "whatsappNumber": "573203774111",
     "email": "angelapmonsalve@gmail.com",
     "phoneDisplay": "+57 320 3774111",
-    "address": "PH BICSA FINANCIAL CENTER puso 47 of 4710 Av vasco Nuñez de Balboa, Provincia de Panamá; Panamá.",
-    "showWhatsApp": true,
-    "showPhone": true
-  }
+    "address": "PH BICSA FINANCIAL CENTER puso 47 of 4710 Av vasco Nuñez de Balboa, Provincia de Panamá; Panamá."
+  },
+  "_id": "69f511869119bfdeb8b93875",
+  "documentId": "site_content",
+  "__v": 0,
+  "createdAt": "2026-05-01T20:48:06.683Z",
+  "updatedAt": "2026-05-01T20:48:06.683Z"
 }

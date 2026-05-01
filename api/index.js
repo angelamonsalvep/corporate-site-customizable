@@ -88,7 +88,7 @@ app.post('/api/content', async (req, res) => {
       await Content.findOneAndUpdate(
         { documentId: 'site_content' },
         newContent,
-        { new: true, upsert: true }
+        { returnDocument: 'after', upsert: true }
       );
       // Backup local si es posible
       try { fs.writeFileSync(DB_FILE, JSON.stringify(newContent, null, 2), 'utf8'); } catch(e){}
