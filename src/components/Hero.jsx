@@ -48,7 +48,6 @@ const Hero = () => {
           <p>{siteContent.hero.subtitle}</p>
           <div className="hero-buttons">
             <a href="#services" className="btn btn-primary">Conoce Nuestros Servicios</a>
-            <a href="#contact" className="btn btn-outline" style={{ color: 'white', borderColor: 'white' }}>Contáctanos</a>
           </div>
         </div>
       </div>

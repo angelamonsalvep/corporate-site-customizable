@@ -43,12 +43,6 @@ const Navbar = () => {
           <a href="#about" onClick={() => setMobileMenuOpen(false)}>Quiénes Somos</a>
           <a href="#services" onClick={() => setMobileMenuOpen(false)}>Servicios</a>
           <a href="#contact" onClick={() => setMobileMenuOpen(false)}>Contacto</a>
-          <a href={`https://wa.me/${siteContent.contact.whatsappNumber}`} 
-             target="_blank" 
-             rel="noopener noreferrer" 
-             className="btn btn-primary btn-small">
-            Contáctanos
-          </a>
         </div>
 
         <button 

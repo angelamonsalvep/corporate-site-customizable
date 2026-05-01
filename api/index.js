@@ -1,8 +1,18 @@
-require('dotenv').config();
+const path = require('path');
+const fs = require('fs');
+
+// Manual .env loader to avoid dotenvx interference
+const envFile = path.join(__dirname, '.env');
+if (fs.existsSync(envFile)) {
+  fs.readFileSync(envFile, 'utf8').split('\n').forEach(line => {
+    const [key, ...vals] = line.split('=');
+    if (key && key.trim() && !key.startsWith('#')) {
+      process.env[key.trim()] = vals.join('=').trim().replace(/^"|"$/g, '');
+    }
+  });
+}
 const express = require('express');
 const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
 const mongoose = require('mongoose');
 const Content = require('./models/Content');
 
@@ -86,10 +96,8 @@ app.post('/api/content', async (req, res) => {
   }
 });
 
-if (require.main === module) {
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
-}
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
 
 module.exports = app;
