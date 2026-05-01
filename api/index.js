@@ -29,10 +29,23 @@ const DB_FILE = path.join(__dirname, 'database.json');
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
 const MONGO_URI = process.env.MONGO_URI;
 
+// Connection helper for Serverless
+async function ensureConnected() {
+  if (mongoose.connection.readyState === 1) return true;
+  if (!MONGO_URI) return false;
+  
+  try {
+    await mongoose.connect(MONGO_URI);
+    return true;
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+    return false;
+  }
+}
+
+// Initial connection for local dev
 if (MONGO_URI) {
-  mongoose.connect(MONGO_URI)
-    .then(() => console.log('Connected to MongoDB'))
-    .catch(err => console.error('MongoDB connection error:', err));
+  ensureConnected();
 }
 
 app.use(cors());
@@ -84,25 +97,34 @@ app.post('/api/content', async (req, res) => {
       return res.status(400).json({ error: 'Invalid content format' });
     }
 
-    if (MONGO_URI && mongoose.connection.readyState === 1) {
+    const isConnected = await ensureConnected();
+
+    if (isConnected) {
       await Content.findOneAndUpdate(
         { documentId: 'site_content' },
         newContent,
         { returnDocument: 'after', upsert: true }
       );
-      // Backup local si es posible
+      // Backup local si es posible (fallará en Vercel, pero lo ignoramos)
       try { fs.writeFileSync(DB_FILE, JSON.stringify(newContent, null, 2), 'utf8'); } catch(e){}
+      res.json({ success: true, message: 'Content updated in MongoDB' });
     } else {
+      // Si estamos en Vercel y no hay DB, es un error fatal
+      if (process.env.VERCEL) {
+        throw new Error('Database not connected. Check MONGO_URI in Vercel settings.');
+      }
+      // Solo permitimos escritura local si NO estamos en Vercel
       fs.writeFileSync(DB_FILE, JSON.stringify(newContent, null, 2), 'utf8');
+      res.json({ success: true, message: 'Content updated locally' });
     }
-    
-    res.json({ success: true, message: 'Content updated successfully' });
   } catch (error) {
     console.error('Error writing database:', error);
     res.status(500).json({ 
       error: 'Failed to save content',
       details: error.message || error.toString(),
-      isVercel: !!process.env.VERCEL
+      isVercel: !!process.env.VERCEL,
+      hasMongoUri: !!MONGO_URI,
+      dbState: mongoose.connection.readyState
     });
   }
 });
