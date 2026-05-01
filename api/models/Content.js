@@ -45,7 +45,9 @@ const ContentSchema = new mongoose.Schema({
     whatsappNumber: String,
     email: String,
     phoneDisplay: String,
-    address: String
+    address: String,
+    showWhatsApp: { type: Boolean, default: true },
+    showPhone: { type: Boolean, default: true }
   }
 }, { timestamps: true });
 
