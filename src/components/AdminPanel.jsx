@@ -50,6 +50,25 @@ const AdminPanel = () => {
     }
   };
 
+  // Generic single image uploader (Hero, About) -> Cloudinary
+  const handleSingleImageUpload = async (section, field, e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const uploadKey = `${section}-${field}`;
+    setUploadingField(uploadKey);
+    try {
+      const url = await uploadToCloudinary(file, cloudinaryFolder);
+      setFormData(prev => ({
+        ...prev,
+        [section]: { ...prev[section], [field]: url }
+      }));
+    } catch (err) {
+      alert(`Error al subir imagen de ${section}: ` + err.message);
+    } finally {
+      setUploadingField(null);
+    }
+  };
+
   useEffect(() => {
     if (content) {
       setFormData(JSON.parse(JSON.stringify(content))); // Deep copy
@@ -255,6 +274,17 @@ const AdminPanel = () => {
                 <div className="form-group">
                   <label>URL de Imagen de Fondo</label>
                   <input type="text" className="form-control" value={formData.hero.backgroundImage} onChange={(e) => handleChange('hero', 'backgroundImage', e.target.value)} />
+                  <div style={{marginTop: '0.5rem'}}>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleSingleImageUpload('hero', 'backgroundImage', e)}
+                      className="form-control"
+                      style={{padding: '0.4rem'}}
+                      disabled={uploadingField === 'hero-backgroundImage'}
+                    />
+                    {uploadingField === 'hero-backgroundImage' && <small style={{color:'#0369a1'}}>⏳ Subiendo a Cloudinary...</small>}
+                  </div>
                   {formData.hero.backgroundImage && (
                     <img src={formData.hero.backgroundImage} alt="Preview" className="img-preview" />
                   )}
@@ -281,6 +311,17 @@ const AdminPanel = () => {
                 <div className="form-group">
                   <label>URL de Imagen</label>
                   <input type="text" className="form-control" value={formData.about.image} onChange={(e) => handleChange('about', 'image', e.target.value)} />
+                  <div style={{marginTop: '0.5rem'}}>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleSingleImageUpload('about', 'image', e)}
+                      className="form-control"
+                      style={{padding: '0.4rem'}}
+                      disabled={uploadingField === 'about-image'}
+                    />
+                    {uploadingField === 'about-image' && <small style={{color:'#0369a1'}}>⏳ Subiendo a Cloudinary...</small>}
+                  </div>
                   {formData.about.image && (
                     <img src={formData.about.image} alt="Preview" className="img-preview" />
                   )}
