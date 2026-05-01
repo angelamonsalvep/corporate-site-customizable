@@ -15,6 +15,13 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const Content = require('./models/Content');
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -93,6 +100,32 @@ app.post('/api/content', async (req, res) => {
   } catch (error) {
     console.error('Error writing database:', error);
     res.status(500).json({ error: 'Failed to save content' });
+  }
+});
+
+app.get('/api/cloudinary-gallery', async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (authHeader !== `Bearer ${ADMIN_PASSWORD}`) {
+      return res.status(401).json({ error: 'No autorizado.' });
+    }
+
+    const { folder } = req.query;
+    let searchExpression = 'resource_type:image';
+    if (folder) {
+      searchExpression += ` AND folder="${folder}"`;
+    }
+
+    const result = await cloudinary.search
+      .expression(searchExpression)
+      .sort_by('created_at', 'desc')
+      .max_results(50)
+      .execute();
+
+    res.json({ success: true, images: result.resources });
+  } catch (error) {
+    console.error('Error fetching from Cloudinary:', error);
+    res.status(500).json({ error: 'Failed to fetch images from Cloudinary' });
   }
 });
 

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useContent } from '../context/ContentContext';
 import { uploadToCloudinary } from '../utils/cloudinaryUpload';
+import CloudinaryGallery from './CloudinaryGallery';
 import './AdminPanel.css';
 
 const AdminPanel = () => {
@@ -15,6 +16,33 @@ const AdminPanel = () => {
 
   const [uploadingField, setUploadingField] = useState(null); // tracks which field is uploading
   const [cloudinaryFolder, setCloudinaryFolder] = useState('clientes/world-trading-corp');
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [galleryTarget, setGalleryTarget] = useState(null);
+
+  const openGallery = (target) => {
+    setGalleryTarget(target);
+    setIsGalleryOpen(true);
+  };
+
+  const handleGallerySelect = (url) => {
+    if (!galleryTarget) return;
+    
+    if (galleryTarget.arrayKey) {
+      setFormData(prev => {
+        const updatedArray = [...prev[galleryTarget.section][galleryTarget.arrayKey]];
+        updatedArray[galleryTarget.index] = { ...updatedArray[galleryTarget.index], [galleryTarget.field]: url };
+        return { ...prev, [galleryTarget.section]: { ...prev[galleryTarget.section], [galleryTarget.arrayKey]: updatedArray } };
+      });
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [galleryTarget.section]: { ...prev[galleryTarget.section], [galleryTarget.field]: url }
+      }));
+    }
+    
+    setIsGalleryOpen(false);
+    setGalleryTarget(null);
+  };
 
   const handleLogoUpload = async (e) => {
     const file = e.target.files[0];
@@ -220,16 +248,19 @@ const AdminPanel = () => {
                 <div className="form-group">
                   <label>Logo del Sitio (Pega una URL o sube una imagen)</label>
                   <input type="text" className="form-control" placeholder="URL de la imagen (Opcional)" value={formData.general.logoImage || ''} onChange={(e) => handleChange('general', 'logoImage', e.target.value)} />
-                  <div style={{marginTop: '0.5rem'}}>
+                  <div style={{marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap'}}>
                     <input
                       type="file"
                       accept="image/*"
                       onChange={handleLogoUpload}
                       className="form-control"
-                      style={{padding: '0.4rem'}}
+                      style={{padding: '0.4rem', flex: 1, minWidth: '200px'}}
                       disabled={uploadingField === 'logo'}
                     />
-                    {uploadingField === 'logo' && <small style={{color:'#0369a1'}}>⏳ Subiendo a Cloudinary...</small>}
+                    <button type="button" className="btn btn-outline" style={{padding: '0.4rem 1rem'}} onClick={() => openGallery({section: 'general', field: 'logoImage'})}>
+                      🖼️ Elegir de Cloudinary
+                    </button>
+                    {uploadingField === 'logo' && <small style={{color:'#0369a1', width: '100%'}}>⏳ Subiendo a Cloudinary...</small>}
                   </div>
                   <small style={{color: 'var(--color-text-muted)'}}>Recomendado: Imagen en formato PNG con fondo transparente.</small>
                   {formData.general.logoImage && (
@@ -274,16 +305,19 @@ const AdminPanel = () => {
                 <div className="form-group">
                   <label>URL de Imagen de Fondo</label>
                   <input type="text" className="form-control" value={formData.hero.backgroundImage} onChange={(e) => handleChange('hero', 'backgroundImage', e.target.value)} />
-                  <div style={{marginTop: '0.5rem'}}>
+                  <div style={{marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap'}}>
                     <input
                       type="file"
                       accept="image/*"
                       onChange={(e) => handleSingleImageUpload('hero', 'backgroundImage', e)}
                       className="form-control"
-                      style={{padding: '0.4rem'}}
+                      style={{padding: '0.4rem', flex: 1, minWidth: '200px'}}
                       disabled={uploadingField === 'hero-backgroundImage'}
                     />
-                    {uploadingField === 'hero-backgroundImage' && <small style={{color:'#0369a1'}}>⏳ Subiendo a Cloudinary...</small>}
+                    <button type="button" className="btn btn-outline" style={{padding: '0.4rem 1rem'}} onClick={() => openGallery({section: 'hero', field: 'backgroundImage'})}>
+                      🖼️ Elegir de Cloudinary
+                    </button>
+                    {uploadingField === 'hero-backgroundImage' && <small style={{color:'#0369a1', width: '100%'}}>⏳ Subiendo a Cloudinary...</small>}
                   </div>
                   {formData.hero.backgroundImage && (
                     <img src={formData.hero.backgroundImage} alt="Preview" className="img-preview" />
@@ -311,16 +345,19 @@ const AdminPanel = () => {
                 <div className="form-group">
                   <label>URL de Imagen</label>
                   <input type="text" className="form-control" value={formData.about.image} onChange={(e) => handleChange('about', 'image', e.target.value)} />
-                  <div style={{marginTop: '0.5rem'}}>
+                  <div style={{marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap'}}>
                     <input
                       type="file"
                       accept="image/*"
                       onChange={(e) => handleSingleImageUpload('about', 'image', e)}
                       className="form-control"
-                      style={{padding: '0.4rem'}}
+                      style={{padding: '0.4rem', flex: 1, minWidth: '200px'}}
                       disabled={uploadingField === 'about-image'}
                     />
-                    {uploadingField === 'about-image' && <small style={{color:'#0369a1'}}>⏳ Subiendo a Cloudinary...</small>}
+                    <button type="button" className="btn btn-outline" style={{padding: '0.4rem 1rem'}} onClick={() => openGallery({section: 'about', field: 'image'})}>
+                      🖼️ Elegir de Cloudinary
+                    </button>
+                    {uploadingField === 'about-image' && <small style={{color:'#0369a1', width: '100%'}}>⏳ Subiendo a Cloudinary...</small>}
                   </div>
                   {formData.about.image && (
                     <img src={formData.about.image} alt="Preview" className="img-preview" />
@@ -359,14 +396,19 @@ const AdminPanel = () => {
                           value={product.image}
                           onChange={(e) => handleArrayChange('trade', 'products', index, 'image', e.target.value)}
                         />
-                        <div style={{ marginTop: '0.5rem' }}>
+                        <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
                           <input
                             type="file"
                             accept="image/*"
                             className="form-control"
-                            style={{ padding: '0.4rem' }}
+                            style={{ padding: '0.4rem', flex: 1, minWidth: '200px' }}
                             onChange={(e) => handleArrayImageUpload('trade', 'products', index, 'image', e)}
+                            disabled={uploadingField === `trade-products-${index}`}
                           />
+                          <button type="button" className="btn btn-outline" style={{padding: '0.4rem 1rem'}} onClick={() => openGallery({section: 'trade', arrayKey: 'products', index, field: 'image'})}>
+                            🖼️ Elegir de Cloudinary
+                          </button>
+                          {uploadingField === `trade-products-${index}` && <small style={{color:'#0369a1', width: '100%'}}>⏳ Subiendo a Cloudinary...</small>}
                         </div>
                         {product.image && (
                           <div style={{ marginTop: '0.75rem' }}>
@@ -410,14 +452,19 @@ const AdminPanel = () => {
                           value={service.image || ''}
                           onChange={(e) => handleArrayChange('financial', 'services', index, 'image', e.target.value)}
                         />
-                        <div style={{ marginTop: '0.5rem' }}>
+                        <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
                           <input
                             type="file"
                             accept="image/*"
                             className="form-control"
-                            style={{ padding: '0.4rem' }}
+                            style={{ padding: '0.4rem', flex: 1, minWidth: '200px' }}
                             onChange={(e) => handleArrayImageUpload('financial', 'services', index, 'image', e)}
+                            disabled={uploadingField === `financial-services-${index}`}
                           />
+                          <button type="button" className="btn btn-outline" style={{padding: '0.4rem 1rem'}} onClick={() => openGallery({section: 'financial', arrayKey: 'services', index, field: 'image'})}>
+                            🖼️ Elegir de Cloudinary
+                          </button>
+                          {uploadingField === `financial-services-${index}` && <small style={{color:'#0369a1', width: '100%'}}>⏳ Subiendo a Cloudinary...</small>}
                         </div>
                         {service.image && (
                           <div style={{ marginTop: '0.75rem' }}>
@@ -443,6 +490,15 @@ const AdminPanel = () => {
           </form>
         </div>
       </div>
+
+      {isGalleryOpen && (
+        <CloudinaryGallery
+          folder={cloudinaryFolder}
+          adminPassword={sessionStorage.getItem('adminPassword')}
+          onSelect={handleGallerySelect}
+          onClose={() => setIsGalleryOpen(false)}
+        />
+      )}
     </div>
   );
 };
