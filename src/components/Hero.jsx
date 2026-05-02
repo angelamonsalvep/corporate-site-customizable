@@ -88,12 +88,6 @@ const Hero = () => {
         <div className="hero-text animate-fade-in" key={currentIndex}>
           {currentSlide.tag && <span className="hero-tag">{currentSlide.tag}</span>}
           
-          {(siteContent.general.brandIcon || siteContent.general.logoImage) && (
-            <div className="hero-logo-accent">
-              <img src={siteContent.general.brandIcon || siteContent.general.logoImage} alt="Brand Icon" />
-            </div>
-          )}
-          
           <h1>{currentSlide.title}</h1>
           <p>{currentSlide.subtitle}</p>
           

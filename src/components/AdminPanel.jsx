@@ -38,7 +38,7 @@ const AdminPanel = () => {
 
   const handleGallerySelect = (url) => {
     if (!galleryTarget) return;
-    
+
     if (galleryTarget.arrayKey) {
       setFormData(prev => {
         const updatedArray = [...prev[galleryTarget.section][galleryTarget.arrayKey]];
@@ -51,7 +51,7 @@ const AdminPanel = () => {
         [galleryTarget.section]: { ...prev[galleryTarget.section], [galleryTarget.field]: url }
       }));
     }
-    
+
     setIsGalleryOpen(false);
     setGalleryTarget(null);
   };
@@ -143,17 +143,17 @@ const AdminPanel = () => {
 
   if (!isAuthenticated) {
     return (
-      <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100vh',backgroundColor:'#f8fafc',fontFamily:'var(--font-body)'}}>
-        <div style={{background:'white',padding:'3rem',borderRadius:'8px',boxShadow:'var(--shadow-sm)',width:'100%',maxWidth:'400px'}}>
-          <h2 style={{marginBottom:'1.5rem',color:'var(--color-primary)',textAlign:'center'}}>Ingreso al Panel</h2>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f8fafc', fontFamily: 'var(--font-body)' }}>
+        <div style={{ background: 'white', padding: '3rem', borderRadius: '8px', boxShadow: 'var(--shadow-sm)', width: '100%', maxWidth: '400px' }}>
+          <h2 style={{ marginBottom: '1.5rem', color: 'var(--color-primary)', textAlign: 'center' }}>Ingreso al Panel</h2>
           <form onSubmit={handleLogin}>
             <div className="form-group">
               <label>Contraseña Administrativa</label>
               <input type="password" value={passwordInput} onChange={e => setPasswordInput(e.target.value)} className="form-control" autoFocus required />
             </div>
-            {loginError && <p style={{color:'#991b1b',marginBottom:'1rem',backgroundColor:'#fee2e2',padding:'0.5rem',borderRadius:'4px'}}>{loginError}</p>}
-            <button type="submit" className="btn btn-primary" style={{width:'100%'}}>Ingresar</button>
-            <a href="/" style={{display:'block',textAlign:'center',marginTop:'1.5rem',color:'var(--color-text-muted)'}}>Volver al sitio web</a>
+            {loginError && <p style={{ color: '#991b1b', marginBottom: '1rem', backgroundColor: '#fee2e2', padding: '0.5rem', borderRadius: '4px' }}>{loginError}</p>}
+            <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>Ingresar</button>
+            <a href="/" style={{ display: 'block', textAlign: 'center', marginTop: '1.5rem', color: 'var(--color-text-muted)' }}>Volver al sitio web</a>
           </form>
         </div>
       </div>
@@ -251,9 +251,9 @@ const AdminPanel = () => {
     e.preventDefault();
     setIsSaving(true);
     setMessage('');
-    
+
     const result = await updateContent(formData);
-    
+
     setIsSaving(false);
     if (result.success) {
       setMessage('¡Cambios guardados con éxito! Puedes verlos en la página principal.');
@@ -269,9 +269,9 @@ const AdminPanel = () => {
         <div className="container">
           <div className="header-content">
             <h1>Panel de Administración</h1>
-            <div style={{display:'flex',gap:'1rem'}}>
-              <a href="/" className="btn btn-outline" style={{borderColor: 'white', color: 'white'}}>Ver Sitio Web</a>
-              <button onClick={handleLogout} className="btn" style={{backgroundColor:'rgba(255,255,255,0.1)',color:'white'}}>Cerrar Sesión</button>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <a href="/" className="btn btn-outline" style={{ borderColor: 'white', color: 'white' }}>Ver Sitio Web</a>
+              <button onClick={handleLogout} className="btn" style={{ backgroundColor: 'rgba(255,255,255,0.1)', color: 'white' }}>Cerrar Sesión</button>
             </div>
           </div>
         </div>
@@ -294,15 +294,15 @@ const AdminPanel = () => {
           )}
 
           <form onSubmit={handleSubmit}>
-            
+
             {/* GENERAL & CONTACT TAB */}
             {activeTab === 'general' && (
               <div className="admin-section animate-fade-in">
                 <h2>Información General</h2>
 
                 {/* Cloudinary folder config */}
-                <div className="form-group" style={{background:'#f0f9ff',border:'1px solid #bae6fd',borderRadius:'8px',padding:'1rem',marginBottom:'1.5rem'}}>
-                  <label style={{color:'#0369a1',fontWeight:700}}>📁 Carpeta en Cloudinary (para imágenes de este cliente)</label>
+                <div className="form-group" style={{ background: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: '8px', padding: '1rem', marginBottom: '1.5rem' }}>
+                  <label style={{ color: '#0369a1', fontWeight: 700 }}>📁 Carpeta en Cloudinary (para imágenes de este cliente)</label>
                   <input
                     type="text"
                     className="form-control"
@@ -310,35 +310,35 @@ const AdminPanel = () => {
                     onChange={(e) => setCloudinaryFolder(e.target.value)}
                     placeholder="clientes/nombre-cliente"
                   />
-                  <small style={{color:'#0369a1'}}>Las imágenes que subas irán a esta carpeta en Cloudinary.</small>
+                  <small style={{ color: '#0369a1' }}>Las imágenes que subas irán a esta carpeta en Cloudinary.</small>
                 </div>
 
                 <div className="form-group">
                   <label>Nombre de la Empresa</label>
                   <input type="text" className="form-control" value={formData.general.companyName} onChange={(e) => handleChange('general', 'companyName', e.target.value)} />
                 </div>
-                
+
                 <div className="form-group">
                   <label>Logo del Sitio (Pega una URL o sube una imagen)</label>
                   <input type="text" className="form-control" placeholder="URL de la imagen (Opcional)" value={formData.general.logoImage || ''} onChange={(e) => handleChange('general', 'logoImage', e.target.value)} />
-                  <div style={{marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap'}}>
+                  <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
                     <input
                       type="file"
                       accept="image/*"
                       onChange={handleLogoUpload}
                       className="form-control"
-                      style={{padding: '0.4rem', flex: 1, minWidth: '200px'}}
+                      style={{ padding: '0.4rem', flex: 1, minWidth: '200px' }}
                       disabled={uploadingField === 'logo'}
                     />
-                    <button type="button" className="btn btn-outline" style={{padding: '0.4rem 1rem'}} onClick={() => openGallery({section: 'general', field: 'logoImage'})}>
+                    <button type="button" className="btn btn-outline" style={{ padding: '0.4rem 1rem' }} onClick={() => openGallery({ section: 'general', field: 'logoImage' })}>
                       🖼️ Elegir de Cloudinary
                     </button>
-                    {uploadingField === 'logo' && <small style={{color:'#0369a1', width: '100%'}}>⏳ Subiendo a Cloudinary...</small>}
+                    {uploadingField === 'logo' && <small style={{ color: '#0369a1', width: '100%' }}>⏳ Subiendo a Cloudinary...</small>}
                   </div>
-                  <small style={{color: 'var(--color-text-muted)'}}>Recomendado: Imagen en formato PNG con fondo transparente.</small>
+                  <small style={{ color: 'var(--color-text-muted)' }}>Recomendado: Imagen en formato PNG con fondo transparente.</small>
                   {formData.general.logoImage && (
-                    <div style={{marginTop: '1rem', padding: '1rem', backgroundColor: '#f1f5f9', borderRadius: '4px', display: 'inline-block'}}>
-                      <img src={formData.general.logoImage} alt="Logo Preview" style={{maxHeight: '60px', objectFit: 'contain'}} />
+                    <div style={{ marginTop: '1rem', padding: '1rem', backgroundColor: '#f1f5f9', borderRadius: '4px', display: 'inline-block' }}>
+                      <img src={formData.general.logoImage} alt="Logo Preview" style={{ maxHeight: '60px', objectFit: 'contain' }} />
                     </div>
                   )}
                 </div>
@@ -346,51 +346,74 @@ const AdminPanel = () => {
                 <div className="form-group">
                   <label>Isotipo / Icono de Marca (Ej: Solo el mundo)</label>
                   <input type="text" className="form-control" value={formData.general.brandIcon || ''} onChange={(e) => handleChange('general', 'brandIcon', e.target.value)} />
-                  <div style={{marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap'}}>
+                  <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
                     <input
                       type="file"
                       accept="image/*"
                       onChange={(e) => handleSingleImageUpload('general', 'brandIcon', e)}
                       className="form-control"
-                      style={{padding: '0.4rem', flex: 1, minWidth: '200px'}}
+                      style={{ padding: '0.4rem', flex: 1, minWidth: '200px' }}
                       disabled={uploadingField === 'general-brandIcon'}
                     />
-                    <button type="button" className="btn btn-outline" style={{padding: '0.4rem 1rem'}} onClick={() => openGallery({section: 'general', field: 'brandIcon'})}>
+                    <button type="button" className="btn btn-outline" style={{ padding: '0.4rem 1rem' }} onClick={() => openGallery({ section: 'general', field: 'brandIcon' })}>
                       🖼️ Elegir Isotipo
                     </button>
-                    {uploadingField === 'general-brandIcon' && <small style={{color:'#0369a1', width: '100%'}}>⏳ Subiendo...</small>}
+                    {uploadingField === 'general-brandIcon' && <small style={{ color: '#0369a1', width: '100%' }}>⏳ Subiendo...</small>}
                   </div>
-                  {formData.general.brandIcon && (
-                    <div style={{marginTop: '1rem', padding: '1rem', backgroundColor: '#f1f5f9', borderRadius: '4px', display: 'inline-block'}}>
-                      <img src={formData.general.brandIcon} alt="Icon Preview" style={{maxHeight: '60px', objectFit: 'contain'}} />
+                  
+                  <div className="form-group" style={{ background: '#f8fafc', padding: '1.5rem', borderRadius: '12px', border: '1px dashed #cbd5e1', marginTop: '1rem' }}>
+                  <label style={{ color: '#64748b', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Vista Previa en Navegador</label>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginTop: '0.5rem' }}>
+                    <div style={{ 
+                      width: '40px', 
+                      height: '40px', 
+                      backgroundColor: 'white', 
+                      borderRadius: '8px', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center',
+                      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                      border: '1px solid #e2e8f0'
+                    }}>
+                      <img 
+                        src={formData.general.brandIcon || formData.general.logoImage || formData.general.secondaryLogo || '/favicon.ico'} 
+                        alt="Favicon" 
+                        style={{ width: '24px', height: '24px', objectFit: 'contain' }} 
+                      />
                     </div>
-                  )}
+                    <div>
+                      <strong style={{ display: 'block', fontSize: '0.9rem', color: '#1e293b' }}>Icono del Sitio Actual</strong>
+                      <small style={{ color: '#64748b' }}>Así es como se ve la marca en la pestaña del navegador.</small>
+                    </div>
+                  </div>
+                </div>
+
                 </div>
 
                 <div className="form-group">
                   <label>Logo Secundario (Ej: 3D o con reflejo)</label>
                   <input type="text" className="form-control" value={formData.general.secondaryLogo || ''} onChange={(e) => handleChange('general', 'secondaryLogo', e.target.value)} />
-                  <div style={{marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap'}}>
+                  <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
                     <input
                       type="file"
                       accept="image/*"
                       onChange={(e) => handleSingleImageUpload('general', 'secondaryLogo', e)}
                       className="form-control"
-                      style={{padding: '0.4rem', flex: 1, minWidth: '200px'}}
+                      style={{ padding: '0.4rem', flex: 1, minWidth: '200px' }}
                       disabled={uploadingField === 'general-secondaryLogo'}
                     />
-                    <button type="button" className="btn btn-outline" style={{padding: '0.4rem 1rem'}} onClick={() => openGallery({section: 'general', field: 'secondaryLogo'})}>
+                    <button type="button" className="btn btn-outline" style={{ padding: '0.4rem 1rem' }} onClick={() => openGallery({ section: 'general', field: 'secondaryLogo' })}>
                       🖼️ Elegir Logo 2
                     </button>
-                    {uploadingField === 'general-secondaryLogo' && <small style={{color:'#0369a1', width: '100%'}}>⏳ Subiendo...</small>}
+                    {uploadingField === 'general-secondaryLogo' && <small style={{ color: '#0369a1', width: '100%' }}>⏳ Subiendo...</small>}
                   </div>
                   {formData.general.secondaryLogo && (
-                    <div style={{marginTop: '1rem', padding: '1rem', backgroundColor: '#f1f5f9', borderRadius: '4px', display: 'inline-block'}}>
-                      <img src={formData.general.secondaryLogo} alt="Logo 2 Preview" style={{maxHeight: '60px', objectFit: 'contain'}} />
+                    <div style={{ marginTop: '1rem', padding: '1rem', backgroundColor: '#f1f5f9', borderRadius: '4px', display: 'inline-block' }}>
+                      <img src={formData.general.secondaryLogo} alt="Logo 2 Preview" style={{ maxHeight: '60px', objectFit: 'contain' }} />
                     </div>
                   )}
                 </div>
-                
+
                 <h2 className="mt-4">Contacto</h2>
                 <div className="form-group">
                   <label>Número de WhatsApp (Ej: 573001234567)</label>
@@ -411,18 +434,18 @@ const AdminPanel = () => {
 
                 <div className="form-group" style={{ display: 'flex', gap: '2rem', alignItems: 'center', marginTop: '1rem', background: '#f8fafc', padding: '1rem', borderRadius: '8px' }}>
                   <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500 }}>
-                    <input 
-                      type="checkbox" 
-                      checked={formData.contact.showWhatsApp !== false} 
-                      onChange={(e) => handleChange('contact', 'showWhatsApp', e.target.checked)} 
+                    <input
+                      type="checkbox"
+                      checked={formData.contact.showWhatsApp !== false}
+                      onChange={(e) => handleChange('contact', 'showWhatsApp', e.target.checked)}
                     />
                     Habilitar Botón WhatsApp
                   </label>
                   <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500 }}>
-                    <input 
-                      type="checkbox" 
-                      checked={formData.contact.showPhone !== false} 
-                      onChange={(e) => handleChange('contact', 'showPhone', e.target.checked)} 
+                    <input
+                      type="checkbox"
+                      checked={formData.contact.showPhone !== false}
+                      onChange={(e) => handleChange('contact', 'showPhone', e.target.checked)}
                     />
                     Mostrar Teléfono en el Sitio
                   </label>
@@ -445,19 +468,19 @@ const AdminPanel = () => {
                 <div className="form-group">
                   <label>URL de Imagen de Fondo</label>
                   <input type="text" className="form-control" value={formData.hero.backgroundImage} onChange={(e) => handleChange('hero', 'backgroundImage', e.target.value)} />
-                  <div style={{marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap'}}>
+                  <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
                     <input
                       type="file"
                       accept="image/*"
                       onChange={(e) => handleSingleImageUpload('hero', 'backgroundImage', e)}
                       className="form-control"
-                      style={{padding: '0.4rem', flex: 1, minWidth: '200px'}}
+                      style={{ padding: '0.4rem', flex: 1, minWidth: '200px' }}
                       disabled={uploadingField === 'hero-backgroundImage'}
                     />
-                    <button type="button" className="btn btn-outline" style={{padding: '0.4rem 1rem'}} onClick={() => openGallery({section: 'hero', field: 'backgroundImage'})}>
+                    <button type="button" className="btn btn-outline" style={{ padding: '0.4rem 1rem' }} onClick={() => openGallery({ section: 'hero', field: 'backgroundImage' })}>
                       🖼️ Elegir de Cloudinary
                     </button>
-                    {uploadingField === 'hero-backgroundImage' && <small style={{color:'#0369a1', width: '100%'}}>⏳ Subiendo a Cloudinary...</small>}
+                    {uploadingField === 'hero-backgroundImage' && <small style={{ color: '#0369a1', width: '100%' }}>⏳ Subiendo a Cloudinary...</small>}
                   </div>
                   {formData.hero.backgroundImage && (
                     <img src={formData.hero.backgroundImage} alt="Preview" className="img-preview" />
@@ -485,19 +508,19 @@ const AdminPanel = () => {
                 <div className="form-group">
                   <label>URL de Imagen</label>
                   <input type="text" className="form-control" value={formData.about.image} onChange={(e) => handleChange('about', 'image', e.target.value)} />
-                  <div style={{marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap'}}>
+                  <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
                     <input
                       type="file"
                       accept="image/*"
                       onChange={(e) => handleSingleImageUpload('about', 'image', e)}
                       className="form-control"
-                      style={{padding: '0.4rem', flex: 1, minWidth: '200px'}}
+                      style={{ padding: '0.4rem', flex: 1, minWidth: '200px' }}
                       disabled={uploadingField === 'about-image'}
                     />
-                    <button type="button" className="btn btn-outline" style={{padding: '0.4rem 1rem'}} onClick={() => openGallery({section: 'about', field: 'image'})}>
+                    <button type="button" className="btn btn-outline" style={{ padding: '0.4rem 1rem' }} onClick={() => openGallery({ section: 'about', field: 'image' })}>
                       🖼️ Elegir de Cloudinary
                     </button>
-                    {uploadingField === 'about-image' && <small style={{color:'#0369a1', width: '100%'}}>⏳ Subiendo a Cloudinary...</small>}
+                    {uploadingField === 'about-image' && <small style={{ color: '#0369a1', width: '100%' }}>⏳ Subiendo a Cloudinary...</small>}
                   </div>
                   {formData.about.image && (
                     <img src={formData.about.image} alt="Preview" className="img-preview" />
@@ -545,10 +568,10 @@ const AdminPanel = () => {
                             onChange={(e) => handleArrayImageUpload('trade', 'products', index, 'image', e)}
                             disabled={uploadingField === `trade-products-${index}`}
                           />
-                          <button type="button" className="btn btn-outline" style={{padding: '0.4rem 1rem'}} onClick={() => openGallery({section: 'trade', arrayKey: 'products', index, field: 'image'})}>
+                          <button type="button" className="btn btn-outline" style={{ padding: '0.4rem 1rem' }} onClick={() => openGallery({ section: 'trade', arrayKey: 'products', index, field: 'image' })}>
                             🖼️ Elegir de Cloudinary
                           </button>
-                          {uploadingField === `trade-products-${index}` && <small style={{color:'#0369a1', width: '100%'}}>⏳ Subiendo a Cloudinary...</small>}
+                          {uploadingField === `trade-products-${index}` && <small style={{ color: '#0369a1', width: '100%' }}>⏳ Subiendo a Cloudinary...</small>}
                         </div>
                         {product.image && (
                           <div style={{ marginTop: '0.75rem' }}>
@@ -611,10 +634,10 @@ const AdminPanel = () => {
                             onChange={(e) => handleArrayImageUpload('financial', 'services', index, 'image', e)}
                             disabled={uploadingField === `financial-services-${index}`}
                           />
-                          <button type="button" className="btn btn-outline" style={{padding: '0.4rem 1rem'}} onClick={() => openGallery({section: 'financial', arrayKey: 'services', index, field: 'image'})}>
+                          <button type="button" className="btn btn-outline" style={{ padding: '0.4rem 1rem' }} onClick={() => openGallery({ section: 'financial', arrayKey: 'services', index, field: 'image' })}>
                             🖼️ Elegir de Cloudinary
                           </button>
-                          {uploadingField === `financial-services-${index}` && <small style={{color:'#0369a1', width: '100%'}}>⏳ Subiendo a Cloudinary...</small>}
+                          {uploadingField === `financial-services-${index}` && <small style={{ color: '#0369a1', width: '100%' }}>⏳ Subiendo a Cloudinary...</small>}
                         </div>
                         {service.image && (
                           <div style={{ marginTop: '0.75rem' }}>
@@ -630,7 +653,7 @@ const AdminPanel = () => {
                       {/* Items / Sub-servicios */}
                       <div className="form-group">
                         <label>Ítems / Sub-servicios</label>
-                        <small style={{display:'block', color:'var(--color-text-muted)', marginBottom:'0.5rem'}}>Estos se muestran como lista al hacer clic en la tarjeta del servicio.</small>
+                        <small style={{ display: 'block', color: 'var(--color-text-muted)', marginBottom: '0.5rem' }}>Estos se muestran como lista al hacer clic en la tarjeta del servicio.</small>
                         <div className="admin-items-list">
                           {(service.items || []).map((item, itemIdx) => (
                             <div key={itemIdx} className="admin-subitem">
@@ -644,7 +667,7 @@ const AdminPanel = () => {
                                   newItems[itemIdx] = e.target.value;
                                   handleArrayChange('financial', 'services', index, 'items', newItems);
                                 }}
-                                style={{marginBottom: 0}}
+                                style={{ marginBottom: 0 }}
                               />
                               <button
                                 type="button"
