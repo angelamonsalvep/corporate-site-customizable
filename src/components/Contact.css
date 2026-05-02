@@ -23,11 +23,11 @@
   width: 100%;
   height: 100%;
   background-image: linear-gradient(rgba(10, 25, 47, 0.88), rgba(10, 25, 47, 0.96)), var(--bg-image);
-  background-size: cover; /* Garantiza que cubra TODO el espacio sin dejar barras */
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   z-index: 0;
-  transform: scale(1.2); /* Mantiene ese efecto de zoom imponente que te gustó */
+  transform: scale(1.2);
   transition: transform 0.3s ease;
 }
 
@@ -52,21 +52,23 @@
 
 .info-card p,
 .info-list li span {
-  color: #ffffff; /* Blanco puro para máxima legibilidad */
+  color: #ffffff;
   font-size: 1.1rem;
   line-height: 1.6;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.5); /* Sombra para que se lea sobre cualquier imagen */
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  word-break: break-word; /* Fix para correos largos */
+  overflow-wrap: break-word;
 }
 
 .info-card p {
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   opacity: 0.9;
 }
 
 .info-list {
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 2rem;
 }
 
 .info-list li {
@@ -87,7 +89,7 @@
   border-radius: 12px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.05);
   position: relative;
-  overflow: hidden; /* Para que la marca de agua no se salga */
+  overflow: hidden;
 }
 
 .contact-brand-watermark {
@@ -95,17 +97,16 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) rotate(-5deg);
-  width: 850px; /* Tamaño masivo para cubrir todo */
+  width: 850px;
   height: auto;
-  opacity: 0.15; /* Más visible */
+  opacity: 0.15;
   pointer-events: none;
   z-index: 0;
-  filter: none; /* Colores originales del 3D */
 }
 
 .contact-form {
   position: relative;
-  z-index: 1; /* Para estar encima del logo */
+  z-index: 1;
 }
 
 .form-row {
@@ -126,6 +127,19 @@
 }
 
 @media (max-width: 576px) {
+  .info-card {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .info-card h3 {
+    font-size: 1.8rem;
+  }
+
+  .info-card p,
+  .info-list li span {
+    font-size: 0.95rem; /* Un poco más pequeño para que quepa mejor */
+  }
+
   .form-row {
     grid-template-columns: 1fr;
     gap: 0;

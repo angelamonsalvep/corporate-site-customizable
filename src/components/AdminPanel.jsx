@@ -19,6 +19,8 @@ const AdminPanel = () => {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [galleryTarget, setGalleryTarget] = useState(null);
 
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   useEffect(() => {
     // Fetch client-specific config
     fetch('/api/config')
@@ -263,28 +265,44 @@ const AdminPanel = () => {
     }
   };
 
+  const selectTab = (tab) => {
+    setActiveTab(tab);
+    setMobileMenuOpen(false);
+  };
+
   return (
     <div className="admin-panel">
       <div className="admin-header">
         <div className="container">
           <div className="header-content">
-            <h1>Panel de Administración</h1>
-            <div style={{ display: 'flex', gap: '1rem' }}>
-              <a href="/" className="btn btn-outline" style={{ borderColor: 'white', color: 'white' }}>Ver Sitio Web</a>
-              <button onClick={handleLogout} className="btn" style={{ backgroundColor: 'rgba(255,255,255,0.1)', color: 'white' }}>Cerrar Sesión</button>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <button 
+                className="admin-mobile-toggle"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              >
+                {mobileMenuOpen ? '✕' : '☰'}
+              </button>
+              <h1>Admin Panel</h1>
+            </div>
+            <div className="header-actions">
+              <a href="/" className="btn btn-outline btn-small">Ver Sitio</a>
+              <button onClick={handleLogout} className="btn btn-small logout-btn">Salir</button>
             </div>
           </div>
         </div>
       </div>
 
       <div className="container admin-container">
-        <div className="admin-sidebar">
-          <button className={activeTab === 'general' ? 'active' : ''} onClick={() => setActiveTab('general')}>General & Contacto</button>
-          <button className={activeTab === 'hero' ? 'active' : ''} onClick={() => setActiveTab('hero')}>Sección Principal (Hero)</button>
-          <button className={activeTab === 'about' ? 'active' : ''} onClick={() => setActiveTab('about')}>Quiénes Somos</button>
-          <button className={activeTab === 'trade' ? 'active' : ''} onClick={() => setActiveTab('trade')}>Área Comercial</button>
-          <button className={activeTab === 'financial' ? 'active' : ''} onClick={() => setActiveTab('financial')}>Área Financiera</button>
+        <div className={`admin-sidebar ${mobileMenuOpen ? 'open' : ''}`}>
+          <div className="sidebar-header">Menú de Edición</div>
+          <button className={activeTab === 'general' ? 'active' : ''} onClick={() => selectTab('general')}>General & Contacto</button>
+          <button className={activeTab === 'hero' ? 'active' : ''} onClick={() => selectTab('hero')}>Sección Principal (Hero)</button>
+          <button className={activeTab === 'about' ? 'active' : ''} onClick={() => selectTab('about')}>Quiénes Somos</button>
+          <button className={activeTab === 'trade' ? 'active' : ''} onClick={() => selectTab('trade')}>Área Comercial</button>
+          <button className={activeTab === 'financial' ? 'active' : ''} onClick={() => selectTab('financial')}>Área Financiera</button>
         </div>
+        
+        {mobileMenuOpen && <div className="admin-sidebar-overlay" onClick={() => setMobileMenuOpen(false)}></div>}
 
         <div className="admin-content">
           {message && (
@@ -321,13 +339,13 @@ const AdminPanel = () => {
                 <div className="form-group">
                   <label>Logo del Sitio (Pega una URL o sube una imagen)</label>
                   <input type="text" className="form-control" placeholder="URL de la imagen (Opcional)" value={formData.general.logoImage || ''} onChange={(e) => handleChange('general', 'logoImage', e.target.value)} />
-                  <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <div className="image-actions-row">
                     <input
                       type="file"
                       accept="image/*"
                       onChange={handleLogoUpload}
                       className="form-control"
-                      style={{ padding: '0.4rem', flex: 1, minWidth: '200px' }}
+                      style={{ padding: '0.4rem', flex: 1, minWidth: '200px', marginBottom: 0 }}
                       disabled={uploadingField === 'logo'}
                     />
                     <button type="button" className="btn btn-outline" style={{ padding: '0.4rem 1rem' }} onClick={() => openGallery({ section: 'general', field: 'logoImage' })}>
@@ -346,13 +364,13 @@ const AdminPanel = () => {
                 <div className="form-group">
                   <label>Isotipo / Icono de Marca (Ej: Solo el mundo)</label>
                   <input type="text" className="form-control" value={formData.general.brandIcon || ''} onChange={(e) => handleChange('general', 'brandIcon', e.target.value)} />
-                  <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <div className="image-actions-row">
                     <input
                       type="file"
                       accept="image/*"
                       onChange={(e) => handleSingleImageUpload('general', 'brandIcon', e)}
                       className="form-control"
-                      style={{ padding: '0.4rem', flex: 1, minWidth: '200px' }}
+                      style={{ padding: '0.4rem', flex: 1, minWidth: '200px', marginBottom: 0 }}
                       disabled={uploadingField === 'general-brandIcon'}
                     />
                     <button type="button" className="btn btn-outline" style={{ padding: '0.4rem 1rem' }} onClick={() => openGallery({ section: 'general', field: 'brandIcon' })}>
@@ -393,13 +411,13 @@ const AdminPanel = () => {
                 <div className="form-group">
                   <label>Logo Secundario (Ej: 3D o con reflejo)</label>
                   <input type="text" className="form-control" value={formData.general.secondaryLogo || ''} onChange={(e) => handleChange('general', 'secondaryLogo', e.target.value)} />
-                  <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <div className="image-actions-row">
                     <input
                       type="file"
                       accept="image/*"
                       onChange={(e) => handleSingleImageUpload('general', 'secondaryLogo', e)}
                       className="form-control"
-                      style={{ padding: '0.4rem', flex: 1, minWidth: '200px' }}
+                      style={{ padding: '0.4rem', flex: 1, minWidth: '200px', marginBottom: 0 }}
                       disabled={uploadingField === 'general-secondaryLogo'}
                     />
                     <button type="button" className="btn btn-outline" style={{ padding: '0.4rem 1rem' }} onClick={() => openGallery({ section: 'general', field: 'secondaryLogo' })}>
@@ -468,13 +486,13 @@ const AdminPanel = () => {
                 <div className="form-group">
                   <label>URL de Imagen de Fondo</label>
                   <input type="text" className="form-control" value={formData.hero.backgroundImage} onChange={(e) => handleChange('hero', 'backgroundImage', e.target.value)} />
-                  <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <div className="image-actions-row">
                     <input
                       type="file"
                       accept="image/*"
                       onChange={(e) => handleSingleImageUpload('hero', 'backgroundImage', e)}
                       className="form-control"
-                      style={{ padding: '0.4rem', flex: 1, minWidth: '200px' }}
+                      style={{ padding: '0.4rem', flex: 1, minWidth: '200px', marginBottom: 0 }}
                       disabled={uploadingField === 'hero-backgroundImage'}
                     />
                     <button type="button" className="btn btn-outline" style={{ padding: '0.4rem 1rem' }} onClick={() => openGallery({ section: 'hero', field: 'backgroundImage' })}>
@@ -508,13 +526,13 @@ const AdminPanel = () => {
                 <div className="form-group">
                   <label>URL de Imagen</label>
                   <input type="text" className="form-control" value={formData.about.image} onChange={(e) => handleChange('about', 'image', e.target.value)} />
-                  <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <div className="image-actions-row">
                     <input
                       type="file"
                       accept="image/*"
                       onChange={(e) => handleSingleImageUpload('about', 'image', e)}
                       className="form-control"
-                      style={{ padding: '0.4rem', flex: 1, minWidth: '200px' }}
+                      style={{ padding: '0.4rem', flex: 1, minWidth: '200px', marginBottom: 0 }}
                       disabled={uploadingField === 'about-image'}
                     />
                     <button type="button" className="btn btn-outline" style={{ padding: '0.4rem 1rem' }} onClick={() => openGallery({ section: 'about', field: 'image' })}>
@@ -559,12 +577,12 @@ const AdminPanel = () => {
                           value={product.image}
                           onChange={(e) => handleArrayChange('trade', 'products', index, 'image', e.target.value)}
                         />
-                        <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                        <div className="image-actions-row">
                           <input
                             type="file"
                             accept="image/*"
                             className="form-control"
-                            style={{ padding: '0.4rem', flex: 1, minWidth: '200px' }}
+                            style={{ padding: '0.4rem', flex: 1, minWidth: '200px', marginBottom: 0 }}
                             onChange={(e) => handleArrayImageUpload('trade', 'products', index, 'image', e)}
                             disabled={uploadingField === `trade-products-${index}`}
                           />
@@ -625,12 +643,12 @@ const AdminPanel = () => {
                           value={service.image || ''}
                           onChange={(e) => handleArrayChange('financial', 'services', index, 'image', e.target.value)}
                         />
-                        <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                        <div className="image-actions-row">
                           <input
                             type="file"
                             accept="image/*"
                             className="form-control"
-                            style={{ padding: '0.4rem', flex: 1, minWidth: '200px' }}
+                            style={{ padding: '0.4rem', flex: 1, minWidth: '200px', marginBottom: 0 }}
                             onChange={(e) => handleArrayImageUpload('financial', 'services', index, 'image', e)}
                             disabled={uploadingField === `financial-services-${index}`}
                           />

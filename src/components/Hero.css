@@ -146,23 +146,62 @@
 }
 
 @media (max-width: 768px) {
+  .hero {
+    min-height: 100vh;
+    padding-bottom: 4rem;
+  }
+
   .hero-overlay {
-    background: linear-gradient(180deg, rgba(10, 25, 47, 0.8) 0%, rgba(10, 25, 47, 0.95) 100%);
+    background: linear-gradient(180deg, rgba(10, 25, 47, 0.75) 0%, rgba(10, 25, 47, 0.95) 100%);
+  }
+
+  .hero-text {
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .hero-content {
+    padding-top: 100px; /* Mas espacio en móvil */
   }
 
   .hero-text h1 {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
+    margin-top: 1rem;
+    letter-spacing: -1px;
   }
 
   .hero-text p {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    margin-bottom: 2rem;
   }
 
   .hero-buttons {
     flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 3rem; /* Espacio para que los puntos no tapen el botón */
   }
 
   .hero-buttons .btn {
     width: 100%;
+    justify-content: center;
+  }
+
+  .hero-logo-accent img {
+    height: 70px;
+  }
+
+  .hero-tag {
+    font-size: 0.75rem;
+    padding: 0.4rem 1rem;
+  }
+
+  .hero-dots {
+    bottom: 1rem; /* Un poco más abajo */
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-text h1 {
+    font-size: 1.8rem;
   }
 }
