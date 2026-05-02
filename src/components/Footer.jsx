@@ -10,15 +10,7 @@ const Footer = () => {
     <footer className="main-footer">
       <div className="container footer-container">
         <div className="footer-brand">
-          {siteContent.general.secondaryLogo || siteContent.general.logoImage ? (
-            <img 
-              src={siteContent.general.secondaryLogo || siteContent.general.logoImage} 
-              alt={siteContent.general.companyName} 
-              className="footer-logo" 
-            />
-          ) : (
-            <h2 className="footer-logo-text">{siteContent.general.companyName}</h2>
-          )}
+          <h2 className="footer-logo-text">{siteContent.general.companyName}</h2>
           <p className="footer-tagline">
             Liderazgo y excelencia en comercio internacional y soluciones financieras globales.
           </p>

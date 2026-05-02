@@ -4,7 +4,7 @@
     "logoText": "GlobalCorp",
     "logoImage": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660328/clientes/world-trading-corp/xklpqubernf8rhultbez.png",
     "brandIcon": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777726767/clientes/world-trading-corp/jmvqos5qcvj76n2acwqk.jpg",
-    "secondaryLogo": ""
+    "secondaryLogo": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777726777/clientes/world-trading-corp/iok62yfpnjmlav1t1pwl.png"
   },
   "hero": {
     "title": "Excelencia Corporativa a Nivel Latinoamerica",
@@ -165,5 +165,5 @@
   "documentId": "world_trading_corp",
   "__v": 0,
   "createdAt": "2026-05-02T12:21:29.098Z",
-  "updatedAt": "2026-05-02T12:33:10.879Z"
+  "updatedAt": "2026-05-02T14:04:00.128Z"
 }
