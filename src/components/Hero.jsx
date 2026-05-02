@@ -74,14 +74,19 @@ const Hero = () => {
 
   return (
     <section className="hero" id="home">
-      <div 
-        className="hero-background" 
-        style={{ 
-          backgroundImage: `url(${currentSlide.image})`,
-          transition: 'background-image 1.2s ease-in-out'
-        }}
-      >
-        <div className="hero-overlay"></div>
+      {/* Sistema de capas para fundido suave (cross-fade) */}
+      <div className="hero-background-container">
+        {slides.map((slide, index) => (
+          <div 
+            key={slide.id + index}
+            className={`hero-background-layer ${index === currentIndex ? 'active' : ''}`}
+            style={{ 
+              backgroundImage: `url(${slide.image})`,
+            }}
+          >
+            <div className="hero-overlay"></div>
+          </div>
+        ))}
       </div>
       
       <div className="container hero-content">

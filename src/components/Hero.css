@@ -6,7 +6,16 @@
   overflow: hidden;
 }
 
-.hero-background {
+.hero-background-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero-background-layer {
   position: absolute;
   top: 0;
   left: 0;
@@ -15,7 +24,12 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  z-index: 1;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+}
+
+.hero-background-layer.active {
+  opacity: 1;
 }
 
 .hero-overlay {
@@ -24,7 +38,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, rgba(10, 25, 47, 0.95) 0%, rgba(10, 25, 47, 0.7) 50%, rgba(10, 25, 47, 0.3) 100%);
+  background: linear-gradient(90deg, rgba(10, 25, 47, 0.9) 0%, rgba(10, 25, 47, 0.6) 50%, rgba(10, 25, 47, 0.2) 100%);
   z-index: 2;
 }
 
