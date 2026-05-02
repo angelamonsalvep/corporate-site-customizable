@@ -6,6 +6,7 @@ import ServicesTabs from './components/ServicesTabs';
 import Contact from './components/Contact';
 import FloatingContact from './components/FloatingContact';
 import AdminPanel from './components/AdminPanel';
+import Footer from './components/Footer';
 import { ContentProvider, useContent } from './context/ContentContext';
 import { useEffect } from 'react';
 
@@ -13,8 +14,23 @@ function MainSite() {
   const { content, loading, error } = useContent();
 
   useEffect(() => {
-    if (content?.general?.companyName) {
-      document.title = content.general.companyName;
+    if (content?.general) {
+      // Actualizar título
+      if (content.general.companyName) {
+        document.title = content.general.companyName;
+      }
+      
+      // Actualizar Favicon dinámicamente
+      const bestIcon = content.general.brandIcon || content.general.logoImage || content.general.secondaryLogo;
+      if (bestIcon) {
+        let link = document.querySelector("link[rel~='icon']");
+        if (!link) {
+          link = document.createElement('link');
+          link.rel = 'icon';
+          document.getElementsByTagName('head')[0].appendChild(link);
+        }
+        link.href = bestIcon;
+      }
     }
   }, [content]);
 
@@ -32,12 +48,7 @@ function MainSite() {
         <Contact />
       </main>
       <FloatingContact />
-      
-      <footer style={{ backgroundColor: 'var(--color-primary)', color: 'white', padding: '2rem 0', textAlign: 'center' }}>
-        <div className="container">
-          <p>&copy; {new Date().getFullYear()} {content.general.companyName}. Todos los derechos reservados.</p>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }

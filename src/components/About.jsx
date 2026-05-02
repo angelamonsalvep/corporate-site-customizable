@@ -4,6 +4,7 @@ import './About.css';
 const About = () => {
   const { content: siteContent } = useContent();
   if (!siteContent) return null;
+
   return (
     <section className="section about" id="about">
       <div className="container">
@@ -11,7 +12,12 @@ const About = () => {
           {/* Left: Text content */}
           <div className="about-content">
             <span className="about-eyebrow">🌐 Nuestra Historia</span>
-            <h2 className="section-title-left">{siteContent.about.title}</h2>
+            <div className="about-title-wrapper">
+              {siteContent.general.logoImage && (
+                <img src={siteContent.general.logoImage} alt="" className="about-title-logo" />
+              )}
+              <h2 className="section-title-left">{siteContent.about.title}</h2>
+            </div>
             <div className="about-text">
               {siteContent.about.description.map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>

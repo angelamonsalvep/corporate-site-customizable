@@ -201,7 +201,23 @@
   opacity: 0.9;
 }
 
-/* ---- Responsive ---- */
+.about-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.about-title-logo {
+  height: 55px;
+  width: auto;
+  object-fit: contain;
+}
+
+.about-title-wrapper .section-title-left {
+  margin-bottom: 0;
+}
+
 @media (max-width: 992px) {
   .about-grid {
     grid-template-columns: 1fr;

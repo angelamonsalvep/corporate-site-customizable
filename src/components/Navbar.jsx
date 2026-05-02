@@ -27,13 +27,14 @@ const Navbar = () => {
             alignItems: 'center',
             justifyContent: 'center',
             backgroundColor: '#ffffff',
-            padding: '8px 16px',
-            borderRadius: '8px',
-            boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
+            padding: '4px 20px',
+            borderRadius: '50px', // Efecto cápsula
+            border: '1px solid var(--color-accent)', // Borde dorado muy fino
+            boxShadow: '0 4px 15px rgba(0,0,0,0.1)'
           } : {}
         }>
           {siteContent.general.logoImage ? (
-            <img src={siteContent.general.logoImage} alt={siteContent.general.companyName} style={{ height: '65px', objectFit: 'contain' }} />
+            <img src={siteContent.general.logoImage} alt={siteContent.general.companyName} style={{ height: '55px', objectFit: 'contain' }} />
           ) : (
             siteContent.general.companyName
           )}
