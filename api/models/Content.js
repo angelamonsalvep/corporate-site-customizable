@@ -21,7 +21,9 @@ const ContentSchema = new mongoose.Schema({
   general: {
     companyName: String,
     logoText: String,
-    logoImage: String
+    logoImage: String,
+    brandIcon: String,     // Para el Isotipo (ej: el mundo solo)
+    secondaryLogo: String   // Para versiones alternativas (ej: 3D o vertical)
   },
   hero: {
     title: String,

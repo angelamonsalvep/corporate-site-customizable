@@ -342,6 +342,54 @@ const AdminPanel = () => {
                     </div>
                   )}
                 </div>
+
+                <div className="form-group">
+                  <label>Isotipo / Icono de Marca (Ej: Solo el mundo)</label>
+                  <input type="text" className="form-control" value={formData.general.brandIcon || ''} onChange={(e) => handleChange('general', 'brandIcon', e.target.value)} />
+                  <div style={{marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap'}}>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleSingleImageUpload('general', 'brandIcon', e)}
+                      className="form-control"
+                      style={{padding: '0.4rem', flex: 1, minWidth: '200px'}}
+                      disabled={uploadingField === 'general-brandIcon'}
+                    />
+                    <button type="button" className="btn btn-outline" style={{padding: '0.4rem 1rem'}} onClick={() => openGallery({section: 'general', field: 'brandIcon'})}>
+                      🖼️ Elegir Isotipo
+                    </button>
+                    {uploadingField === 'general-brandIcon' && <small style={{color:'#0369a1', width: '100%'}}>⏳ Subiendo...</small>}
+                  </div>
+                  {formData.general.brandIcon && (
+                    <div style={{marginTop: '1rem', padding: '1rem', backgroundColor: '#f1f5f9', borderRadius: '4px', display: 'inline-block'}}>
+                      <img src={formData.general.brandIcon} alt="Icon Preview" style={{maxHeight: '60px', objectFit: 'contain'}} />
+                    </div>
+                  )}
+                </div>
+
+                <div className="form-group">
+                  <label>Logo Secundario (Ej: 3D o con reflejo)</label>
+                  <input type="text" className="form-control" value={formData.general.secondaryLogo || ''} onChange={(e) => handleChange('general', 'secondaryLogo', e.target.value)} />
+                  <div style={{marginTop: '0.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap'}}>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleSingleImageUpload('general', 'secondaryLogo', e)}
+                      className="form-control"
+                      style={{padding: '0.4rem', flex: 1, minWidth: '200px'}}
+                      disabled={uploadingField === 'general-secondaryLogo'}
+                    />
+                    <button type="button" className="btn btn-outline" style={{padding: '0.4rem 1rem'}} onClick={() => openGallery({section: 'general', field: 'secondaryLogo'})}>
+                      🖼️ Elegir Logo 2
+                    </button>
+                    {uploadingField === 'general-secondaryLogo' && <small style={{color:'#0369a1', width: '100%'}}>⏳ Subiendo...</small>}
+                  </div>
+                  {formData.general.secondaryLogo && (
+                    <div style={{marginTop: '1rem', padding: '1rem', backgroundColor: '#f1f5f9', borderRadius: '4px', display: 'inline-block'}}>
+                      <img src={formData.general.secondaryLogo} alt="Logo 2 Preview" style={{maxHeight: '60px', objectFit: 'contain'}} />
+                    </div>
+                  )}
+                </div>
                 
                 <h2 className="mt-4">Contacto</h2>
                 <div className="form-group">

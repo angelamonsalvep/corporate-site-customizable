@@ -2,12 +2,14 @@
   "general": {
     "companyName": "World Trading Corp.",
     "logoText": "GlobalCorp",
-    "logoImage": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660328/clientes/world-trading-corp/xklpqubernf8rhultbez.png"
+    "logoImage": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660328/clientes/world-trading-corp/xklpqubernf8rhultbez.png",
+    "brandIcon": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777726767/clientes/world-trading-corp/jmvqos5qcvj76n2acwqk.jpg",
+    "secondaryLogo": ""
   },
   "hero": {
     "title": "Excelencia Corporativa a Nivel Latinoamerica",
     "subtitle": "Conectando mercados internacionales y fortaleciendo su estructura financiera con solidez y confianza. Productos Colombianos",
-    "backgroundImage": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777662342/clientes/world-trading-corp/kk3is6aio81ctkr6qeyl.avif"
+    "backgroundImage": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777662355/clientes/world-trading-corp/y97m5c8axlrrejeceawv.avif"
   },
   "about": {
     "title": "Quiénes Somos",
@@ -159,5 +161,9 @@
     "phoneDisplay": "+507 6024 5902",
     "address": "PH BICSA FINANCIAL CENTER puso 47 of 4710 Av vasco Nuñez de Balboa, Provincia de Panamá; Panamá."
   },
-  "documentId": "site_content"
+  "_id": "69f5ec499119bfdeb8b94db8",
+  "documentId": "world_trading_corp",
+  "__v": 0,
+  "createdAt": "2026-05-02T12:21:29.098Z",
+  "updatedAt": "2026-05-02T12:33:10.879Z"
 }
