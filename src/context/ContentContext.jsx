@@ -52,12 +52,22 @@ export const ContentProvider = ({ children }) => {
     }
   };
 
+  const [activeService, setActiveService] = useState(null);
+
   useEffect(() => {
     fetchContent();
   }, []);
 
   return (
-    <ContentContext.Provider value={{ content, loading, error, updateContent, fetchContent }}>
+    <ContentContext.Provider value={{ 
+      content, 
+      loading, 
+      error, 
+      updateContent, 
+      fetchContent,
+      activeService,
+      setActiveService
+    }}>
       {children}
     </ContentContext.Provider>
   );

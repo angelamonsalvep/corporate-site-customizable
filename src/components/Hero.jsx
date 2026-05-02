@@ -1,54 +1,118 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useContent } from '../context/ContentContext';
 import './Hero.css';
 
 const Hero = () => {
-  const { content: siteContent } = useContent();
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const { content: siteContent, setActiveService } = useContent();
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  useEffect(() => {
-    if (!siteContent) return;
+  // Construir las diapositivas dinámicamente basadas en servicios
+  const slides = useMemo(() => {
+    if (!siteContent) return [];
     
-    const tradeImages = siteContent.trade?.products?.map(p => p.image) || [];
-    const finImages = siteContent.financial?.services?.map(s => s.image) || [];
-    const allImages = [...tradeImages, ...finImages].filter(img => img && img.trim() !== '');
+    const serviceSlides = [];
     
-    if (allImages.length <= 1) return;
-    
-    const interval = setInterval(() => {
-      setCurrentImageIndex(prev => (prev + 1) % allImages.length);
-    }, 4000);
-    
-    return () => clearInterval(interval);
+    // Slide inicial (General)
+    serviceSlides.push({
+      id: 'home',
+      title: siteContent.hero.title,
+      subtitle: siteContent.hero.subtitle,
+      image: siteContent.hero.backgroundImage,
+      type: 'general'
+    });
+
+    // Slides de Comercio
+    siteContent.trade.products.forEach(p => {
+      if (p.image) {
+        serviceSlides.push({
+          id: p.id,
+          title: p.name,
+          subtitle: p.description,
+          image: p.image,
+          tag: "Área Comercial",
+          type: 'trade'
+        });
+      }
+    });
+
+    // Slides Financieros
+    siteContent.financial.services.forEach(s => {
+      if (s.image && s.visible !== false) {
+        serviceSlides.push({
+          id: s.id,
+          title: s.name,
+          subtitle: s.description,
+          image: s.image,
+          tag: "Área Financiera",
+          type: 'financial'
+        });
+      }
+    });
+
+    return serviceSlides;
   }, [siteContent]);
 
-  if (!siteContent) return null;
+  useEffect(() => {
+    if (slides.length <= 1) return;
 
-  const tradeImages = siteContent.trade?.products?.map(p => p.image) || [];
-  const finImages = siteContent.financial?.services?.map(s => s.image) || [];
-  const allImages = [...tradeImages, ...finImages].filter(img => img && img.trim() !== '');
-  
-  const currentImage = allImages.length > 0 ? allImages[currentImageIndex] : siteContent.hero.backgroundImage;
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % slides.length);
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, [slides]);
+
+  if (!siteContent || slides.length === 0) return null;
+
+  const currentSlide = slides[currentIndex];
+
+  const handleServiceClick = (e) => {
+    if (currentSlide.type !== 'general') {
+      setActiveService({ id: currentSlide.id, type: currentSlide.type });
+    }
+  };
 
   return (
     <section className="hero" id="home">
       <div 
         className="hero-background" 
         style={{ 
-          backgroundImage: `url(${currentImage})`,
-          transition: 'background-image 1.5s ease-in-out'
+          backgroundImage: `url(${currentSlide.image})`,
+          transition: 'background-image 1.2s ease-in-out'
         }}
       >
         <div className="hero-overlay"></div>
       </div>
       
       <div className="container hero-content">
-        <div className="hero-text animate-fade-in">
-          <h1>{siteContent.hero.title}</h1>
-          <p>{siteContent.hero.subtitle}</p>
+        <div className="hero-text animate-fade-in" key={currentIndex}>
+          {currentSlide.tag && <span className="hero-tag">{currentSlide.tag}</span>}
+          
+          {(siteContent.general.brandIcon || siteContent.general.logoImage) && (
+            <div className="hero-logo-accent">
+              <img src={siteContent.general.brandIcon || siteContent.general.logoImage} alt="Brand Icon" />
+            </div>
+          )}
+          
+          <h1>{currentSlide.title}</h1>
+          <p>{currentSlide.subtitle}</p>
+          
           <div className="hero-buttons">
-            <a href="#services" className="btn btn-primary">Conoce Nuestros Servicios</a>
+            <a href="#services" className="btn btn-primary" onClick={handleServiceClick}>
+              Ver Detalles del Servicio
+            </a>
           </div>
+        </div>
+        
+        {/* Indicadores del carrusel */}
+        <div className="hero-dots">
+          {slides.map((_, index) => (
+            <span 
+              key={index} 
+              className={`dot ${index === currentIndex ? 'active' : ''}`}
+              onClick={() => setCurrentIndex(index)}
+            ></span>
+          ))}
         </div>
       </div>
     </section>

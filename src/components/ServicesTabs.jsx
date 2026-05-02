@@ -1,11 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useContent } from '../context/ContentContext';
 import './ServicesTabs.css';
 
 const ServicesTabs = () => {
-  const { content: siteContent } = useContent();
+  const { content: siteContent, activeService, setActiveService } = useContent();
   const [activeTab, setActiveTab] = useState('trade'); // 'trade' or 'financial'
   const [selectedService, setSelectedService] = useState(null);
+
+  // Escuchar cambios desde el Hero
+  useEffect(() => {
+    if (activeService) {
+      // Cambiar a la pestaña correcta
+      setActiveTab(activeService.type);
+      
+      // Si es financiero, abrir el modal
+      if (activeService.type === 'financial') {
+        const service = siteContent.financial.services.find(s => s.id === activeService.id);
+        if (service) setSelectedService(service);
+      }
+      
+      // Limpiar el estado global después de usarlo
+      setActiveService(null);
+    }
+  }, [activeService, siteContent, setActiveService]);
 
   if (!siteContent) return null;
 
@@ -15,7 +32,12 @@ const ServicesTabs = () => {
     <section className="section section-alt services" id="services">
       <div className="container">
         <div className="section-title">
-          <h2>Nuestras Áreas de Negocio</h2>
+          <div className="services-title-wrapper">
+            {siteContent.general.logoImage && (
+              <img src={siteContent.general.logoImage} alt="" className="services-title-logo" />
+            )}
+            <h2>Nuestras Áreas de Negocio</h2>
+          </div>
           <p>Soluciones integrales diseñadas para impulsar su crecimiento a nivel global, tanto en el sector comercial como financiero.</p>
         </div>
 
@@ -87,6 +109,9 @@ const ServicesTabs = () => {
                         </div>
                       )}
                       <div className="service-info">
+                        {siteContent.general.brandIcon && (
+                          <img src={siteContent.general.brandIcon} alt="" className="service-card-watermark" />
+                        )}
                         <h4>{service.name}</h4>
                         <p>{service.description ? (service.description.length > 100 ? service.description.substring(0, 100) + '...' : service.description) : 'Ver más detalles...'}</p>
                         <span className="read-more">Ver detalles →</span>
