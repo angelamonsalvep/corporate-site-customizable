@@ -17,7 +17,7 @@ const ServiceSchema = new mongoose.Schema({
 });
 
 const ContentSchema = new mongoose.Schema({
-  documentId: { type: String, default: 'site_content', unique: true },
+  documentId: { type: String, required: true, unique: true },
   general: {
     companyName: String,
     logoText: String,

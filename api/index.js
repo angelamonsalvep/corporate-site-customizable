@@ -120,13 +120,19 @@ app.post('/api/content', async (req, res) => {
     const isConnected = await ensureConnected();
 
     if (isConnected) {
+      // Asegurar que el documento guardado tenga el ID correcto
+      newContent.documentId = CLIENT_ID;
+      
       await Content.findOneAndUpdate(
         { documentId: CLIENT_ID },
         newContent,
         { returnDocument: 'after', upsert: true }
       );
       // Backup local si es posible (fallará en Vercel, pero lo ignoramos)
-      try { fs.writeFileSync(DB_FILE, JSON.stringify(newContent, null, 2), 'utf8'); } catch(e){}
+      try { 
+        const clientSeedPath = path.join(__dirname, 'seeds', `${CLIENT_ID}.json`);
+        fs.writeFileSync(clientSeedPath, JSON.stringify(newContent, null, 2), 'utf8'); 
+      } catch(e){}
       res.json({ success: true, message: 'Content updated in MongoDB' });
     } else {
       // Si estamos en Vercel y no hay DB, es un error fatal
