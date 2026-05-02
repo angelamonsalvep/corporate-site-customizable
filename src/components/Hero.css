@@ -13,6 +13,7 @@
   width: 100%;
   height: 100%;
   z-index: 1;
+  background-color: #050a12; /* Fondo base ultra oscuro para evitar destellos */
 }
 
 .hero-background-layer {
@@ -25,7 +26,7 @@
   background-position: center;
   background-repeat: no-repeat;
   opacity: 0;
-  transition: opacity 1.5s ease-in-out;
+  transition: opacity 2s ease-in-out; /* Transición un poco más lenta para suavidad */
 }
 
 .hero-background-layer.active {
@@ -38,8 +39,9 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, rgba(10, 25, 47, 0.9) 0%, rgba(10, 25, 47, 0.6) 50%, rgba(10, 25, 47, 0.2) 100%);
-  z-index: 2;
+  background: linear-gradient(90deg, rgba(10, 25, 47, 0.92) 0%, rgba(10, 25, 47, 0.6) 50%, rgba(10, 25, 47, 0.2) 100%);
+  z-index: 2; /* Siempre encima de las capas */
+  pointer-events: none;
 }
 
 .hero-content {

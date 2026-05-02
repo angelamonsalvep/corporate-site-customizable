@@ -83,10 +83,10 @@ const Hero = () => {
             style={{ 
               backgroundImage: `url(${slide.image})`,
             }}
-          >
-            <div className="hero-overlay"></div>
-          </div>
+          />
         ))}
+        {/* El overlay ahora es constante y está encima de todas las capas */}
+        <div className="hero-overlay"></div>
       </div>
       
       <div className="container hero-content">
