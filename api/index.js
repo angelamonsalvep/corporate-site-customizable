@@ -66,18 +66,22 @@ app.get('/api/content', async (req, res) => {
 
     if (isConnected) {
       let data = await Content.findOne({ documentId: CLIENT_ID });
-      if (!data) {
-        // Fallback: buscar archivo específico del cliente o el genérico
-        const clientSeed = path.join(__dirname, 'seeds', `${CLIENT_ID}.json`);
-        const genericSeed = path.join(__dirname, 'seeds', 'generic.json');
-        const seedToUse = fs.existsSync(clientSeed) ? clientSeed : genericSeed;
-        
-        const rawData = fs.readFileSync(seedToUse, 'utf8');
-        data = JSON.parse(rawData);
+      if (data) {
+        return res.json(data);
       }
+      
+      // Fallback si no hay datos en la colección
+      console.log(`[Fallback] Cliente ${CLIENT_ID} no encontrado en MongoDB. Cargando desde archivo local.`);
+      const clientSeed = path.join(__dirname, 'seeds', `${CLIENT_ID}.json`);
+      const genericSeed = path.join(__dirname, 'seeds', 'generic.json');
+      const seedToUse = fs.existsSync(clientSeed) ? clientSeed : genericSeed;
+      
+      const rawData = fs.readFileSync(seedToUse, 'utf8');
+      data = JSON.parse(rawData);
       res.json(data);
     } else {
       // Sin MongoDB (solo desarrollo local)
+      console.log(`[Local] Sin conexión a MongoDB. Usando archivos locales.`);
       const clientSeed = path.join(__dirname, 'seeds', `${CLIENT_ID}.json`);
       const genericSeed = path.join(__dirname, 'seeds', 'generic.json');
       const seedToUse = fs.existsSync(clientSeed) ? clientSeed : genericSeed;
