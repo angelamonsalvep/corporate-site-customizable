@@ -1,0 +1,61 @@
+{
+  "general": {
+    "companyName": "Nombre de la Empresa",
+    "logoImage": "",
+    "primaryColor": "#0a192f",
+    "accentColor": "#64ffda"
+  },
+  "hero": {
+    "title": "Bienvenido a Nuestra Plataforma",
+    "subtitle": "Soluciones innovadoras para su negocio global.",
+    "backgroundImage": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80"
+  },
+  "about": {
+    "title": "Sobre Nosotros",
+    "description": "Somos una empresa comprometida con la excelencia y la innovación.",
+    "points": [
+      "Compromiso con el cliente",
+      "Calidad garantizada",
+      "Presencia internacional"
+    ],
+    "image": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80"
+  },
+  "trade": {
+    "title": "Área Comercial",
+    "description": "Nuestros productos y soluciones comerciales.",
+    "products": [
+      {
+        "id": "p1",
+        "name": "Producto de Ejemplo",
+        "description": "Descripción breve del producto o servicio.",
+        "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80"
+      }
+    ]
+  },
+  "financial": {
+    "title": "Área Financiera",
+    "description": "Servicios financieros estratégicos.",
+    "services": [
+      {
+        "id": "f1",
+        "name": "Servicio Financiero",
+        "description": "Descripción del servicio financiero.",
+        "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80",
+        "visible": true,
+        "items": [
+          "Sub-ítem 1",
+          "Sub-ítem 2"
+        ]
+      }
+    ]
+  },
+  "contact": {
+    "showWhatsApp": true,
+    "showPhone": true,
+    "whatsappNumber": "0000000000",
+    "email": "contacto@empresa.com",
+    "phoneDisplay": "+00 000 000000",
+    "address": "Dirección de la empresa"
+  },
+  "documentId": "generic"
+}

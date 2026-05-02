@@ -27,7 +27,15 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const DB_FILE = path.join(__dirname, 'database.json');
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
-const MONGO_URI = process.env.MONGO_URI;
+const CLIENT_ID = process.env.CLIENT_ID || 'default_site';
+const DB_NAME = process.env.DB_NAME || CLIENT_ID;
+const MONGO_URL = process.env.MONGO_URL;
+const MONGO_PARAMS = process.env.MONGO_PARAMS || 'retryWrites=true&w=majority';
+
+// Construir la URI completa
+const MONGO_URI = MONGO_URL ? `${MONGO_URL}${DB_NAME}?${MONGO_PARAMS}` : null;
+
+const DEFAULT_CLOUDINARY_FOLDER = process.env.CLOUDINARY_FOLDER || `clientes/${CLIENT_ID}`;
 
 // Connection helper for Serverless
 async function ensureConnected() {
@@ -57,16 +65,24 @@ app.get('/api/content', async (req, res) => {
     const isConnected = await ensureConnected();
 
     if (isConnected) {
-      let data = await Content.findOne({ documentId: 'site_content' });
+      let data = await Content.findOne({ documentId: CLIENT_ID });
       if (!data) {
-        // Fallback: si no hay documento en Mongo, usar el archivo local
-        const rawData = fs.readFileSync(DB_FILE, 'utf8');
+        // Fallback: buscar archivo específico del cliente o el genérico
+        const clientSeed = path.join(__dirname, 'seeds', `${CLIENT_ID}.json`);
+        const genericSeed = path.join(__dirname, 'seeds', 'generic.json');
+        const seedToUse = fs.existsSync(clientSeed) ? clientSeed : genericSeed;
+        
+        const rawData = fs.readFileSync(seedToUse, 'utf8');
         data = JSON.parse(rawData);
       }
       res.json(data);
     } else {
       // Sin MongoDB (solo desarrollo local)
-      const rawData = fs.readFileSync(DB_FILE, 'utf8');
+      const clientSeed = path.join(__dirname, 'seeds', `${CLIENT_ID}.json`);
+      const genericSeed = path.join(__dirname, 'seeds', 'generic.json');
+      const seedToUse = fs.existsSync(clientSeed) ? clientSeed : genericSeed;
+      
+      const rawData = fs.readFileSync(seedToUse, 'utf8');
       const data = JSON.parse(rawData);
       res.json(data);
     }
@@ -105,7 +121,7 @@ app.post('/api/content', async (req, res) => {
 
     if (isConnected) {
       await Content.findOneAndUpdate(
-        { documentId: 'site_content' },
+        { documentId: CLIENT_ID },
         newContent,
         { returnDocument: 'after', upsert: true }
       );
@@ -161,6 +177,14 @@ app.get('/api/cloudinary-gallery', async (req, res) => {
       hasKeys: !!process.env.CLOUDINARY_API_KEY // Debug helper
     });
   }
+});
+
+// Endpoint para que el Frontend sepa su config
+app.get('/api/config', (req, res) => {
+  res.json({
+    clientId: CLIENT_ID,
+    defaultCloudinaryFolder: DEFAULT_CLOUDINARY_FOLDER
+  });
 });
 
 app.listen(PORT, () => {

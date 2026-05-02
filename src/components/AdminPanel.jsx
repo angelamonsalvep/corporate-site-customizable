@@ -15,9 +15,21 @@ const AdminPanel = () => {
   const [loginError, setLoginError] = useState('');
 
   const [uploadingField, setUploadingField] = useState(null); // tracks which field is uploading
-  const [cloudinaryFolder, setCloudinaryFolder] = useState('clientes/world-trading-corp');
+  const [cloudinaryFolder, setCloudinaryFolder] = useState('');
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [galleryTarget, setGalleryTarget] = useState(null);
+
+  useEffect(() => {
+    // Fetch client-specific config
+    fetch('/api/config')
+      .then(res => res.json())
+      .then(data => {
+        if (data.defaultCloudinaryFolder) {
+          setCloudinaryFolder(data.defaultCloudinaryFolder);
+        }
+      })
+      .catch(err => console.error("Error fetching config:", err));
+  }, []);
 
   const openGallery = (target) => {
     setGalleryTarget(target);
