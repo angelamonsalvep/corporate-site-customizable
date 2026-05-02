@@ -75,9 +75,11 @@
         "_id": "69f51186f739063feb6371c4"
       },
       {
+        "id": "s1777719342098",
         "name": "Banca Corporativa e Inversión",
         "description": "Nuestra división de Banca Corporativa e Inversión está diseñada para instituciones, corporaciones y grandes patrimonios que buscan no solo preservar su capital, sino potenciarlo a través de estrategias sofisticadas y acceso preferencial a los mercados globales.",
         "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660733/clientes/world-trading-corp/qzkwzksrgkefx7xz7sdl.jpg",
+        "visible": true,
         "items": [
           "Asesoría de Inversiones",
           "Gestión de Activos",
@@ -86,13 +88,14 @@
           "Portafolios Internacionales",
           "Oportunidades de inversión estructurada"
         ],
-        "id": "s1777719342098",
-        "visible": true
+        "_id": "69f5dc6e66bbd1f03533debf"
       },
       {
+        "id": "s1777719558685",
         "name": "Finanzas Empresariales",
         "description": "En un entorno económico volátil, la estructura de capital de su empresa define su capacidad de resiliencia y crecimiento. Nuestra división de Finanzas Empresariales se especializa en optimizar el balance corporativo y ejecutar transacciones estratégicas que maximizan el valor para los accionistas.",
         "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660741/clientes/world-trading-corp/pswlvcolmuzwgzm47oqs.jpg",
+        "visible": true,
         "items": [
           "Financiación Corporativa",
           "Reestructuración de deuda",
@@ -101,13 +104,14 @@
           "Fusiones y adquisiciones (M&A)",
           "Valorización de empresas"
         ],
-        "id": "s1777719558685",
-        "visible": true
+        "_id": "69f5dc6e66bbd1f03533dec0"
       },
       {
+        "id": "s1777719822396",
         "name": "Riesgo y Cumplimiento",
         "description": "En un ecosistema global cada vez más regulado, la gestión del riesgo no es solo una medida de control, sino una ventaja competitiva. Nuestra unidad de Riesgo y Cumplimiento garantiza que su organización opere con total transparencia, protegiendo su reputación y asegurando la continuidad del negocio ante cualquier entorno normativo.",
         "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660748/clientes/world-trading-corp/vtbzwgfjjfn7eip0z3sa.jpg",
+        "visible": true,
         "items": [
           "Consultoría de Riesgos",
           "Due Diligence Financiero",
@@ -115,48 +119,45 @@
           "KYC / AML Advisory",
           "Auditoría financiera estratégica"
         ],
-        "id": "s1777719822396",
-        "visible": true
+        "_id": "69f5dc6e66bbd1f03533dec1"
       },
       {
+        "id": "s1777719994862",
         "name": "Comercio Internacional",
         "description": "En un mundo sin fronteras comerciales, la agilidad financiera es el factor que determina el éxito de una transacción transfronteriza. Nuestra unidad de Comercio Internacional ofrece la infraestructura y el respaldo necesarios para que sus operaciones de importación y exportación fluyan con total seguridad y eficiencia.",
         "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660675/clientes/world-trading-corp/x6veubkfnktlom2ifvth.jpg",
+        "visible": true,
         "items": [
           "Financiamiento de importación y exportación",
           "Commodities Finance (oro, azúcar, café, combustibles)",
           "Garantías comerciales internacionales",
           "Soluciones bancarias cross-border"
         ],
-        "id": "s1777719994862",
-        "visible": true
+        "_id": "69f5dc6e66bbd1f03533dec2"
       },
       {
+        "id": "s1777720233999",
         "name": "Consultoría Estratégica",
         "description": "En el nivel más alto de la gestión empresarial, la diferencia entre el éxito y el estancamiento reside en la estrategia. Nuestra división de Consultoría Estratégica actúa como un aliado de pensamiento para juntas directivas y propietarios, diseñando las estructuras que soportan la expansión global y la protección del patrimonio.",
         "image": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777660733/clientes/world-trading-corp/qzkwzksrgkefx7xz7sdl.jpg",
+        "visible": true,
         "items": [
           "Expansión empresarial internacional",
           "Estructuras corporativas internacionales",
           "Planeación patrimonial",
           "Optimización financiera corporativa"
         ],
-        "id": "s1777720233999",
-        "visible": true
+        "_id": "69f5dc6e66bbd1f03533dec3"
       }
     ]
   },
   "contact": {
     "showWhatsApp": false,
     "showPhone": true,
-    "whatsappNumber": "573203774111",
-    "email": "angelapmonsalve@gmail.com",
-    "phoneDisplay": "+57 320 3774111",
+    "whatsappNumber": "50760245902",
+    "email": "Info@csworldtradingcorp.com",
+    "phoneDisplay": "+507 6024 5902",
     "address": "PH BICSA FINANCIAL CENTER puso 47 of 4710 Av vasco Nuñez de Balboa, Provincia de Panamá; Panamá."
   },
-  "_id": "69f511869119bfdeb8b93875",
-  "documentId": "site_content",
-  "__v": 0,
-  "createdAt": "2026-05-01T20:48:06.683Z",
-  "updatedAt": "2026-05-02T10:52:20.029Z"
+  "documentId": "site_content"
 }
