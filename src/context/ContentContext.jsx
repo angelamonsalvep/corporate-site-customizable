@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect, useContext } from 'react';
+import { translations } from '../translations/index.js'; // Importación explícita con extensión
 
 const ContentContext = createContext();
 
@@ -8,6 +9,40 @@ export const ContentProvider = ({ children }) => {
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  // Inicializar idioma desde localStorage o defecto a 'en' (Inglés por defecto)
+  const [language, setLanguage] = useState(() => {
+    return localStorage.getItem('siteLanguage') || 'en';
+  });
+
+  // Guardar idioma cuando cambie
+  useEffect(() => {
+    localStorage.setItem('siteLanguage', language);
+  }, [language]);
+
+  // Función de traducción ultra-segura
+  const t = (path) => {
+    try {
+      if (!translations || !language || !translations[language]) {
+        return path;
+      }
+      
+      const keys = path.split('.');
+      let result = translations[language];
+      
+      for (const key of keys) {
+        if (result && result[key]) {
+          result = result[key];
+        } else {
+          return path;
+        }
+      }
+      return result;
+    } catch (e) {
+      console.warn("Translation error for path:", path, e);
+      return path;
+    }
+  };
 
   const fetchContent = async () => {
     try {
@@ -66,7 +101,10 @@ export const ContentProvider = ({ children }) => {
       updateContent, 
       fetchContent,
       activeService,
-      setActiveService
+      setActiveService,
+      language,
+      setLanguage,
+      t
     }}>
       {children}
     </ContentContext.Provider>

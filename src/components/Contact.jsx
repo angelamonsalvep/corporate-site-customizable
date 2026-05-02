@@ -3,7 +3,7 @@ import { useContent } from '../context/ContentContext';
 import './Contact.css';
 
 const Contact = () => {
-  const { content: siteContent } = useContent();
+  const { content: siteContent, t } = useContent();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -58,8 +58,8 @@ const Contact = () => {
     <section className="section contact" id="contact">
       <div className="container">
         <div className="section-title">
-          <h2>Contáctanos</h2>
-          <p>Estamos listos para asesorarlo y llevar su negocio al siguiente nivel internacional.</p>
+          <h2>{t('contact.title')}</h2>
+          <p>{t('contact.subtitle')}</p>
         </div>
 
         <div className="contact-grid">
@@ -68,8 +68,8 @@ const Contact = () => {
             style={{ '--bg-image': `url(${siteContent.general.secondaryLogo})` }}
           >
             <div className="info-card">
-              <h3>Información de Contacto</h3>
-              <p>Comuníquese con nosotros para recibir atención personalizada de nuestros expertos.</p>
+              <h3>{t('contact.infoTitle')}</h3>
+              <p>{t('contact.infoDesc')}</p>
               
               <ul className="info-list">
                 <li>
@@ -96,7 +96,7 @@ const Contact = () => {
             )}
             <form className="contact-form" onSubmit={handleSubmit}>
               <div className="form-group">
-                <label className="form-label" htmlFor="name">Nombre Completo</label>
+                <label className="form-label" htmlFor="name">{t('contact.formName')}</label>
                 <input 
                   type="text" 
                   id="name" 
@@ -110,7 +110,7 @@ const Contact = () => {
               
               <div className="form-row">
                 <div className="form-group">
-                  <label className="form-label" htmlFor="email">Correo Electrónico</label>
+                  <label className="form-label" htmlFor="email">{t('contact.formEmail')}</label>
                   <input 
                     type="email" 
                     id="email" 
@@ -122,7 +122,7 @@ const Contact = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label className="form-label" htmlFor="company">Empresa</label>
+                  <label className="form-label" htmlFor="company">{t('contact.formCompany')}</label>
                   <input 
                     type="text" 
                     id="company" 
@@ -135,7 +135,7 @@ const Contact = () => {
               </div>
 
               <div className="form-group">
-                <label className="form-label" htmlFor="message">Mensaje</label>
+                <label className="form-label" htmlFor="message">{t('contact.formMessage')}</label>
                 <textarea 
                   id="message" 
                   name="message" 
@@ -149,17 +149,17 @@ const Contact = () => {
 
               {submitStatus === 'success' && (
                 <div style={{ backgroundColor: '#dcfce7', color: '#166534', padding: '1rem', borderRadius: '6px', marginBottom: '1.5rem', border: '1px solid #bbf7d0' }}>
-                  ¡Mensaje enviado con éxito! Nos contactaremos pronto.
+                  {t('contact.success')}
                 </div>
               )}
               {submitStatus === 'error' && (
                 <div style={{ backgroundColor: '#fee2e2', color: '#991b1b', padding: '1rem', borderRadius: '6px', marginBottom: '1.5rem', border: '1px solid #fecaca' }}>
-                  Hubo un error al enviar el mensaje. Por favor intenta de nuevo.
+                  {t('contact.error')}
                 </div>
               )}
 
               <button type="submit" className="btn btn-primary w-100" disabled={isSubmitting}>
-                {isSubmitting ? 'Enviando...' : 'Enviar Mensaje'}
+                {isSubmitting ? t('contact.formSending') : t('contact.formSubmit')}
               </button>
             </form>
           </div>

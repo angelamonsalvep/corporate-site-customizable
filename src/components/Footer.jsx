@@ -2,7 +2,7 @@ import { useContent } from '../context/ContentContext';
 import './Footer.css';
 
 const Footer = () => {
-  const { content: siteContent } = useContent();
+  const { content: siteContent, t } = useContent();
 
   if (!siteContent) return null;
 
@@ -12,23 +12,23 @@ const Footer = () => {
         <div className="footer-brand">
           <h2 className="footer-logo-text">{siteContent.general.companyName}</h2>
           <p className="footer-tagline">
-            Liderazgo y excelencia en comercio internacional y soluciones financieras globales.
+            {t('footer.tagline')}
           </p>
         </div>
 
         <div className="footer-links">
           <div className="footer-nav">
-            <h4>Navegación</h4>
+            <h4>{t('footer.nav')}</h4>
             <ul>
-              <li><a href="#home">Inicio</a></li>
-              <li><a href="#about">Sobre Nosotros</a></li>
-              <li><a href="#services">Servicios</a></li>
-              <li><a href="#contact">Contacto</a></li>
+              <li><a href="#home">{t('nav.home')}</a></li>
+              <li><a href="#about">{t('nav.about')}</a></li>
+              <li><a href="#services">{t('nav.services')}</a></li>
+              <li><a href="#contact">{t('nav.contact')}</a></li>
             </ul>
           </div>
 
           <div className="footer-contact">
-            <h4>Contacto</h4>
+            <h4>{t('footer.contact')}</h4>
             <ul>
               <li>{siteContent.contact.address}</li>
               <li>{siteContent.contact.email}</li>
@@ -40,7 +40,7 @@ const Footer = () => {
 
       <div className="footer-bottom">
         <div className="container">
-          <p>&copy; {new Date().getFullYear()} {siteContent.general.companyName}. Todos los derechos reservados.</p>
+          <p>&copy; {new Date().getFullYear()} {siteContent.general.companyName}. {t('footer.rights')}</p>
         </div>
       </div>
     </footer>

@@ -3,7 +3,7 @@ import { useContent } from '../context/ContentContext';
 import './Hero.css';
 
 const Hero = () => {
-  const { content: siteContent, setActiveService } = useContent();
+  const { content: siteContent, setActiveService, t } = useContent();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Construir las diapositivas dinámicamente basadas en servicios
@@ -12,11 +12,31 @@ const Hero = () => {
     
     const serviceSlides = [];
     
+    // Funciones de mapeo para traducciones consistentes
+    const getProductInfo = (id) => {
+      const map = { 'coffee': 'p1', 'sugar': 'p2', 'fuel': 'p3', 'others': 'p4' };
+      const key = map[id] || 'p4';
+      return { name: t(`trade.${key}_name`), desc: t(`trade.${key}_desc`) };
+    };
+
+    const getServiceInfo = (id) => {
+      const map = {
+        'f1': 's1',
+        's1777719342098': 's2',
+        's1777719558685': 's3',
+        's1777719822396': 's4',
+        's1777719994862': 's5',
+        's1777720233999': 's6'
+      };
+      const key = map[id] || 's1';
+      return { name: t(`financial.${key}_name`), desc: t(`financial.${key}_desc`) };
+    };
+    
     // Slide inicial (General)
     serviceSlides.push({
       id: 'home',
-      title: siteContent.hero.title,
-      subtitle: siteContent.hero.subtitle,
+      title: t('hero.mainTitle'),
+      subtitle: t('hero.mainSubtitle'),
       image: siteContent.hero.backgroundImage,
       type: 'general'
     });
@@ -24,12 +44,13 @@ const Hero = () => {
     // Slides de Comercio
     siteContent.trade.products.forEach(p => {
       if (p.image) {
+        const info = getProductInfo(p.id);
         serviceSlides.push({
           id: p.id,
-          title: p.name,
-          subtitle: p.description,
+          title: info.name,
+          subtitle: info.desc,
           image: p.image,
-          tag: "Área Comercial",
+          tag: t('hero.tradeArea'),
           type: 'trade'
         });
       }
@@ -38,19 +59,20 @@ const Hero = () => {
     // Slides Financieros
     siteContent.financial.services.forEach(s => {
       if (s.image && s.visible !== false) {
+        const info = getServiceInfo(s.id);
         serviceSlides.push({
           id: s.id,
-          title: s.name,
-          subtitle: s.description,
+          title: info.name,
+          subtitle: info.desc,
           image: s.image,
-          tag: "Área Financiera",
+          tag: t('hero.financialArea'),
           type: 'financial'
         });
       }
     });
 
     return serviceSlides;
-  }, [siteContent]);
+  }, [siteContent, t]);
 
   useEffect(() => {
     if (slides.length <= 1) return;
@@ -98,7 +120,7 @@ const Hero = () => {
           
           <div className="hero-buttons">
             <a href="#services" className="btn btn-primary" onClick={handleServiceClick}>
-              Ver Detalles del Servicio
+              {t('hero.viewDetails')}
             </a>
           </div>
         </div>
