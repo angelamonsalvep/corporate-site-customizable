@@ -54,14 +54,18 @@ app.use(express.json({ limit: '10mb' }));
 // Get current content
 app.get('/api/content', async (req, res) => {
   try {
-    if (MONGO_URI && mongoose.connection.readyState === 1) {
+    const isConnected = await ensureConnected();
+
+    if (isConnected) {
       let data = await Content.findOne({ documentId: 'site_content' });
       if (!data) {
+        // Fallback: si no hay documento en Mongo, usar el archivo local
         const rawData = fs.readFileSync(DB_FILE, 'utf8');
         data = JSON.parse(rawData);
       }
       res.json(data);
     } else {
+      // Sin MongoDB (solo desarrollo local)
       const rawData = fs.readFileSync(DB_FILE, 'utf8');
       const data = JSON.parse(rawData);
       res.json(data);

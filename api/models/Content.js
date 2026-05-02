@@ -11,7 +11,9 @@ const ServiceSchema = new mongoose.Schema({
   id: String,
   name: String,
   description: String,
-  image: String
+  image: String,
+  visible: { type: Boolean, default: true },
+  items: [String]
 });
 
 const ContentSchema = new mongoose.Schema({

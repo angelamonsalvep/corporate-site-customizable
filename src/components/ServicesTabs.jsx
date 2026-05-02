@@ -5,8 +5,11 @@ import './ServicesTabs.css';
 const ServicesTabs = () => {
   const { content: siteContent } = useContent();
   const [activeTab, setActiveTab] = useState('trade'); // 'trade' or 'financial'
+  const [selectedService, setSelectedService] = useState(null);
 
   if (!siteContent) return null;
+
+  const handleCloseModal = () => setSelectedService(null);
 
   return (
     <section className="section section-alt services" id="services">
@@ -64,8 +67,12 @@ const ServicesTabs = () => {
                 </div>
 
                 <div className="services-grid">
-                  {siteContent.financial.services.map(service => (
-                    <div className="service-card" key={service.id}>
+                  {siteContent.financial.services.filter(s => s.visible !== false).map(service => (
+                    <div 
+                      className="service-card clickable" 
+                      key={service.id}
+                      onClick={() => setSelectedService(service)}
+                    >
                       {service.image ? (
                         <div className="service-image">
                           <img src={service.image} alt={service.name} />
@@ -81,7 +88,8 @@ const ServicesTabs = () => {
                       )}
                       <div className="service-info">
                         <h4>{service.name}</h4>
-                        <p>{service.description}</p>
+                        <p>{service.description ? (service.description.length > 100 ? service.description.substring(0, 100) + '...' : service.description) : 'Ver más detalles...'}</p>
+                        <span className="read-more">Ver detalles →</span>
                       </div>
                     </div>
                   ))}
@@ -91,6 +99,43 @@ const ServicesTabs = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal de Detalles de Servicio */}
+      {selectedService && (
+        <div className="service-modal-overlay" onClick={handleCloseModal}>
+          <div className="service-modal" onClick={e => e.stopPropagation()}>
+            <button className="modal-close" onClick={handleCloseModal}>✕</button>
+            
+            <div className="modal-header">
+              {selectedService.image && (
+                <div className="modal-image">
+                  <img src={selectedService.image} alt={selectedService.name} />
+                </div>
+              )}
+              <h3>{selectedService.name}</h3>
+            </div>
+            
+            <div className="modal-body">
+              {selectedService.description && (
+                <div className="modal-description">
+                  <p>{selectedService.description}</p>
+                </div>
+              )}
+              
+              {selectedService.items && selectedService.items.length > 0 && (
+                <div className="modal-items">
+                  <h4>Incluye:</h4>
+                  <ul>
+                    {selectedService.items.map((item, idx) => (
+                      <li key={idx}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

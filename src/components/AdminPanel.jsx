@@ -174,6 +174,67 @@ const AdminPanel = () => {
     });
   };
 
+  // Add a new item to an array field (e.g. financial.services)
+  const handleAddArrayItem = (section, arrayName, template) => {
+    setFormData(prev => {
+      const currentArray = prev[section][arrayName] || [];
+      return {
+        ...prev,
+        [section]: {
+          ...prev[section],
+          [arrayName]: [...currentArray, { ...template, id: `${arrayName.charAt(0)}${Date.now()}`, visible: true }]
+        }
+      };
+    });
+  };
+
+  // Remove an item from an array field
+  const handleRemoveArrayItem = (section, arrayName, index) => {
+    if (!window.confirm('¿Estás seguro de que deseas eliminar este elemento? Esta acción no se puede deshacer una vez guardes los cambios.')) return;
+    setFormData(prev => {
+      const newArray = prev[section][arrayName].filter((_, i) => i !== index);
+      return {
+        ...prev,
+        [section]: {
+          ...prev[section],
+          [arrayName]: newArray
+        }
+      };
+    });
+  };
+
+  // Toggle visibility of an array item
+  const handleToggleVisibility = (section, arrayName, index) => {
+    setFormData(prev => {
+      const newArray = [...prev[section][arrayName]];
+      newArray[index] = { ...newArray[index], visible: newArray[index].visible === false ? true : false };
+      return {
+        ...prev,
+        [section]: {
+          ...prev[section],
+          [arrayName]: newArray
+        }
+      };
+    });
+  };
+
+  // Move an item up or down in the array
+  const handleMoveArrayItem = (section, arrayName, index, direction) => {
+    setFormData(prev => {
+      const newArray = [...prev[section][arrayName]];
+      const targetIndex = direction === 'up' ? index - 1 : index + 1;
+      if (targetIndex < 0 || targetIndex >= newArray.length) return prev;
+      [newArray[index], newArray[targetIndex]] = [newArray[targetIndex], newArray[index]];
+      return {
+        ...prev,
+        [section]: {
+          ...prev[section],
+          [arrayName]: newArray
+        }
+      };
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSaving(true);
@@ -456,8 +517,18 @@ const AdminPanel = () => {
 
                 <div className="products-admin-list">
                   {formData.financial.services.map((service, index) => (
-                    <div key={service.id} className="admin-item-card">
-                      <h3>Servicio {index + 1}</h3>
+                    <div key={service.id || index} className={`admin-item-card ${service.visible === false ? 'admin-item-hidden' : ''}`}>
+                      <div className="admin-item-header">
+                        <h3>Servicio {index + 1}{service.visible === false && <span className="badge-hidden">Oculto</span>}</h3>
+                        <div className="admin-item-actions">
+                          <button type="button" title="Subir" className="btn-icon" onClick={() => handleMoveArrayItem('financial', 'services', index, 'up')} disabled={index === 0}>▲</button>
+                          <button type="button" title="Bajar" className="btn-icon" onClick={() => handleMoveArrayItem('financial', 'services', index, 'down')} disabled={index === formData.financial.services.length - 1}>▼</button>
+                          <button type="button" title={service.visible === false ? 'Mostrar en el sitio' : 'Ocultar del sitio'} className={`btn-icon ${service.visible === false ? 'btn-icon-warning' : 'btn-icon-muted'}`} onClick={() => handleToggleVisibility('financial', 'services', index)}>
+                            {service.visible === false ? '👁️' : '🙈'}
+                          </button>
+                          <button type="button" title="Eliminar servicio" className="btn-icon btn-icon-danger" onClick={() => handleRemoveArrayItem('financial', 'services', index)}>🗑️</button>
+                        </div>
+                      </div>
                       <div className="form-group">
                         <label>Nombre del Servicio</label>
                         <input type="text" className="form-control" value={service.name} onChange={(e) => handleArrayChange('financial', 'services', index, 'name', e.target.value)} />
@@ -492,12 +563,63 @@ const AdminPanel = () => {
                         )}
                       </div>
                       <div className="form-group">
-                        <label>Descripción del Servicio</label>
-                        <textarea className="form-control" rows="2" value={service.description} onChange={(e) => handleArrayChange('financial', 'services', index, 'description', e.target.value)}></textarea>
+                        <label>Descripción del Servicio (opcional)</label>
+                        <textarea className="form-control" rows="2" value={service.description || ''} onChange={(e) => handleArrayChange('financial', 'services', index, 'description', e.target.value)} placeholder="Descripción general del servicio..."></textarea>
+                      </div>
+
+                      {/* Items / Sub-servicios */}
+                      <div className="form-group">
+                        <label>Ítems / Sub-servicios</label>
+                        <small style={{display:'block', color:'var(--color-text-muted)', marginBottom:'0.5rem'}}>Estos se muestran como lista al hacer clic en la tarjeta del servicio.</small>
+                        <div className="admin-items-list">
+                          {(service.items || []).map((item, itemIdx) => (
+                            <div key={itemIdx} className="admin-subitem">
+                              <span className="admin-subitem-bullet">•</span>
+                              <input
+                                type="text"
+                                className="form-control"
+                                value={item}
+                                onChange={(e) => {
+                                  const newItems = [...(service.items || [])];
+                                  newItems[itemIdx] = e.target.value;
+                                  handleArrayChange('financial', 'services', index, 'items', newItems);
+                                }}
+                                style={{marginBottom: 0}}
+                              />
+                              <button
+                                type="button"
+                                className="btn-icon btn-icon-danger"
+                                title="Eliminar ítem"
+                                onClick={() => {
+                                  const newItems = (service.items || []).filter((_, i) => i !== itemIdx);
+                                  handleArrayChange('financial', 'services', index, 'items', newItems);
+                                }}
+                              >✕</button>
+                            </div>
+                          ))}
+                        </div>
+                        <button
+                          type="button"
+                          className="btn-add-subitem"
+                          onClick={() => {
+                            const newItems = [...(service.items || []), ''];
+                            handleArrayChange('financial', 'services', index, 'items', newItems);
+                          }}
+                        >
+                          + Agregar ítem
+                        </button>
                       </div>
                     </div>
                   ))}
                 </div>
+
+                <button
+                  type="button"
+                  className="btn btn-add-item"
+                  onClick={() => handleAddArrayItem('financial', 'services', { name: 'Nuevo Servicio', description: '', image: '', items: [] })}
+                >
+                  ＋ Agregar Servicio Financiero
+                </button>
               </div>
             )}
 
