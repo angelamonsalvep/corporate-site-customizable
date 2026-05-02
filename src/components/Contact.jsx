@@ -63,7 +63,10 @@ const Contact = () => {
         </div>
 
         <div className="contact-grid">
-          <div className="contact-info">
+          <div 
+            className="contact-info" 
+            style={{ '--bg-image': `url(${siteContent.general.secondaryLogo})` }}
+          >
             <div className="info-card">
               <h3>Información de Contacto</h3>
               <p>Comuníquese con nosotros para recibir atención personalizada de nuestros expertos.</p>
@@ -88,6 +91,9 @@ const Contact = () => {
           </div>
 
           <div className="contact-form-wrapper">
+            {siteContent.general.secondaryLogo && (
+              <img src={siteContent.general.secondaryLogo} alt="" className="contact-brand-watermark" />
+            )}
             <form className="contact-form" onSubmit={handleSubmit}>
               <div className="form-group">
                 <label className="form-label" htmlFor="name">Nombre Completo</label>
