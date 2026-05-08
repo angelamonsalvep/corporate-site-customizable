@@ -436,15 +436,47 @@ const AdminPanel = () => {
                   )}
                 </div>
 
-                <h2 className="mt-4">Contacto</h2>
+                <h2 className="mt-4">Contacto Principal</h2>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>WhatsApp (Ej: 573001234567)</label>
+                    <input type="text" className="form-control" value={formData.contact.whatsappNumber || ''} onChange={(e) => handleChange('contact', 'whatsappNumber', e.target.value)} />
+                  </div>
+                  <div className="form-group">
+                    <label>Etiqueta WhatsApp (Ej: Ventas)</label>
+                    <input type="text" className="form-control" value={formData.contact.whatsappLabel || ''} onChange={(e) => handleChange('contact', 'whatsappLabel', e.target.value)} />
+                  </div>
+                </div>
                 <div className="form-group">
-                  <label>Número de WhatsApp (Ej: 573001234567)</label>
-                  <input type="text" className="form-control" value={formData.contact.whatsappNumber} onChange={(e) => handleChange('contact', 'whatsappNumber', e.target.value)} />
+                  <label>Mensaje Automático (Lo que el cliente envía al hacer clic)</label>
+                  <textarea className="form-control" rows="2" value={formData.contact.whatsappMessage || ''} onChange={(e) => handleChange('contact', 'whatsappMessage', e.target.value)} placeholder="Ej: Hola! Me interesa saber más sobre sus servicios..."></textarea>
                 </div>
                 <div className="form-group">
                   <label>Teléfono Visible (Ej: +57 300 000 0000)</label>
-                  <input type="text" className="form-control" value={formData.contact.phoneDisplay} onChange={(e) => handleChange('contact', 'phoneDisplay', e.target.value)} />
+                  <input type="text" className="form-control" value={formData.contact.phoneDisplay || ''} onChange={(e) => handleChange('contact', 'phoneDisplay', e.target.value)} />
                 </div>
+
+                <h2 className="mt-4">Contacto Secundario (Opcional)</h2>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>WhatsApp 2 (Ej: 573001234567)</label>
+                    <input type="text" className="form-control" value={formData.contact.secondaryWhatsappNumber || ''} onChange={(e) => handleChange('contact', 'secondaryWhatsappNumber', e.target.value)} />
+                  </div>
+                  <div className="form-group">
+                    <label>Etiqueta WhatsApp 2 (Ej: Soporte)</label>
+                    <input type="text" className="form-control" value={formData.contact.secondaryWhatsappLabel || ''} onChange={(e) => handleChange('contact', 'secondaryWhatsappLabel', e.target.value)} />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label>Mensaje Automático 2</label>
+                  <textarea className="form-control" rows="2" value={formData.contact.secondaryWhatsappMessage || ''} onChange={(e) => handleChange('contact', 'secondaryWhatsappMessage', e.target.value)} placeholder="Ej: Hola! Necesito ayuda técnica..."></textarea>
+                </div>
+                <div className="form-group">
+                  <label>Teléfono 2 Visible</label>
+                  <input type="text" className="form-control" value={formData.contact.secondaryPhoneDisplay || ''} onChange={(e) => handleChange('contact', 'secondaryPhoneDisplay', e.target.value)} />
+                </div>
+
+                <h2 className="mt-4">Otros Datos</h2>
                 <div className="form-group">
                   <label>Correo Electrónico</label>
                   <input type="email" className="form-control" value={formData.contact.email} onChange={(e) => handleChange('contact', 'email', e.target.value)} />
@@ -454,14 +486,22 @@ const AdminPanel = () => {
                   <input type="text" className="form-control" value={formData.contact.address} onChange={(e) => handleChange('contact', 'address', e.target.value)} />
                 </div>
 
-                <div className="form-group" style={{ display: 'flex', gap: '2rem', alignItems: 'center', marginTop: '1rem', background: '#f8fafc', padding: '1rem', borderRadius: '8px' }}>
+                <div className="form-group" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '1.5rem', background: '#f8fafc', padding: '1.5rem', borderRadius: '8px' }}>
                   <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500 }}>
                     <input
                       type="checkbox"
                       checked={formData.contact.showWhatsApp !== false}
                       onChange={(e) => handleChange('contact', 'showWhatsApp', e.target.checked)}
                     />
-                    Habilitar Botón WhatsApp
+                    Habilitar WhatsApp 1
+                  </label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500 }}>
+                    <input
+                      type="checkbox"
+                      checked={formData.contact.showSecondaryWhatsApp === true}
+                      onChange={(e) => handleChange('contact', 'showSecondaryWhatsApp', e.target.checked)}
+                    />
+                    Habilitar WhatsApp 2
                   </label>
                   <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500 }}>
                     <input
@@ -469,7 +509,15 @@ const AdminPanel = () => {
                       checked={formData.contact.showPhone !== false}
                       onChange={(e) => handleChange('contact', 'showPhone', e.target.checked)}
                     />
-                    Mostrar Teléfono en el Sitio
+                    Mostrar Teléfono 1
+                  </label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500 }}>
+                    <input
+                      type="checkbox"
+                      checked={formData.contact.showSecondaryPhone === true}
+                      onChange={(e) => handleChange('contact', 'showSecondaryPhone', e.target.checked)}
+                    />
+                    Mostrar Teléfono 2
                   </label>
                 </div>
               </div>

@@ -47,11 +47,19 @@ const ContentSchema = new mongoose.Schema({
   },
   contact: {
     whatsappNumber: String,
+    whatsappLabel: String,
+    whatsappMessage: String,
+    secondaryWhatsappNumber: String,
+    secondaryWhatsappLabel: String,
+    secondaryWhatsappMessage: String,
     email: String,
     phoneDisplay: String,
+    secondaryPhoneDisplay: String,
     address: String,
     showWhatsApp: { type: Boolean, default: true },
-    showPhone: { type: Boolean, default: true }
+    showSecondaryWhatsApp: { type: Boolean, default: false },
+    showPhone: { type: Boolean, default: true },
+    showSecondaryPhone: { type: Boolean, default: false }
   },
   allies: {
     title: String,

@@ -82,6 +82,12 @@ const Contact = () => {
                     <span>{siteContent.contact.phoneDisplay}</span>
                   </li>
                 )}
+                {siteContent.contact.showSecondaryPhone === true && (
+                  <li>
+                    <span className="icon">📞</span>
+                    <span>{siteContent.contact.secondaryPhoneDisplay}</span>
+                  </li>
+                )}
                 <li>
                   <span className="icon">✉️</span>
                   <span>{siteContent.contact.email}</span>

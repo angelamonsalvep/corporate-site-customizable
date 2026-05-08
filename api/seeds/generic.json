@@ -51,10 +51,18 @@
   },
   "contact": {
     "showWhatsApp": true,
+    "showSecondaryWhatsApp": false,
     "showPhone": true,
-    "whatsappNumber": "0000000000",
+    "showSecondaryPhone": false,
+    "whatsappNumber": "573100000000",
+    "whatsappLabel": "Ventas",
+    "whatsappMessage": "Hola! Vengo de su sitio web y me gustaría recibir más información.",
+    "secondaryWhatsappNumber": "",
+    "secondaryWhatsappLabel": "Soporte",
+    "secondaryWhatsappMessage": "Hola! Necesito soporte técnico relacionado con el sitio web.",
     "email": "contacto@empresa.com",
-    "phoneDisplay": "+00 000 000000",
+    "phoneDisplay": "+57 310 000 0000",
+    "secondaryPhoneDisplay": "",
     "address": "Dirección de la empresa"
   },
   "allies": {
