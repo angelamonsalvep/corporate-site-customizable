@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useContent } from '../context/ContentContext';
 import { uploadToCloudinary } from '../utils/cloudinaryUpload';
 import CloudinaryGallery from './CloudinaryGallery';
 import './AdminPanel.css';
 
 const AdminPanel = () => {
-  const { content, updateContent } = useContent();
+  const { content, updateContent, updateContentSection } = useContent();
   const [formData, setFormData] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState('');
@@ -20,6 +20,7 @@ const AdminPanel = () => {
   const [galleryTarget, setGalleryTarget] = useState(null);
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const contentRef = useRef(null);
 
   // Recovery related state
   const [showRecovery, setShowRecovery] = useState(false);
@@ -205,10 +206,21 @@ const AdminPanel = () => {
 
   const handleUpdateSecurity = async (e) => {
     e.preventDefault();
+    
+    // Validaciones claras
+    if (!securityData.newPassword) {
+      setMessage('Error: Debes ingresar una nueva contraseña');
+      return;
+    }
     if (securityData.newPassword !== securityData.confirmPassword) {
       setMessage('Error: Las contraseñas no coinciden');
       return;
     }
+    if (!securityData.securityQuestion || !securityData.securityAnswer) {
+      setMessage('Error: Debes configurar la pregunta y respuesta de seguridad para poder recuperar tu cuenta después.');
+      return;
+    }
+
     setIsSaving(true);
     try {
       const password = sessionStorage.getItem('adminPassword');
@@ -222,22 +234,25 @@ const AdminPanel = () => {
       });
       const data = await res.json();
       if (data.success) {
-        setMessage('Seguridad actualizada correctamente');
+        setMessage('✅ Seguridad actualizada correctamente. Tu nueva contraseña y pregunta de recuperación están activas.');
         setSecurityData({ newPassword: '', confirmPassword: '', securityQuestion: '', securityAnswer: '' });
-        // Actualizar la sesión si cambió la contraseña
         sessionStorage.setItem('adminPassword', securityData.newPassword);
       } else {
-        setMessage('Error: ' + data.error);
+        setMessage('❌ Error: ' + (data.error || 'No se pudo actualizar'));
       }
     } catch (err) {
-      setMessage('Error de conexión');
+      setMessage('❌ Error de conexión al servidor');
     } finally {
       setIsSaving(false);
+      if (contentRef.current) {
+        contentRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
   };
 
   const handleLogout = () => {
     sessionStorage.removeItem('adminPassword');
+    setPasswordInput(''); // Limpiar el cuadro de texto al cerrar sesión
     setIsAuthenticated(false);
   };
 
@@ -377,19 +392,31 @@ const AdminPanel = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSaveSection = async (section) => {
     setIsSaving(true);
     setMessage('');
+    
+    // Preparar los datos de la sección. Algunos tabs manejan dos secciones del objeto content.
+    let sectionsToUpdate = [section];
+    if (section === 'general') sectionsToUpdate = ['general', 'contact'];
 
-    const result = await updateContent(formData);
-
-    setIsSaving(false);
-    if (result.success) {
-      setMessage('¡Cambios guardados con éxito! Puedes verlos en la página principal.');
-      setTimeout(() => setMessage(''), 3000);
-    } else {
-      setMessage('Error al guardar: ' + result.error);
+    try {
+      for (const s of sectionsToUpdate) {
+        const result = await updateContentSection(s, formData[s]);
+        if (!result.success) {
+          setMessage(`Error al guardar sección ${s}: ${result.error}`);
+          setIsSaving(false);
+          return;
+        }
+      }
+      setMessage('✅ Sección guardada correctamente.');
+    } catch (err) {
+      setMessage('❌ Error al procesar el guardado.');
+    } finally {
+      setIsSaving(false);
+      if (contentRef.current) {
+        contentRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
   };
 
@@ -434,21 +461,20 @@ const AdminPanel = () => {
         
         {mobileMenuOpen && <div className="admin-sidebar-overlay" onClick={() => setMobileMenuOpen(false)}></div>}
 
-        <div className="admin-content">
+        <div className="admin-content" ref={contentRef} style={{ position: 'relative' }}>
           {message && (
-            <div className={`admin-message ${message.includes('Error') ? 'error' : 'success'}`}>
-              {message}
+            <div className={`admin-message ${message.includes('Error') || message.includes('❌') ? 'error' : 'success'}`}>
+              {message.includes('❌') || message.includes('Error') ? '⚠️' : '✅'} {message.replace('✅ ', '').replace('❌ ', '')}
             </div>
           )}
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={(e) => e.preventDefault()}>
 
             {/* GENERAL & CONTACT TAB */}
             {activeTab === 'general' && (
               <div className="admin-section animate-fade-in">
                 <h2>Información General</h2>
 
-                {/* Cloudinary folder config */}
                 <div className="form-group" style={{ background: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: '8px', padding: '1rem', marginBottom: '1.5rem' }}>
                   <label style={{ color: '#0369a1', fontWeight: 700 }}>📁 Carpeta en Cloudinary (para imágenes de este cliente)</label>
                   <input
@@ -483,7 +509,7 @@ const AdminPanel = () => {
                     </button>
                     {uploadingField === 'logo' && <small style={{ color: '#0369a1', width: '100%' }}>⏳ Subiendo a Cloudinary...</small>}
                   </div>
-                  <small style={{ color: 'var(--color-text-muted)' }}>Recomendado: Imagen en formato PNG con fondo transparente.</small>
+                  <small style={{ color: '#64748b' }}>Recomendado: Imagen en formato PNG con fondo transparente.</small>
                   {formData.general.logoImage && (
                     <div style={{ marginTop: '1rem', padding: '1rem', backgroundColor: '#f1f5f9', borderRadius: '4px', display: 'inline-block' }}>
                       <img src={formData.general.logoImage} alt="Logo Preview" style={{ maxHeight: '60px', objectFit: 'contain' }} />
@@ -646,6 +672,12 @@ const AdminPanel = () => {
                     Mostrar Teléfono 2
                   </label>
                 </div>
+                
+                <div className="section-save-container" style={{ marginTop: '2rem' }}>
+                  <button type="button" className="btn btn-primary" onClick={() => handleSaveSection('general')} disabled={isSaving}>
+                    {isSaving ? 'Guardando...' : '💾 Guardar General & Contacto'}
+                  </button>
+                </div>
               </div>
             )}
 
@@ -704,10 +736,10 @@ const AdminPanel = () => {
                     type="button" 
                     className="btn btn-primary" 
                     onClick={handleUpdateSecurity}
-                    disabled={isSaving || !securityData.newPassword || !securityData.securityQuestion || !securityData.securityAnswer}
-                    style={{ marginTop: '1rem' }}
+                    disabled={isSaving}
+                    style={{ marginTop: '1rem', width: '100%', padding: '1rem' }}
                   >
-                    {isSaving ? 'Guardando...' : 'Actualizar Seguridad'}
+                    {isSaving ? '⏳ Guardando cambios...' : '🔒 Guardar Configuración de Seguridad'}
                   </button>
                 </div>
               </div>
@@ -745,6 +777,12 @@ const AdminPanel = () => {
                   {formData.hero.backgroundImage && (
                     <img src={formData.hero.backgroundImage} alt="Preview" className="img-preview" />
                   )}
+                </div>
+
+                <div className="section-save-container">
+                  <button type="button" className="btn btn-primary" onClick={() => handleSaveSection('hero')} disabled={isSaving}>
+                    {isSaving ? 'Guardando...' : '💾 Guardar Sección Hero'}
+                  </button>
                 </div>
               </div>
             )}
@@ -785,6 +823,12 @@ const AdminPanel = () => {
                   {formData.about.image && (
                     <img src={formData.about.image} alt="Preview" className="img-preview" />
                   )}
+                </div>
+
+                <div className="section-save-container">
+                  <button type="button" className="btn btn-primary" onClick={() => handleSaveSection('about')} disabled={isSaving}>
+                    {isSaving ? 'Guardando...' : '💾 Guardar Quiénes Somos'}
+                  </button>
                 </div>
               </div>
             )}
@@ -841,6 +885,20 @@ const AdminPanel = () => {
                       </div>
                     </div>
                   ))}
+                </div>
+
+                <button
+                  type="button"
+                  className="btn btn-add-item"
+                  onClick={() => handleAddArrayItem('trade', 'products', { name: 'Nuevo Producto', description: '', image: '' })}
+                >
+                  ＋ Agregar Producto
+                </button>
+
+                <div className="section-save-container" style={{ marginTop: '2rem' }}>
+                  <button type="button" className="btn btn-primary" onClick={() => handleSaveSection('trade')} disabled={isSaving}>
+                    {isSaving ? 'Guardando...' : '💾 Guardar Área Comercial'}
+                  </button>
                 </div>
               </div>
             )}
@@ -963,6 +1021,12 @@ const AdminPanel = () => {
                 >
                   ＋ Agregar Servicio Financiero
                 </button>
+
+                <div className="section-save-container" style={{ marginTop: '2rem' }}>
+                  <button type="button" className="btn btn-primary" onClick={() => handleSaveSection('financial')} disabled={isSaving}>
+                    {isSaving ? 'Guardando...' : '💾 Guardar Área Financiera'}
+                  </button>
+                </div>
               </div>
             )}
 
@@ -1046,14 +1110,16 @@ const AdminPanel = () => {
                 >
                   ＋ Agregar Aliado
                 </button>
+
+                <div className="section-save-container" style={{ marginTop: '2rem' }}>
+                  <button type="button" className="btn btn-primary" onClick={() => handleSaveSection('allies')} disabled={isSaving}>
+                    {isSaving ? 'Guardando...' : '💾 Guardar Aliados'}
+                  </button>
+                </div>
               </div>
             )}
 
-            <div className="admin-actions">
-              <button type="submit" className="btn btn-primary" disabled={isSaving}>
-                {isSaving ? 'Guardando...' : 'Guardar Cambios'}
-              </button>
-            </div>
+            {/* Ya no hay botón global aquí */}
           </form>
         </div>
       </div>

@@ -217,6 +217,25 @@ app.get('/api/admin/security-question', async (req, res) => {
   }
 });
 
+// Helper to authorize requests (works with hash or env password)
+const ensureAuthorized = async (authHeader) => {
+  if (!authHeader) return false;
+  const password = authHeader.replace('Bearer ', '');
+  
+  // Try ENV password
+  if (password === ADMIN_PASSWORD) return true;
+  
+  // Try DB hash
+  const isConnected = await ensureConnected();
+  if (isConnected) {
+    const data = await Content.findOne({ documentId: CLIENT_ID });
+    if (data && data.adminConfig && data.adminConfig.passwordHash) {
+      return await bcrypt.compare(password, data.adminConfig.passwordHash);
+    }
+  }
+  return false;
+};
+
 // Recover Password (via security question)
 app.post('/api/admin/recover-password', async (req, res) => {
   try {
@@ -245,12 +264,60 @@ app.post('/api/admin/recover-password', async (req, res) => {
   }
 });
 
-// Update content
+// Update content by section (Partial)
+app.patch('/api/content/:section', async (req, res) => {
+  try {
+    const { section } = req.params;
+    const sectionData = req.body;
+    const isAuthorized = await ensureAuthorized(req.headers.authorization);
+    
+    if (!isAuthorized) {
+      return res.status(401).json({ error: 'No autorizado.' });
+    }
+
+    const isConnected = await ensureConnected();
+    if (isConnected) {
+      const updateObj = {};
+      updateObj[section] = sectionData;
+
+      // Handle translations if needed (simplified here)
+      const data = await Content.findOneAndUpdate(
+        { documentId: CLIENT_ID },
+        { $set: updateObj },
+        { returnDocument: 'after', upsert: true }
+      );
+
+      // Actualizar backup local si es posible
+      try {
+        const clientSeedPath = path.join(__dirname, 'seeds', `${CLIENT_ID}.json`);
+        let currentFullContent = {};
+        if (fs.existsSync(clientSeedPath)) {
+          currentFullContent = JSON.parse(fs.readFileSync(clientSeedPath, 'utf8'));
+        }
+        currentFullContent[section] = sectionData;
+        fs.writeFileSync(clientSeedPath, JSON.stringify(currentFullContent, null, 2), 'utf8');
+      } catch (e) {}
+
+      res.json({ success: true, message: `Sección ${section} actualizada`, data });
+    } else {
+      // Escritura local pura si no hay DB
+      const currentFullContent = JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
+      currentFullContent[section] = sectionData;
+      fs.writeFileSync(DB_FILE, JSON.stringify(currentFullContent, null, 2), 'utf8');
+      res.json({ success: true, message: `Sección ${section} actualizada localmente` });
+    }
+  } catch (err) {
+    console.error(`Update ${req.params.section} error:`, err);
+    res.status(500).json({ error: 'Error al actualizar la sección' });
+  }
+});
+
+// Update content (Full)
 app.post('/api/content', async (req, res) => {
   try {
-    const authHeader = req.headers.authorization;
-    if (authHeader !== `Bearer ${ADMIN_PASSWORD}`) {
-      return res.status(401).json({ error: 'No autorizado. Contraseña incorrecta.' });
+    const isAuthorized = await ensureAuthorized(req.headers.authorization);
+    if (!isAuthorized) {
+      return res.status(401).json({ error: 'No autorizado.' });
     }
 
     const newContent = req.body;

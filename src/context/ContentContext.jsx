@@ -87,6 +87,36 @@ export const ContentProvider = ({ children }) => {
     }
   };
 
+  const updateContentSection = async (section, sectionData) => {
+    try {
+      const password = sessionStorage.getItem('adminPassword');
+      const response = await fetch(`/api/content/${section}`, {
+        method: 'PATCH',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${password}`
+        },
+        body: JSON.stringify(sectionData)
+      });
+      
+      if (!response.ok) {
+        if (response.status === 401) throw new Error('Contraseña incorrecta o sesión expirada');
+        throw new Error('Failed to update section');
+      }
+      
+      // Actualizar el estado local fusionando el cambio
+      setContent(prev => ({
+        ...prev,
+        [section]: sectionData
+      }));
+      
+      return { success: true };
+    } catch (err) {
+      console.error(`Error updating section ${section}:`, err);
+      return { success: false, error: err.message };
+    }
+  };
+
   const [activeService, setActiveService] = useState(null);
 
   useEffect(() => {
@@ -99,6 +129,7 @@ export const ContentProvider = ({ children }) => {
       loading, 
       error, 
       updateContent, 
+      updateContentSection,
       fetchContent,
       activeService,
       setActiveService,
