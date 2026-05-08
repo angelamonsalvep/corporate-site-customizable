@@ -1,6 +1,8 @@
 /* Fix navbar overlap - scroll offset */
 .about {
   scroll-margin-top: 80px;
+  padding-top: 2rem !important; /* Fuerza una reducción fuerte del espacio arriba */
+  padding-bottom: 4rem;
 }
 
 .about-grid {
@@ -110,13 +112,11 @@
 }
 
 .stat-item h3 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 800;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 0.4rem;
+  color: var(--color-primary); /* Color sólido para evitar completamente el bug visual del clip de WebKit con Montserrat */
+  margin-bottom: 0.2rem;
+  line-height: 1.1;
 }
 
 .stat-item p {

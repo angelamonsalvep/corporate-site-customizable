@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Montserrat:wght@500;600;700&display=swap');
 
 :root {
   /* Corporate Color Palette - Deep Blue and Gold */
@@ -14,8 +14,8 @@
   --color-text-light: #FFFFFF;
 
   /* Typography */
-  --font-heading: 'Playfair Display', serif;
-  --font-body: 'Inter', sans-serif;
+  --font-heading: 'Montserrat', sans-serif;
+  --font-body: 'Outfit', sans-serif;
 
   /* Layout & Animations */
   --max-width: 1200px;
