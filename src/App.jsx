@@ -20,6 +20,7 @@ function MainSite() {
 
   return (
     <>
+      <FloatingContact />
       <Navbar />
       <main>
         <Hero />
@@ -28,7 +29,6 @@ function MainSite() {
         <Allies />
         <Contact />
       </main>
-      <FloatingContact />
       <Footer />
     </>
   );

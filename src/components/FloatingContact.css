@@ -1,28 +1,26 @@
 .floating-contact {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  display: flex;
-  flex-direction: column-reverse; /* Toggle button at bottom */
-  align-items: flex-end;
-  gap: 1rem;
-  z-index: 1000;
+  position: fixed !important;
+  bottom: 20px !important; /* Distancia constante del suelo */
+  bottom: calc(20px + env(safe-area-inset-bottom)) !important; /* Ajuste para iPhones modernos */
+  right: 20px !important;
+  z-index: 999999 !important;
+  top: auto !important; /* Nos aseguramos de NO tener top */
 }
 
 /* Toggle Button */
 .floating-btn.main-toggle {
-  width: 60px;
-  height: 60px;
-  background-color: #25D366;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  z-index: 2;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 55px !important;
+  height: 55px !important;
+  background-color: #25D366 !important;
+  border-radius: 50% !important;
+  border: none !important;
+  cursor: pointer !important;
+  z-index: 2 !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .floating-btn.main-toggle .icon-wrapper {
@@ -46,7 +44,7 @@
 }
 
 .floating-btn.main-toggle.active {
-  background-color: #ef4444; /* Red when open */
+  background-color: #ef4444 !important;
 }
 
 .floating-btn.main-toggle.active .wa-icon {
@@ -61,9 +59,13 @@
 
 /* Contact Menu */
 .contact-menu {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  position: absolute !important;
+  bottom: 100% !important; /* Esto lo obliga a salir hacia ARRIBA del botón */
+  right: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.75rem !important;
+  padding-bottom: 1rem !important; /* Espacio entre el botón y el menú */
   opacity: 0;
   visibility: hidden;
   transform: translateY(20px);
@@ -125,22 +127,4 @@
   color: #64748b;
   font-size: 0.75rem;
   font-weight: 500;
-}
-
-/* Mobile adjustments */
-@media (max-width: 768px) {
-  .floating-contact {
-    bottom: 1.5rem;
-    right: 1.5rem;
-  }
-  
-  .floating-btn.main-toggle {
-    width: 54px;
-    height: 54px;
-  }
-
-  .menu-item {
-    padding: 0.6rem 0.8rem;
-    min-width: 160px;
-  }
 }
