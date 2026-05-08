@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useContext } from 'react';
-import { translations } from '../translations/index.js'; // Importación explícita con extensión
+import { translations as dictSource } from '../translations/index.js';
 
 const ContentContext = createContext();
 
@@ -10,9 +10,18 @@ export const ContentProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
-  // Inicializar idioma desde localStorage o defecto a 'en' (Inglés por defecto)
+  // Diccionario garantizado
+  const translations = dictSource || {};
+  
+  // Inicializar idioma con validación reforzada
   const [language, setLanguage] = useState(() => {
-    return localStorage.getItem('siteLanguage') || 'en';
+    try {
+      const saved = localStorage.getItem('siteLanguage');
+      if (saved && translations[saved]) return saved;
+      return 'en'; // Inglés como idioma universal por defecto
+    } catch (e) {
+      return 'en';
+    }
   });
 
   // Guardar idioma cuando cambie
@@ -20,20 +29,34 @@ export const ContentProvider = ({ children }) => {
     localStorage.setItem('siteLanguage', language);
   }, [language]);
 
-  // Función de traducción ultra-segura
+  // Función de traducción ultra-segura mejorada
   const t = (path) => {
     try {
-      if (!translations || !language || !translations[language]) {
-        return path;
-      }
+      const currentLang = language || 'en';
+      // Buscar en el idioma actual, o fallback a español, o fallback a inglés
+      const dict = translations[currentLang] || translations['es'] || translations['en'];
       
+      if (!dict) return path;
+
       const keys = path.split('.');
-      let result = translations[language];
+      let result = dict;
       
       for (const key of keys) {
         if (result && result[key]) {
           result = result[key];
         } else {
+          // Si no encuentra la llave en el idioma actual, intentar en español
+          if (currentLang !== 'es' && translations['es']) {
+            let fallbackResult = translations['es'];
+            for (const fallbackKey of keys) {
+              if (fallbackResult && fallbackResult[fallbackKey]) {
+                fallbackResult = fallbackResult[fallbackKey];
+              } else {
+                return path;
+              }
+            }
+            return fallbackResult;
+          }
           return path;
         }
       }
