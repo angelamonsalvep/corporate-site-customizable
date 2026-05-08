@@ -2,7 +2,7 @@ import { useContent } from '../context/ContentContext';
 import './Allies.css';
 
 const Allies = () => {
-  const { content, t, language } = useContent();
+  const { content, t, language, translate } = useContent();
 
   if (!content || !content.allies || !content.allies.items || content.allies.items.length === 0) {
     return null; // No mostrar si no hay aliados configurados
@@ -12,15 +12,8 @@ const Allies = () => {
 
   if (visibleAllies.length === 0) return null;
 
-  // Usa las traducciones dinámicas de la base de datos
-  const getTranslatedText = (originalText, translationsObj) => {
-    if (language === 'es') return originalText;
-    if (translationsObj && translationsObj[language]) return translationsObj[language];
-    return originalText;
-  };
-
-  const sectionTitle = getTranslatedText(content.allies.title, content.allies.title_translations) || t('allies.title');
-  const sectionDesc = getTranslatedText(content.allies.description, content.allies.description_translations) || t('allies.desc');
+  const sectionTitle = translate(content.allies, 'title', 'allies.title');
+  const sectionDesc = translate(content.allies, 'description', 'allies.desc');
 
   return (
     <section className="section allies" id="allies">
@@ -32,8 +25,8 @@ const Allies = () => {
 
         <div className="allies-grid">
           {visibleAllies.map((ally, index) => {
-            const allyName = getTranslatedText(ally.name, ally.name_translations);
-            const allyDesc = getTranslatedText(ally.description, ally.description_translations);
+            const allyName = translate(ally, 'name', null);
+            const allyDesc = translate(ally, 'description', null);
             
             // Formateador inteligente para descripciones largas
             const formatText = (text) => {

@@ -3,17 +3,22 @@ const mongoose = require('mongoose');
 const ProductSchema = new mongoose.Schema({
   id: String,
   name: String,
+  name_translations: { type: Object, default: {} },
   description: String,
+  description_translations: { type: Object, default: {} },
   image: String
 });
 
 const ServiceSchema = new mongoose.Schema({
   id: String,
   name: String,
+  name_translations: { type: Object, default: {} },
   description: String,
+  description_translations: { type: Object, default: {} },
   image: String,
   visible: { type: Boolean, default: true },
-  items: [String]
+  items: [String],
+  items_translations: { type: Object, default: {} } // Object mapping lang -> array of strings
 });
 
 const ContentSchema = new mongoose.Schema({
@@ -27,22 +32,30 @@ const ContentSchema = new mongoose.Schema({
   },
   hero: {
     title: String,
+    title_translations: { type: Object, default: {} },
     subtitle: String,
+    subtitle_translations: { type: Object, default: {} },
     backgroundImage: String
   },
   about: {
     title: String,
+    title_translations: { type: Object, default: {} },
     description: [String],
+    description_translations: { type: Object, default: {} }, // lang -> array
     image: String
   },
   trade: {
     title: String,
+    title_translations: { type: Object, default: {} },
     description: String,
+    description_translations: { type: Object, default: {} },
     products: [ProductSchema]
   },
   financial: {
     title: String,
+    title_translations: { type: Object, default: {} },
     description: String,
+    description_translations: { type: Object, default: {} },
     services: [ServiceSchema]
   },
   contact: {

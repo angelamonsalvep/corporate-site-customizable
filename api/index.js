@@ -77,6 +77,47 @@ const translateObject = async (text) => {
   return results;
 };
 
+const fieldsToTranslate = [
+  'title', 'subtitle', 'description', 'ctaText', 'content', 'name', 
+  'whatsappLabel', 'secondaryWhatsappLabel', 'whatsappMessage', 'secondaryWhatsappMessage'
+];
+
+async function recursiveTranslate(obj) {
+  if (!obj || typeof obj !== 'object') return obj;
+
+  // Handle arrays
+  if (Array.isArray(obj)) {
+    for (let i = 0; i < obj.length; i++) {
+      obj[i] = await recursiveTranslate(obj[i]);
+    }
+    return obj;
+  }
+
+  for (const key in obj) {
+    const val = obj[key];
+
+    // Translate string fields
+    if (fieldsToTranslate.includes(key) && typeof val === 'string' && val.trim() !== '') {
+      obj[`${key}_translations`] = await translateObject(val);
+    }
+
+    // Special case for 'items' array of strings
+    if (key === 'items' && Array.isArray(val) && val.length > 0 && typeof val[0] === 'string') {
+      const transMap = {};
+      for (const lang of targetLangs) {
+        transMap[lang] = await Promise.all(val.map(item => translateText(item, lang)));
+      }
+      obj['items_translations'] = transMap;
+    }
+
+    // Recurse into nested objects or arrays
+    if (val && typeof val === 'object' && !key.endsWith('_translations')) {
+      obj[key] = await recursiveTranslate(val);
+    }
+  }
+  return obj;
+}
+
 // Connection helper for Serverless
 async function ensureConnected() {
   if (mongoose.connection.readyState === 1) return true;
@@ -287,21 +328,8 @@ app.patch('/api/content/:section', async (req, res) => {
 
     const isConnected = await ensureConnected();
     if (isConnected) {
-      // Auto-translate if it's the contact section
-      if (section === 'contact') {
-        if (sectionData.whatsappLabel) {
-          sectionData.whatsappLabel_translations = await translateObject(sectionData.whatsappLabel);
-        }
-        if (sectionData.secondaryWhatsappLabel) {
-          sectionData.secondaryWhatsappLabel_translations = await translateObject(sectionData.secondaryWhatsappLabel);
-        }
-        if (sectionData.whatsappMessage) {
-          sectionData.whatsappMessage_translations = await translateObject(sectionData.whatsappMessage);
-        }
-        if (sectionData.secondaryWhatsappMessage) {
-          sectionData.secondaryWhatsappMessage_translations = await translateObject(sectionData.secondaryWhatsappMessage);
-        }
-      }
+      // Auto-translate entire section recursively
+      await recursiveTranslate(sectionData);
 
       const updateObj = {};
       updateObj[section] = sectionData;

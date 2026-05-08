@@ -44,6 +44,39 @@ export const ContentProvider = ({ children }) => {
     }
   };
 
+  // Global translation resolver for DB-driven content
+  const translate = (parentObj, field, staticFallbackKey) => {
+    if (!parentObj) return t(staticFallbackKey);
+    
+    const transField = `${field}_translations`;
+    if (parentObj[transField] && parentObj[transField][language]) {
+      return parentObj[transField][language];
+    }
+    
+    // If language is ES (source) and field exists, use it
+    if (language === 'es' && parentObj[field]) {
+      return parentObj[field];
+    }
+    
+    // Fallback to static translations
+    return staticFallbackKey ? t(staticFallbackKey) : (parentObj[field] || '');
+  };
+
+  const translateArray = (parentObj, field, staticFallbackKey) => {
+    if (!parentObj) return t(staticFallbackKey) || [];
+    
+    const transField = `${field}_translations`;
+    if (parentObj[transField] && parentObj[transField][language]) {
+      return parentObj[transField][language];
+    }
+    
+    if (language === 'es' && parentObj[field]) {
+      return parentObj[field];
+    }
+    
+    return staticFallbackKey ? t(staticFallbackKey) : (parentObj[field] || []);
+  };
+
   const fetchContent = async () => {
     try {
       const response = await fetch('/api/content');
@@ -135,7 +168,9 @@ export const ContentProvider = ({ children }) => {
       setActiveService,
       language,
       setLanguage,
-      t
+      t,
+      translate,
+      translateArray
     }}>
       {children}
     </ContentContext.Provider>

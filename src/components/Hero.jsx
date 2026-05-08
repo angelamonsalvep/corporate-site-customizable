@@ -3,40 +3,22 @@ import { useContent } from '../context/ContentContext';
 import './Hero.css';
 
 const Hero = () => {
-  const { content: siteContent, setActiveService, t } = useContent();
+  const contextValues = useContent();
+  const { content: siteContent, setActiveService, t, translate } = contextValues;
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Construir las diapositivas dinámicamente basadas en servicios
   const slides = useMemo(() => {
     if (!siteContent) return [];
     
+    const { translate, t } = contextValues;
     const serviceSlides = [];
-    
-    // Funciones de mapeo para traducciones consistentes
-    const getProductInfo = (id) => {
-      const map = { 'coffee': 'p1', 'sugar': 'p2', 'fuel': 'p3', 'others': 'p4' };
-      const key = map[id] || 'p4';
-      return { name: t(`trade.${key}_name`), desc: t(`trade.${key}_desc`) };
-    };
-
-    const getServiceInfo = (id) => {
-      const map = {
-        'f1': 's1',
-        's1777719342098': 's2',
-        's1777719558685': 's3',
-        's1777719822396': 's4',
-        's1777719994862': 's5',
-        's1777720233999': 's6'
-      };
-      const key = map[id] || 's1';
-      return { name: t(`financial.${key}_name`), desc: t(`financial.${key}_desc`) };
-    };
     
     // Slide inicial (General)
     serviceSlides.push({
       id: 'home',
-      title: t('hero.mainTitle'),
-      subtitle: t('hero.mainSubtitle'),
+      title: translate(siteContent.hero, 'title', 'hero.mainTitle'),
+      subtitle: translate(siteContent.hero, 'subtitle', 'hero.mainSubtitle'),
       image: siteContent.hero.backgroundImage,
       type: 'general'
     });
@@ -44,11 +26,14 @@ const Hero = () => {
     // Slides de Comercio
     siteContent.trade.products.forEach(p => {
       if (p.image) {
-        const info = getProductInfo(p.id);
+        // Encontrar la info estática para fallback si es necesario
+        const map = { 'coffee': 'p1', 'sugar': 'p2', 'fuel': 'p3', 'others': 'p4' };
+        const staticKey = map[p.id] || 'p4';
+        
         serviceSlides.push({
           id: p.id,
-          title: info.name,
-          subtitle: info.desc,
+          title: translate(p, 'name', `trade.${staticKey}_name`),
+          subtitle: translate(p, 'description', `trade.${staticKey}_desc`),
           image: p.image,
           tag: t('hero.tradeArea'),
           type: 'trade'
@@ -59,11 +44,20 @@ const Hero = () => {
     // Slides Financieros
     siteContent.financial.services.forEach(s => {
       if (s.image && s.visible !== false) {
-        const info = getServiceInfo(s.id);
+        const map = {
+          'f1': 's1',
+          's1777719342098': 's2',
+          's1777719558685': 's3',
+          's1777719822396': 's4',
+          's1777719994862': 's5',
+          's1777720233999': 's6'
+        };
+        const staticKey = map[s.id] || 's1';
+
         serviceSlides.push({
           id: s.id,
-          title: info.name,
-          subtitle: info.desc,
+          title: translate(s, 'name', `financial.${staticKey}_name`),
+          subtitle: translate(s, 'description', `financial.${staticKey}_desc`),
           image: s.image,
           tag: t('hero.financialArea'),
           type: 'financial'
@@ -72,7 +66,7 @@ const Hero = () => {
     });
 
     return serviceSlides;
-  }, [siteContent, t]);
+  }, [siteContent, contextValues]);
 
   useEffect(() => {
     if (slides.length <= 1) return;

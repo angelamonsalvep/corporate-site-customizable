@@ -2,8 +2,13 @@ import { useContent } from '../context/ContentContext';
 import './About.css';
 
 const About = () => {
-  const { content: siteContent, t } = useContent();
+  const { content: siteContent, t, translate, translateArray } = useContent();
   if (!siteContent) return null;
+
+  // Resolve paragraphs from DB or static
+  const pList = translateArray(siteContent.about, 'description', null);
+  const p1 = pList[0] || t('about.p1');
+  const p2 = pList[1] || t('about.p2');
 
   return (
     <section className="section about" id="about">
@@ -16,11 +21,11 @@ const About = () => {
               {siteContent.general.logoImage && (
                 <img src={siteContent.general.logoImage} alt="" className="about-title-logo" />
               )}
-              <h2 className="section-title-left">{t('about.title')}</h2>
+              <h2 className="section-title-left">{translate(siteContent.about, 'title', 'about.title')}</h2>
             </div>
             <div className="about-text">
-              <p>{t('about.p1')}</p>
-              <p>{t('about.p2')}</p>
+              <p>{p1}</p>
+              <p>{p2}</p>
             </div>
 
             <div className="about-highlights">

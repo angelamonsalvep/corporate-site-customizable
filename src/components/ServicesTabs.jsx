@@ -3,7 +3,7 @@ import { useContent } from '../context/ContentContext';
 import './ServicesTabs.css';
 
 const ServicesTabs = () => {
-  const { content: siteContent, activeService, setActiveService, t } = useContent();
+  const { content: siteContent, activeService, setActiveService, t, translate, translateArray } = useContent();
   const [activeTab, setActiveTab] = useState('trade'); // 'trade' or 'financial'
   const [selectedService, setSelectedService] = useState(null);
 
@@ -24,21 +24,16 @@ const ServicesTabs = () => {
     }
   }, [activeService, siteContent, setActiveService]);
 
-  const getProductInfo = (id) => {
-    const map = {
-      'coffee': 'p1',
-      'sugar': 'p2',
-      'fuel': 'p3',
-      'others': 'p4'
-    };
-    const key = map[id] || 'p4';
+  const getProductInfo = (p) => {
+    const map = { 'coffee': 'p1', 'sugar': 'p2', 'fuel': 'p3', 'others': 'p4' };
+    const staticKey = map[p.id] || 'p4';
     return {
-      name: t(`trade.${key}_name`),
-      desc: t(`trade.${key}_desc`)
+      name: translate(p, 'name', `trade.${staticKey}_name`),
+      desc: translate(p, 'description', `trade.${staticKey}_desc`)
     };
   };
 
-  const getServiceInfo = (id) => {
+  const getServiceInfo = (s) => {
     const map = {
       'f1': 's1',
       's1777719342098': 's2',
@@ -47,11 +42,11 @@ const ServicesTabs = () => {
       's1777719994862': 's5',
       's1777720233999': 's6'
     };
-    const key = map[id] || 's1';
+    const staticKey = map[s.id] || 's1';
     return {
-      name: t(`financial.${key}_name`),
-      desc: t(`financial.${key}_desc`),
-      items: t(`financial.${key}_items`) || []
+      name: translate(s, 'name', `financial.${staticKey}_name`),
+      desc: translate(s, 'description', `financial.${staticKey}_desc`),
+      items: translateArray(s, 'items', `financial.${staticKey}_items`) || []
     };
   };
 
@@ -98,7 +93,7 @@ const ServicesTabs = () => {
                 
                 <div className="products-grid">
                   {siteContent.trade.products.map(product => {
-                    const info = getProductInfo(product.id);
+                    const info = getProductInfo(product);
                     return (
                       <div className="product-card" key={product.id}>
                         <div className="product-image">
@@ -124,7 +119,7 @@ const ServicesTabs = () => {
 
                 <div className="services-grid">
                   {siteContent.financial.services.filter(s => s.visible !== false).map(service => {
-                    const info = getServiceInfo(service.id);
+                    const info = getServiceInfo(service);
                     return (
                       <div 
                         className="service-card clickable" 
@@ -164,7 +159,7 @@ const ServicesTabs = () => {
 
       {/* Modal de Detalles de Servicio */}
       {selectedService && (() => {
-        const info = getServiceInfo(selectedService.id);
+        const info = getServiceInfo(selectedService);
         return (
           <div className="service-modal-overlay" onClick={handleCloseModal}>
             <div className="service-modal" onClick={e => e.stopPropagation()}>

@@ -515,8 +515,8 @@ export const translations = {
       formSending: 'Enviando...',
       success: 'Mensagem enviada com sucesso! Entraremos em contato em breve.',
       error: 'Ocorreu un erro ao enviar a mensagem. Por favor, tente novamente.',
-      whatsappPrimary: 'Atendimento Geral',
-      whatsappSecondary: 'Informação e Suporte'
+      whatsappPrimary: 'Linha Principal',
+      whatsappSecondary: 'Linha Secundária'
     },
     footer: {
       nav: 'Navegação',
@@ -663,8 +663,8 @@ export const translations = {
       formSending: 'Envoi...',
       success: 'Message envoyé avec succès ! Nous vous contacterons bientôt.',
       error: 'Une erreur s\'est produite lors de l\'envoi du message. Veuillez réessayer.',
-      whatsappPrimary: 'Service Général',
-      whatsappSecondary: 'Info & Support'
+      whatsappPrimary: 'Ligne Principale',
+      whatsappSecondary: 'Ligne Secondaire'
     },
     footer: {
       nav: 'Navigation',
