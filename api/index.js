@@ -15,6 +15,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const Content = require('./models/Content');
+const bcrypt = require('bcryptjs');
 const cloudinary = require('cloudinary').v2;
 
 cloudinary.config({
@@ -126,12 +127,121 @@ app.get('/api/content', async (req, res) => {
 });
 
 // Verify Password endpoint
-app.post('/api/verify-password', (req, res) => {
-  const { password } = req.body;
-  if (password === ADMIN_PASSWORD) {
-    res.json({ success: true });
-  } else {
-    res.status(401).json({ success: false, error: 'Contraseña incorrecta' });
+app.post('/api/verify-password', async (req, res) => {
+  try {
+    const { password } = req.body;
+    const isConnected = await ensureConnected();
+
+    if (isConnected) {
+      const data = await Content.findOne({ documentId: CLIENT_ID });
+      
+      // Si existe configuración de admin en la DB, usar esa
+      if (data && data.adminConfig && data.adminConfig.passwordHash) {
+        const isMatch = await bcrypt.compare(password, data.adminConfig.passwordHash);
+        if (isMatch) return res.json({ success: true });
+      }
+    }
+
+    // Fallback a la contraseña de .env (primera vez o sin DB)
+    if (password === ADMIN_PASSWORD) {
+      res.json({ success: true });
+    } else {
+      res.status(401).json({ success: false, error: 'Contraseña incorrecta' });
+    }
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ success: false, error: 'Error en el servidor' });
+  }
+});
+
+// Setup Admin Security (Change password and setup question)
+app.post('/api/admin/setup-security', async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (authHeader !== `Bearer ${ADMIN_PASSWORD}`) {
+      // Intentar validar con la contraseña encriptada actual si ya existe
+      const isConnected = await ensureConnected();
+      if (isConnected) {
+        const data = await Content.findOne({ documentId: CLIENT_ID });
+        if (data && data.adminConfig && data.adminConfig.passwordHash) {
+          const isAuthorized = await bcrypt.compare(authHeader.replace('Bearer ', ''), data.adminConfig.passwordHash);
+          if (!isAuthorized) return res.status(401).json({ error: 'No autorizado' });
+        } else if (authHeader !== `Bearer ${ADMIN_PASSWORD}`) {
+           return res.status(401).json({ error: 'No autorizado' });
+        }
+      } else {
+        return res.status(401).json({ error: 'No autorizado' });
+      }
+    }
+
+    const { newPassword, securityQuestion, securityAnswer } = req.body;
+    const isConnected = await ensureConnected();
+    if (!isConnected) return res.status(500).json({ error: 'Database not connected' });
+
+    const passwordHash = await bcrypt.hash(newPassword, 10);
+    const securityAnswerHash = await bcrypt.hash(securityAnswer.toLowerCase().trim(), 10);
+
+    await Content.findOneAndUpdate(
+      { documentId: CLIENT_ID },
+      { 
+        $set: { 
+          'adminConfig.passwordHash': passwordHash,
+          'adminConfig.securityQuestion': securityQuestion,
+          'adminConfig.securityAnswerHash': securityAnswerHash
+        }
+      },
+      { upsert: true }
+    );
+
+    res.json({ success: true, message: 'Seguridad configurada correctamente' });
+  } catch (error) {
+    console.error('Setup security error:', error);
+    res.status(500).json({ error: 'Error al configurar seguridad' });
+  }
+});
+
+// Get Security Question (for recovery)
+app.get('/api/admin/security-question', async (req, res) => {
+  try {
+    const isConnected = await ensureConnected();
+    if (!isConnected) return res.status(500).json({ error: 'Database not connected' });
+
+    const data = await Content.findOne({ documentId: CLIENT_ID });
+    if (data && data.adminConfig && data.adminConfig.securityQuestion) {
+      res.json({ success: true, question: data.adminConfig.securityQuestion });
+    } else {
+      res.status(404).json({ success: false, error: 'No se ha configurado una pregunta de seguridad' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Error del servidor' });
+  }
+});
+
+// Recover Password (via security question)
+app.post('/api/admin/recover-password', async (req, res) => {
+  try {
+    const { answer, newPassword } = req.body;
+    const isConnected = await ensureConnected();
+    if (!isConnected) return res.status(500).json({ error: 'Database not connected' });
+
+    const data = await Content.findOne({ documentId: CLIENT_ID });
+    if (!data || !data.adminConfig || !data.adminConfig.securityAnswerHash) {
+      return res.status(400).json({ error: 'Configuración de seguridad no encontrada' });
+    }
+
+    const isMatch = await bcrypt.compare(answer.toLowerCase().trim(), data.adminConfig.securityAnswerHash);
+    if (!isMatch) return res.status(401).json({ error: 'Respuesta incorrecta' });
+
+    const newPasswordHash = await bcrypt.hash(newPassword, 10);
+    await Content.findOneAndUpdate(
+      { documentId: CLIENT_ID },
+      { $set: { 'adminConfig.passwordHash': newPasswordHash } }
+    );
+
+    res.json({ success: true, message: 'Contraseña restablecida correctamente' });
+  } catch (error) {
+    console.error('Recovery error:', error);
+    res.status(500).json({ error: 'Error al restablecer contraseña' });
   }
 });
 

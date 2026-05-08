@@ -21,6 +21,22 @@ const AdminPanel = () => {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Recovery related state
+  const [showRecovery, setShowRecovery] = useState(false);
+  const [securityQuestion, setSecurityQuestion] = useState('');
+  const [recoveryAnswer, setRecoveryAnswer] = useState('');
+  const [newPasswordRecovery, setNewPasswordRecovery] = useState('');
+  const [recoveryError, setRecoveryError] = useState('');
+  const [recoverySuccess, setRecoverySuccess] = useState('');
+
+  // Security tab state
+  const [securityData, setSecurityData] = useState({
+    newPassword: '',
+    confirmPassword: '',
+    securityQuestion: '',
+    securityAnswer: ''
+  });
+
   useEffect(() => {
     // Fetch client-specific config
     fetch('/api/config')
@@ -141,6 +157,85 @@ const AdminPanel = () => {
     }
   };
 
+  const handleForgotPassword = async () => {
+    try {
+      const res = await fetch('/api/admin/security-question');
+      const data = await res.json();
+      if (data.success) {
+        setSecurityQuestion(data.question);
+        setShowRecovery(true);
+        setLoginError('');
+      } else {
+        setLoginError('No se ha configurado una pregunta de seguridad. Contacta al soporte.');
+      }
+    } catch (err) {
+      setLoginError('Error al cargar pregunta de seguridad');
+    }
+  };
+
+  const handleRecoverPassword = async (e) => {
+    e.preventDefault();
+    setRecoveryError('');
+    setRecoverySuccess('');
+    try {
+      const res = await fetch('/api/admin/recover-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          answer: recoveryAnswer, 
+          newPassword: newPasswordRecovery 
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setRecoverySuccess('Contraseña restablecida. Ahora puedes ingresar.');
+        setTimeout(() => {
+          setShowRecovery(false);
+          setRecoverySuccess('');
+          setRecoveryAnswer('');
+          setNewPasswordRecovery('');
+        }, 3000);
+      } else {
+        setRecoveryError(data.error || 'Error al restablecer');
+      }
+    } catch (err) {
+      setRecoveryError('Error de conexión');
+    }
+  };
+
+  const handleUpdateSecurity = async (e) => {
+    e.preventDefault();
+    if (securityData.newPassword !== securityData.confirmPassword) {
+      setMessage('Error: Las contraseñas no coinciden');
+      return;
+    }
+    setIsSaving(true);
+    try {
+      const password = sessionStorage.getItem('adminPassword');
+      const res = await fetch('/api/admin/setup-security', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${password}`
+        },
+        body: JSON.stringify(securityData)
+      });
+      const data = await res.json();
+      if (data.success) {
+        setMessage('Seguridad actualizada correctamente');
+        setSecurityData({ newPassword: '', confirmPassword: '', securityQuestion: '', securityAnswer: '' });
+        // Actualizar la sesión si cambió la contraseña
+        sessionStorage.setItem('adminPassword', securityData.newPassword);
+      } else {
+        setMessage('Error: ' + data.error);
+      }
+    } catch (err) {
+      setMessage('Error de conexión');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   const handleLogout = () => {
     sessionStorage.removeItem('adminPassword');
     setIsAuthenticated(false);
@@ -150,16 +245,46 @@ const AdminPanel = () => {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f8fafc', fontFamily: 'var(--font-body)' }}>
         <div style={{ background: 'white', padding: '3rem', borderRadius: '8px', boxShadow: 'var(--shadow-sm)', width: '100%', maxWidth: '400px' }}>
-          <h2 style={{ marginBottom: '1.5rem', color: 'var(--color-primary)', textAlign: 'center' }}>Ingreso al Panel</h2>
-          <form onSubmit={handleLogin}>
-            <div className="form-group">
-              <label>Contraseña Administrativa</label>
-              <input type="password" value={passwordInput} onChange={e => setPasswordInput(e.target.value)} className="form-control" autoFocus required />
-            </div>
-            {loginError && <p style={{ color: '#991b1b', marginBottom: '1rem', backgroundColor: '#fee2e2', padding: '0.5rem', borderRadius: '4px' }}>{loginError}</p>}
-            <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>Ingresar</button>
-            <a href="/" style={{ display: 'block', textAlign: 'center', marginTop: '1.5rem', color: 'var(--color-text-muted)' }}>Volver al sitio web</a>
-          </form>
+          {!showRecovery ? (
+            <>
+              <h2 style={{ marginBottom: '1.5rem', color: 'var(--color-primary)', textAlign: 'center' }}>Ingreso al Panel</h2>
+              <form onSubmit={handleLogin}>
+                <div className="form-group">
+                  <label>Contraseña Administrativa</label>
+                  <input type="password" value={passwordInput} onChange={e => setPasswordInput(e.target.value)} className="form-control" autoFocus required />
+                </div>
+                {loginError && <p style={{ color: '#991b1b', marginBottom: '1rem', backgroundColor: '#fee2e2', padding: '0.5rem', borderRadius: '4px' }}>{loginError}</p>}
+                <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>Ingresar</button>
+                <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+                  <button type="button" onClick={handleForgotPassword} style={{ background: 'none', border: 'none', color: 'var(--color-primary)', cursor: 'pointer', fontSize: '0.9rem' }}>
+                    ¿Olvidaste tu contraseña?
+                  </button>
+                </div>
+                <a href="/" style={{ display: 'block', textAlign: 'center', marginTop: '1.5rem', color: 'var(--color-text-muted)' }}>Volver al sitio web</a>
+              </form>
+            </>
+          ) : (
+            <>
+              <h2 style={{ marginBottom: '1.5rem', color: 'var(--color-primary)', textAlign: 'center' }}>Recuperar Acceso</h2>
+              <p style={{ marginBottom: '1.5rem', fontSize: '0.9rem', color: '#64748b' }}>Responde a tu pregunta de seguridad para restablecer la contraseña.</p>
+              <form onSubmit={handleRecoverPassword}>
+                <div className="form-group">
+                  <label style={{ fontWeight: 600 }}>{securityQuestion}</label>
+                  <input type="text" value={recoveryAnswer} onChange={e => setRecoveryAnswer(e.target.value)} className="form-control" placeholder="Tu respuesta..." required />
+                </div>
+                <div className="form-group">
+                  <label>Nueva Contraseña</label>
+                  <input type="password" value={newPasswordRecovery} onChange={e => setNewPasswordRecovery(e.target.value)} className="form-control" required />
+                </div>
+                {recoveryError && <p style={{ color: '#991b1b', marginBottom: '1rem', backgroundColor: '#fee2e2', padding: '0.5rem', borderRadius: '4px' }}>{recoveryError}</p>}
+                {recoverySuccess && <p style={{ color: '#166534', marginBottom: '1rem', backgroundColor: '#dcfce7', padding: '0.5rem', borderRadius: '4px' }}>{recoverySuccess}</p>}
+                <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>Restablecer Contraseña</button>
+                <button type="button" onClick={() => setShowRecovery(false)} style={{ width: '100%', background: 'none', border: 'none', marginTop: '1rem', cursor: 'pointer', color: '#64748b' }}>
+                  Volver al Login
+                </button>
+              </form>
+            </>
+          )}
         </div>
       </div>
     );
@@ -304,6 +429,7 @@ const AdminPanel = () => {
           <button className={activeTab === 'trade' ? 'active' : ''} onClick={() => selectTab('trade')}>Área Comercial</button>
           <button className={activeTab === 'financial' ? 'active' : ''} onClick={() => selectTab('financial')}>Área Financiera</button>
           <button className={activeTab === 'allies' ? 'active' : ''} onClick={() => selectTab('allies')}>Aliados Estratégicos</button>
+          <button className={activeTab === 'security' ? 'active' : ''} onClick={() => selectTab('security')}>🔐 Seguridad</button>
         </div>
         
         {mobileMenuOpen && <div className="admin-sidebar-overlay" onClick={() => setMobileMenuOpen(false)}></div>}
@@ -519,6 +645,70 @@ const AdminPanel = () => {
                     />
                     Mostrar Teléfono 2
                   </label>
+                </div>
+              </div>
+            )}
+
+            {/* SECURITY TAB */}
+            {activeTab === 'security' && (
+              <div className="admin-section animate-fade-in">
+                <h2>Configuración de Seguridad</h2>
+                <p style={{ color: '#64748b', marginBottom: '2rem' }}>Desde aquí puedes cambiar tu contraseña de acceso y configurar la pregunta de recuperación.</p>
+
+                <div className="admin-item-card" style={{ padding: '2rem' }}>
+                  <div className="form-group">
+                    <label>Nueva Contraseña</label>
+                    <input 
+                      type="password" 
+                      className="form-control" 
+                      value={securityData.newPassword} 
+                      onChange={e => setSecurityData({...securityData, newPassword: e.target.value})} 
+                      placeholder="Dejar vacío para no cambiar"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Confirmar Nueva Contraseña</label>
+                    <input 
+                      type="password" 
+                      className="form-control" 
+                      value={securityData.confirmPassword} 
+                      onChange={e => setSecurityData({...securityData, confirmPassword: e.target.value})} 
+                    />
+                  </div>
+
+                  <hr style={{ margin: '2rem 0', border: 'none', borderTop: '1px solid #e2e8f0' }} />
+
+                  <div className="form-group">
+                    <label>Pregunta de Seguridad (Para recuperar acceso)</label>
+                    <input 
+                      type="text" 
+                      className="form-control" 
+                      value={securityData.securityQuestion} 
+                      onChange={e => setSecurityData({...securityData, securityQuestion: e.target.value})} 
+                      placeholder="Ej: ¿Cuál es el nombre de tu primera mascota?"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Respuesta de Seguridad</label>
+                    <input 
+                      type="password" 
+                      className="form-control" 
+                      value={securityData.securityAnswer} 
+                      onChange={e => setSecurityData({...securityData, securityAnswer: e.target.value})} 
+                      placeholder="Escribe tu respuesta secreta"
+                    />
+                    <small style={{ color: '#64748b' }}>La respuesta no distingue mayúsculas/minúsculas al recuperarla.</small>
+                  </div>
+
+                  <button 
+                    type="button" 
+                    className="btn btn-primary" 
+                    onClick={handleUpdateSecurity}
+                    disabled={isSaving || !securityData.newPassword || !securityData.securityQuestion || !securityData.securityAnswer}
+                    style={{ marginTop: '1rem' }}
+                  >
+                    {isSaving ? 'Guardando...' : 'Actualizar Seguridad'}
+                  </button>
                 </div>
               </div>
             )}

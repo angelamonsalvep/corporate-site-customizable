@@ -75,6 +75,11 @@ const ContentSchema = new mongoose.Schema({
       image: String,
       visible: { type: Boolean, default: true }
     }]
+  },
+  adminConfig: {
+    passwordHash: String,
+    securityQuestion: String,
+    securityAnswerHash: String
   }
 }, { timestamps: true });
 
