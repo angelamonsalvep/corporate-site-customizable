@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const https = require('https');
 
 // Manual .env loader to avoid dotenvx interference
 const envFile = path.join(__dirname, '.env');
@@ -39,7 +40,6 @@ const MONGO_URI = MONGO_URL ? `${MONGO_URL}${DB_NAME}?${MONGO_PARAMS}` : null;
 const DEFAULT_CLOUDINARY_FOLDER = process.env.CLOUDINARY_FOLDER || `clientes/${CLIENT_ID}`;
 
 // Helper to translate text using Google Translate free API
-const https = require('https');
 async function translateText(text, targetLang) {
   if (!text || typeof text !== 'string') return text;
   return new Promise((resolve, reject) => {
@@ -57,7 +57,7 @@ async function translateText(text, targetLang) {
           resolve(translatedText || text);
         } catch (e) {
           console.error('Translation parse error:', e);
-          resolve(text); // Fallback to original text on error
+          resolve(text);
         }
       });
     }).on('error', (e) => {
@@ -66,6 +66,16 @@ async function translateText(text, targetLang) {
     });
   });
 }
+
+const targetLangs = ['en', 'fr', 'pt', 'zh'];
+const translateObject = async (text) => {
+  if (!text) return {};
+  const results = {};
+  for (const lang of targetLangs) {
+    results[lang] = await translateText(text, lang);
+  }
+  return results;
+};
 
 // Connection helper for Serverless
 async function ensureConnected() {
@@ -277,10 +287,25 @@ app.patch('/api/content/:section', async (req, res) => {
 
     const isConnected = await ensureConnected();
     if (isConnected) {
+      // Auto-translate if it's the contact section
+      if (section === 'contact') {
+        if (sectionData.whatsappLabel) {
+          sectionData.whatsappLabel_translations = await translateObject(sectionData.whatsappLabel);
+        }
+        if (sectionData.secondaryWhatsappLabel) {
+          sectionData.secondaryWhatsappLabel_translations = await translateObject(sectionData.secondaryWhatsappLabel);
+        }
+        if (sectionData.whatsappMessage) {
+          sectionData.whatsappMessage_translations = await translateObject(sectionData.whatsappMessage);
+        }
+        if (sectionData.secondaryWhatsappMessage) {
+          sectionData.secondaryWhatsappMessage_translations = await translateObject(sectionData.secondaryWhatsappMessage);
+        }
+      }
+
       const updateObj = {};
       updateObj[section] = sectionData;
 
-      // Handle translations if needed (simplified here)
       const data = await Content.findOneAndUpdate(
         { documentId: CLIENT_ID },
         { $set: updateObj },
@@ -327,19 +352,23 @@ app.post('/api/content', async (req, res) => {
       return res.status(400).json({ error: 'Invalid content format' });
     }
 
-    // Auto-translate allies dynamic content
-    if (newContent.allies) {
-      const targetLangs = ['en', 'fr', 'pt', 'zh'];
-      
-      const translateObject = async (text) => {
-        if (!text) return {};
-        const results = {};
-        for (const lang of targetLangs) {
-          results[lang] = await translateText(text, lang);
-        }
-        return results;
-      };
+    // Auto-translate dynamic content
+    if (newContent.contact) {
+      if (newContent.contact.whatsappLabel) {
+        newContent.contact.whatsappLabel_translations = await translateObject(newContent.contact.whatsappLabel);
+      }
+      if (newContent.contact.secondaryWhatsappLabel) {
+        newContent.contact.secondaryWhatsappLabel_translations = await translateObject(newContent.contact.secondaryWhatsappLabel);
+      }
+      if (newContent.contact.whatsappMessage) {
+        newContent.contact.whatsappMessage_translations = await translateObject(newContent.contact.whatsappMessage);
+      }
+      if (newContent.contact.secondaryWhatsappMessage) {
+        newContent.contact.secondaryWhatsappMessage_translations = await translateObject(newContent.contact.secondaryWhatsappMessage);
+      }
+    }
 
+    if (newContent.allies) {
       if (newContent.allies.title) {
         newContent.allies.title_translations = await translateObject(newContent.allies.title);
       }

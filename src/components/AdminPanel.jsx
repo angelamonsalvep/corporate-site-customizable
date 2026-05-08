@@ -5,7 +5,7 @@ import CloudinaryGallery from './CloudinaryGallery';
 import './AdminPanel.css';
 
 const AdminPanel = () => {
-  const { content, updateContent, updateContentSection } = useContent();
+  const { content, updateContent, updateContentSection, t } = useContent();
   const [formData, setFormData] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState('');
@@ -37,6 +37,16 @@ const AdminPanel = () => {
     securityQuestion: '',
     securityAnswer: ''
   });
+
+  // Clear message after timeout
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage('');
+      }, 8000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   useEffect(() => {
     // Fetch client-specific config
@@ -423,6 +433,7 @@ const AdminPanel = () => {
   const selectTab = (tab) => {
     setActiveTab(tab);
     setMobileMenuOpen(false);
+    setMessage(''); // Clear message when switching tabs
   };
 
   return (
@@ -437,11 +448,11 @@ const AdminPanel = () => {
               >
                 {mobileMenuOpen ? '✕' : '☰'}
               </button>
-              <h1>Admin Panel</h1>
+              <h1>{t('admin.panelTitle')}</h1>
             </div>
             <div className="header-actions">
-              <a href="/" className="btn btn-outline btn-small">Ver Sitio</a>
-              <button onClick={handleLogout} className="btn btn-small logout-btn">Salir</button>
+              <a href="/" className="btn btn-outline btn-small">{t('admin.actions.viewSite')}</a>
+              <button onClick={handleLogout} className="btn btn-small logout-btn">{t('admin.actions.logout')}</button>
             </div>
           </div>
         </div>
@@ -449,14 +460,14 @@ const AdminPanel = () => {
 
       <div className="container admin-container">
         <div className={`admin-sidebar ${mobileMenuOpen ? 'open' : ''}`}>
-          <div className="sidebar-header">Menú de Edición</div>
-          <button className={activeTab === 'general' ? 'active' : ''} onClick={() => selectTab('general')}>General & Contacto</button>
-          <button className={activeTab === 'hero' ? 'active' : ''} onClick={() => selectTab('hero')}>Sección Principal (Hero)</button>
-          <button className={activeTab === 'about' ? 'active' : ''} onClick={() => selectTab('about')}>Quiénes Somos</button>
-          <button className={activeTab === 'trade' ? 'active' : ''} onClick={() => selectTab('trade')}>Área Comercial</button>
-          <button className={activeTab === 'financial' ? 'active' : ''} onClick={() => selectTab('financial')}>Área Financiera</button>
-          <button className={activeTab === 'allies' ? 'active' : ''} onClick={() => selectTab('allies')}>Aliados Estratégicos</button>
-          <button className={activeTab === 'security' ? 'active' : ''} onClick={() => selectTab('security')}>🔐 Seguridad</button>
+          <div className="sidebar-header">{t('admin.menuHeader')}</div>
+          <button className={activeTab === 'general' ? 'active' : ''} onClick={() => selectTab('general')}>{t('admin.tabs.general')}</button>
+          <button className={activeTab === 'hero' ? 'active' : ''} onClick={() => selectTab('hero')}>{t('admin.tabs.hero')}</button>
+          <button className={activeTab === 'about' ? 'active' : ''} onClick={() => selectTab('about')}>{t('admin.tabs.about')}</button>
+          <button className={activeTab === 'trade' ? 'active' : ''} onClick={() => selectTab('trade')}>{t('admin.tabs.trade')}</button>
+          <button className={activeTab === 'financial' ? 'active' : ''} onClick={() => selectTab('financial')}>{t('admin.tabs.financial')}</button>
+          <button className={activeTab === 'allies' ? 'active' : ''} onClick={() => selectTab('allies')}>{t('admin.tabs.allies')}</button>
+          <button className={activeTab === 'security' ? 'active' : ''} onClick={() => selectTab('security')}>{t('admin.tabs.security')}</button>
         </div>
         
         {mobileMenuOpen && <div className="admin-sidebar-overlay" onClick={() => setMobileMenuOpen(false)}></div>}
@@ -464,7 +475,10 @@ const AdminPanel = () => {
         <div className="admin-content" ref={contentRef} style={{ position: 'relative' }}>
           {message && (
             <div className={`admin-message ${message.includes('Error') || message.includes('❌') ? 'error' : 'success'}`}>
-              {message.includes('❌') || message.includes('Error') ? '⚠️' : '✅'} {message.replace('✅ ', '').replace('❌ ', '')}
+              <div className="message-content">
+                {message.includes('❌') || message.includes('Error') ? '⚠️' : '✅'} {message.replace('✅ ', '').replace('❌ ', '')}
+              </div>
+              <button className="message-close" onClick={() => setMessage('')} aria-label="Cerrar">✕</button>
             </div>
           )}
 
@@ -473,10 +487,10 @@ const AdminPanel = () => {
             {/* GENERAL & CONTACT TAB */}
             {activeTab === 'general' && (
               <div className="admin-section animate-fade-in">
-                <h2>Información General</h2>
+                <h2>{t('admin.general.title')}</h2>
 
                 <div className="form-group" style={{ background: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: '8px', padding: '1rem', marginBottom: '1.5rem' }}>
-                  <label style={{ color: '#0369a1', fontWeight: 700 }}>📁 Carpeta en Cloudinary (para imágenes de este cliente)</label>
+                  <label style={{ color: '#0369a1', fontWeight: 700 }}>{t('admin.general.cloudinaryFolder')}</label>
                   <input
                     type="text"
                     className="form-control"
@@ -488,12 +502,12 @@ const AdminPanel = () => {
                 </div>
 
                 <div className="form-group">
-                  <label>Nombre de la Empresa</label>
+                  <label>{t('admin.general.companyName')}</label>
                   <input type="text" className="form-control" value={formData.general.companyName} onChange={(e) => handleChange('general', 'companyName', e.target.value)} />
                 </div>
 
                 <div className="form-group">
-                  <label>Logo del Sitio (Pega una URL o sube una imagen)</label>
+                  <label>{t('admin.general.logo')}</label>
                   <input type="text" className="form-control" placeholder="URL de la imagen (Opcional)" value={formData.general.logoImage || ''} onChange={(e) => handleChange('general', 'logoImage', e.target.value)} />
                   <div className="image-actions-row">
                     <input
@@ -518,7 +532,7 @@ const AdminPanel = () => {
                 </div>
 
                 <div className="form-group">
-                  <label>Isotipo / Icono de Marca (Ej: Solo el mundo)</label>
+                  <label>{t('admin.general.brandIcon')}</label>
                   <input type="text" className="form-control" value={formData.general.brandIcon || ''} onChange={(e) => handleChange('general', 'brandIcon', e.target.value)} />
                   <div className="image-actions-row">
                     <input
@@ -565,7 +579,7 @@ const AdminPanel = () => {
                 </div>
 
                 <div className="form-group">
-                  <label>Logo Secundario (Ej: 3D o con reflejo)</label>
+                  <label>{t('admin.general.secondaryLogo')}</label>
                   <input type="text" className="form-control" value={formData.general.secondaryLogo || ''} onChange={(e) => handleChange('general', 'secondaryLogo', e.target.value)} />
                   <div className="image-actions-row">
                     <input
@@ -588,43 +602,55 @@ const AdminPanel = () => {
                   )}
                 </div>
 
-                <h2 className="mt-4">Contacto Principal</h2>
+                <h2 className="mt-4">{t('admin.contact.mainTitle')}</h2>
                 <div className="form-row">
                   <div className="form-group">
-                    <label>WhatsApp (Ej: 573001234567)</label>
+                    <label>{t('admin.contact.whatsapp')}</label>
                     <input type="text" className="form-control" value={formData.contact.whatsappNumber || ''} onChange={(e) => handleChange('contact', 'whatsappNumber', e.target.value)} />
                   </div>
                   <div className="form-group">
-                    <label>Etiqueta WhatsApp (Ej: Ventas)</label>
+                    <label>
+                      {t('admin.contact.label')} 
+                      <small style={{ color: 'var(--color-primary)', marginLeft: '8px' }}>
+                        ({t('contact.whatsappLabelDefault')})
+                      </small>
+                    </label>
                     <input type="text" className="form-control" value={formData.contact.whatsappLabel || ''} onChange={(e) => handleChange('contact', 'whatsappLabel', e.target.value)} />
+                    <small style={{ color: '#64748b' }}>Tip: Dejar vacío para usar la traducción automática del sistema.</small>
                   </div>
                 </div>
                 <div className="form-group">
-                  <label>Mensaje Automático (Lo que el cliente envía al hacer clic)</label>
+                  <label>{t('admin.contact.message')}</label>
                   <textarea className="form-control" rows="2" value={formData.contact.whatsappMessage || ''} onChange={(e) => handleChange('contact', 'whatsappMessage', e.target.value)} placeholder="Ej: Hola! Me interesa saber más sobre sus servicios..."></textarea>
                 </div>
                 <div className="form-group">
-                  <label>Teléfono Visible (Ej: +57 300 000 0000)</label>
+                  <label>{t('admin.contact.phone')}</label>
                   <input type="text" className="form-control" value={formData.contact.phoneDisplay || ''} onChange={(e) => handleChange('contact', 'phoneDisplay', e.target.value)} />
                 </div>
 
-                <h2 className="mt-4">Contacto Secundario (Opcional)</h2>
+                <h2 className="mt-4">{t('admin.contact.secondaryTitle')}</h2>
                 <div className="form-row">
                   <div className="form-group">
-                    <label>WhatsApp 2 (Ej: 573001234567)</label>
+                    <label>{t('admin.contact.whatsapp')} 2</label>
                     <input type="text" className="form-control" value={formData.contact.secondaryWhatsappNumber || ''} onChange={(e) => handleChange('contact', 'secondaryWhatsappNumber', e.target.value)} />
                   </div>
                   <div className="form-group">
-                    <label>Etiqueta WhatsApp 2 (Ej: Soporte)</label>
+                    <label>
+                      {t('admin.contact.label')} 2
+                      <small style={{ color: 'var(--color-primary)', marginLeft: '8px' }}>
+                        ({t('contact.secondaryWhatsappLabelDefault')})
+                      </small>
+                    </label>
                     <input type="text" className="form-control" value={formData.contact.secondaryWhatsappLabel || ''} onChange={(e) => handleChange('contact', 'secondaryWhatsappLabel', e.target.value)} />
+                    <small style={{ color: '#64748b' }}>Tip: Dejar vacío para usar la traducción automática del sistema.</small>
                   </div>
                 </div>
                 <div className="form-group">
-                  <label>Mensaje Automático 2</label>
+                  <label>{t('admin.contact.message')} 2</label>
                   <textarea className="form-control" rows="2" value={formData.contact.secondaryWhatsappMessage || ''} onChange={(e) => handleChange('contact', 'secondaryWhatsappMessage', e.target.value)} placeholder="Ej: Hola! Necesito ayuda técnica..."></textarea>
                 </div>
                 <div className="form-group">
-                  <label>Teléfono 2 Visible</label>
+                  <label>{t('admin.contact.phone')} 2</label>
                   <input type="text" className="form-control" value={formData.contact.secondaryPhoneDisplay || ''} onChange={(e) => handleChange('contact', 'secondaryPhoneDisplay', e.target.value)} />
                 </div>
 
@@ -645,7 +671,7 @@ const AdminPanel = () => {
                       checked={formData.contact.showWhatsApp !== false}
                       onChange={(e) => handleChange('contact', 'showWhatsApp', e.target.checked)}
                     />
-                    Habilitar WhatsApp 1
+                    {t('admin.contact.enableWA1')}
                   </label>
                   <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500 }}>
                     <input
@@ -653,7 +679,7 @@ const AdminPanel = () => {
                       checked={formData.contact.showSecondaryWhatsApp === true}
                       onChange={(e) => handleChange('contact', 'showSecondaryWhatsApp', e.target.checked)}
                     />
-                    Habilitar WhatsApp 2
+                    {t('admin.contact.enableWA2')}
                   </label>
                   <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500 }}>
                     <input
@@ -661,7 +687,7 @@ const AdminPanel = () => {
                       checked={formData.contact.showPhone !== false}
                       onChange={(e) => handleChange('contact', 'showPhone', e.target.checked)}
                     />
-                    Mostrar Teléfono 1
+                    {t('admin.contact.showPhone1')}
                   </label>
                   <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500 }}>
                     <input
@@ -669,13 +695,13 @@ const AdminPanel = () => {
                       checked={formData.contact.showSecondaryPhone === true}
                       onChange={(e) => handleChange('contact', 'showSecondaryPhone', e.target.checked)}
                     />
-                    Mostrar Teléfono 2
+                    {t('admin.contact.showPhone2')}
                   </label>
                 </div>
                 
                 <div className="section-save-container" style={{ marginTop: '2rem' }}>
                   <button type="button" className="btn btn-primary" onClick={() => handleSaveSection('general')} disabled={isSaving}>
-                    {isSaving ? 'Guardando...' : '💾 Guardar General & Contacto'}
+                    {isSaving ? t('admin.actions.saving') : t('admin.actions.save') + ' General & Contacto'}
                   </button>
                 </div>
               </div>

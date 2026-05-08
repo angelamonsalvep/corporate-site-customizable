@@ -136,7 +136,50 @@ export const translations = {
       formSubmit: 'Enviar Mensaje',
       formSending: 'Enviando...',
       success: '¡Mensaje enviado con éxito! Nos contactaremos pronto.',
-      error: 'Hubo un error al enviar el mensaje. Por favor intenta de nuevo.'
+      error: 'Hubo un error al enviar el mensaje. Por favor intenta de nuevo.',
+      whatsappLabelDefault: 'Atención General',
+      secondaryWhatsappLabelDefault: 'Información y Soporte',
+      whatsappPrimary: 'Línea Principal',
+      whatsappSecondary: 'Línea Secundaria'
+    },
+    admin: {
+      panelTitle: 'Panel de Administración',
+      menuHeader: 'Menú de Edición',
+      tabs: {
+        general: 'General & Contacto',
+        hero: 'Sección Principal (Hero)',
+        about: 'Quiénes Somos',
+        trade: 'Área Comercial',
+        financial: 'Área Financiera',
+        allies: 'Aliados Estratégicos',
+        security: '🔐 Seguridad'
+      },
+      general: {
+        title: 'Información General',
+        cloudinaryFolder: '📁 Carpeta en Cloudinary',
+        companyName: 'Nombre de la Empresa',
+        logo: 'Logo del Sitio',
+        brandIcon: 'Isotipo / Icono de Marca',
+        secondaryLogo: 'Logo Secundario'
+      },
+      contact: {
+        mainTitle: 'Contacto Principal',
+        secondaryTitle: 'Contacto Secundario (Opcional)',
+        whatsapp: 'WhatsApp (Número)',
+        label: 'Etiqueta WhatsApp',
+        message: 'Mensaje Automático',
+        phone: 'Teléfono Visible',
+        enableWA1: 'Habilitar WhatsApp 1',
+        enableWA2: 'Habilitar WhatsApp 2',
+        showPhone1: 'Mostrar Teléfono 1',
+        showPhone2: 'Mostrar Teléfono 2'
+      },
+      actions: {
+        save: '💾 Guardar Sección',
+        saving: 'Guardando...',
+        viewSite: 'Ver Sitio',
+        logout: 'Salir'
+      }
     },
     footer: {
       nav: 'Navegación',
@@ -267,7 +310,7 @@ export const translations = {
       desc: 'We work with a global network of consultants and strategic partners to ensure the success of your operations.',
       items: {
         a1_name: "INTERNATIONAL COMMERCIAL STRATEGY AND STRATEGIC ALLIANCES",
-        a1_desc: "As part of its expansion and consolidation strategy in international markets, C&S World Trading Corp has established an approach aimed at creating strategic alliances with key players in global financial and commercial centers.\n\nIn this context, a partnership with WT Group Türkiye is planned, a firm with a presence in Europe and experience in financial structuring and international trade. This relationship is projected as a strategic axis to strengthen the company's operational capacity in European and Eurasian markets.\n\nThe incorporation of this strategic ally allows C&S World Trading Corp to expand its reach in critical areas such as:\n\n- Structuring and channeling of financial instruments in European jurisdictions.\n- Facilitation of international trade operations under international regulatory standards.\n- Access to corporate client networks and investment opportunities in Europe.\n- Optimization of monetization processes for internationally backed financial assets.\n\nLikewise, this alliance helps reinforce the company's institutional credibility with investors, financial entities, and international counterparts, by having a partner with knowledge of the European regulatory environment and experience in cross-border transactions.\n\nFrom a commercial perspective, the joint strategy is based on a collaboration model that allows the generation of shared opportunities, increasing business origination capacity and diversifying income sources in high-value markets.\n\nIn conclusion, the integration of WT Group Türkiye as a strategic ally in Europe positions C&S World Trading Corp as a platform with global projection, strengthening its competitiveness, execution capacity, and access to key international markets."
+        a1_desc: "As part of its expansion and consolidation strategy in international markets, C&S World Trading Corp has established an approach aimed at creating strategic alliances with key players in global financial and commercial centers.\n\nIn this context, a partnership with WT Group Türkiye is planned, a firm with a presence in Europe and experience in financial structuring and international trade. This relationship is projected as a strategic axis to strengthen the company's operational capacity in European and Eurasian markets.\n\nThe incorporation of this strategic ally allows C&S World Trading Corp to expand its reach in critical areas such:\n\n- Structuring and channeling of financial instruments in European jurisdictions.\n- Facilitation of international trade operations under international regulatory standards.\n- Access to corporate client networks and investment opportunities in Europe.\n- Optimization of monetization processes for internationally backed financial assets.\n\nLikewise, this alliance helps reinforce the company's institutional credibility with investors, financial entities, and international counterparts, by having a partner with knowledge of the European regulatory environment and experience in cross-border transactions.\n\nFrom a commercial perspective, the joint strategy is based on a collaboration model that allows the generation of shared opportunities, increasing business origination capacity and diversifying income sources in high-value markets.\n\nIn conclusion, the integration of WT Group Türkiye as a strategic ally in Europe positions C&S World Trading Corp as a platform with global projection, strengthening its competitiveness, execution capacity, and access to key international markets."
       }
     },
     contact: {
@@ -282,7 +325,50 @@ export const translations = {
       formSubmit: 'Send Message',
       formSending: 'Sending...',
       success: 'Message sent successfully! We will contact you soon.',
-      error: 'There was an error sending the message. Please try again.'
+      error: 'There was an error sending the message. Please try again.',
+      whatsappLabelDefault: 'General Inquiry',
+      secondaryWhatsappLabelDefault: 'Info & Support',
+      whatsappPrimary: 'Primary Line',
+      whatsappSecondary: 'Secondary Line'
+    },
+    admin: {
+      panelTitle: 'Admin Panel',
+      menuHeader: 'Edition Menu',
+      tabs: {
+        general: 'General & Contact',
+        hero: 'Main Section (Hero)',
+        about: 'About Us',
+        trade: 'Trade Area',
+        financial: 'Financial Area',
+        allies: 'Strategic Allies',
+        security: '🔐 Security'
+      },
+      general: {
+        title: 'General Information',
+        cloudinaryFolder: '📁 Cloudinary Folder',
+        companyName: 'Company Name',
+        logo: 'Site Logo',
+        brandIcon: 'Brand Icon / Isotype',
+        secondaryLogo: 'Secondary Logo'
+      },
+      contact: {
+        mainTitle: 'Main Contact',
+        secondaryTitle: 'Secondary Contact (Optional)',
+        whatsapp: 'WhatsApp (Number)',
+        label: 'WhatsApp Label',
+        message: 'Automatic Message',
+        phone: 'Visible Phone',
+        enableWA1: 'Enable WhatsApp 1',
+        enableWA2: 'Enable WhatsApp 2',
+        showPhone1: 'Show Phone 1',
+        showPhone2: 'Show Phone 2'
+      },
+      actions: {
+        save: '💾 Save Section',
+        saving: 'Saving...',
+        viewSite: 'View Site',
+        logout: 'Logout'
+      }
     },
     footer: {
       nav: 'Navigation',
@@ -428,7 +514,9 @@ export const translations = {
       formSubmit: 'Enviar Mensagem',
       formSending: 'Enviando...',
       success: 'Mensagem enviada com sucesso! Entraremos em contato em breve.',
-      error: 'Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente.'
+      error: 'Ocorreu un erro ao enviar a mensagem. Por favor, tente novamente.',
+      whatsappPrimary: 'Atendimento Geral',
+      whatsappSecondary: 'Informação e Suporte'
     },
     footer: {
       nav: 'Navegação',
@@ -574,7 +662,9 @@ export const translations = {
       formSubmit: 'Envoyer le message',
       formSending: 'Envoi...',
       success: 'Message envoyé avec succès ! Nous vous contacterons bientôt.',
-      error: 'Une erreur s\'est produite lors de l\'envoi du message. Veuillez réessayer.'
+      error: 'Une erreur s\'est produite lors de l\'envoi du message. Veuillez réessayer.',
+      whatsappPrimary: 'Service Général',
+      whatsappSecondary: 'Info & Support'
     },
     footer: {
       nav: 'Navigation',
@@ -724,7 +814,9 @@ export const translations = {
       formSubmit: '发送消息',
       formSending: '正在发送...',
       success: '消息发送成功！我们将很快与您联系。',
-      error: '发送消息时出错。请再试一次。'
+      error: '发送消息时出错。请再试一次。',
+      whatsappPrimary: '常规咨询',
+      whatsappSecondary: '信息与支持'
     },
     footer: {
       nav: '导航',

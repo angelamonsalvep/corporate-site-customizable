@@ -3,76 +3,144 @@
   bottom: 2rem;
   right: 2rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse; /* Toggle button at bottom */
+  align-items: flex-end;
   gap: 1rem;
   z-index: 1000;
 }
 
-.floating-btn {
-  width: 56px;
-  height: 56px;
+/* Toggle Button */
+.floating-btn.main-toggle {
+  width: 60px;
+  height: 60px;
+  background-color: #25D366;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.floating-btn.main-toggle .icon-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.floating-btn.main-toggle .wa-icon,
+.floating-btn.main-toggle .close-icon {
+  position: absolute;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.floating-btn.main-toggle .close-icon {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+}
+
+.floating-btn.main-toggle.active {
+  background-color: #ef4444; /* Red when open */
+}
+
+.floating-btn.main-toggle.active .wa-icon {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.5);
+}
+
+.floating-btn.main-toggle.active .close-icon {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+
+/* Contact Menu */
+.contact-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.floating-contact.is-open .contact-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+  background: white;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f1f5f9;
+  transition: all 0.2s ease;
+  min-width: 180px;
+}
+
+.menu-item:hover {
+  transform: translateX(-5px);
+  background: #f8fafc;
+}
+
+.menu-icon {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  box-shadow: var(--shadow-md);
-  transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
-  position: relative; /* Added for label positioning */
-}
-
-.wa-label {
-  position: absolute;
-  right: 70px;
-  background-color: white;
-  color: var(--color-primary);
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  box-shadow: var(--shadow-md);
-  white-space: nowrap;
-  opacity: 0;
-  transform: translateX(10px);
-  transition: all 0.3s ease;
-  pointer-events: none;
-  border: 1px solid #e2e8f0;
-}
-
-.floating-btn:hover .wa-label {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.floating-btn.whatsapp {
   background-color: #25D366;
+  color: white;
+  flex-shrink: 0;
 }
 
-.floating-btn.whatsapp:hover {
-  background-color: #128C7E;
+.menu-text {
+  display: flex;
+  flex-direction: column;
 }
 
-.floating-btn.email {
-  background-color: var(--color-primary);
+.menu-label {
+  color: #1e293b;
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.2;
 }
 
-.floating-btn.email:hover {
-  background-color: var(--color-primary-light);
+.menu-sublabel {
+  color: #64748b;
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 
+/* Mobile adjustments */
 @media (max-width: 768px) {
   .floating-contact {
     bottom: 1.5rem;
     right: 1.5rem;
   }
   
-  .floating-btn {
-    width: 50px;
-    height: 50px;
+  .floating-btn.main-toggle {
+    width: 54px;
+    height: 54px;
   }
-  
-  .floating-btn svg {
-    width: 20px;
-    height: 20px;
+
+  .menu-item {
+    padding: 0.6rem 0.8rem;
+    min-width: 160px;
   }
 }

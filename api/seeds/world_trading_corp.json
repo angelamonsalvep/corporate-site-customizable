@@ -164,10 +164,34 @@
     "address": "PH BICSA FINANCIAL CENTER piso 47 of 4710 Av vasco Nuñez de Balboa, Provincia de Panamá; Panamá.",
     "secondaryWhatsappNumber": "50767687485",
     "secondaryPhoneDisplay": "+507 6768 7485",
-    "whatsappLabel": "Info1",
-    "secondaryWhatsappLabel": "Info2",
-    "whatsappMessage": "Hola! Vengo de visitar la página web de **World Trading Corp.** y me gustaría recibir más información sobre sus servicios.",
-    "secondaryWhatsappMessage": "Hola! Vengo de visitar la página web de **World Trading Corp.** y me gustaría recibir más información sobre sus servicios."
+    "whatsappLabel": "Servicio al cliente",
+    "secondaryWhatsappLabel": "Servicio al cliente",
+    "whatsappMessage": "Hola! Vengo de visitar la página web de *World Trading Corp.* y me gustaría recibir más información sobre sus servicios.",
+    "secondaryWhatsappMessage": "Hola! Vengo de visitar la página web de *World Trading Corp.* y me gustaría recibir más información sobre sus servicios.",
+    "whatsappLabel_translations": {
+      "en": "Customer service",
+      "fr": "Service client",
+      "pt": "Atendimento ao Cliente",
+      "zh": "客户服务"
+    },
+    "secondaryWhatsappLabel_translations": {
+      "en": "Customer service",
+      "fr": "Service client",
+      "pt": "Atendimento ao Cliente",
+      "zh": "客户服务"
+    },
+    "whatsappMessage_translations": {
+      "en": "Hello! I have just visited the *World Trading Corp.* website and would like to receive more information about their services.",
+      "fr": "Bonjour! Je viens de visiter le site Web de *World Trading Corp.* et j'aimerais recevoir plus d'informations sur leurs services.",
+      "pt": "Olá! Acabei de visitar o site da *World Trading Corp.* e gostaria de receber mais informações sobre seus serviços.",
+      "zh": "你好！我刚刚访问了*世界贸易公司*网站，并希望获得有关其服务的更多信息。"
+    },
+    "secondaryWhatsappMessage_translations": {
+      "en": "Hello! I have just visited the *World Trading Corp.* website and would like to receive more information about their services.",
+      "fr": "Bonjour! Je viens de visiter le site Web de *World Trading Corp.* et j'aimerais recevoir plus d'informations sur leurs services.",
+      "pt": "Olá! Acabei de visitar o site da *World Trading Corp.* e gostaria de receber mais informações sobre seus serviços.",
+      "zh": "你好！我刚刚访问了*世界贸易公司*网站，并希望获得有关其服务的更多信息。"
+    }
   },
   "allies": {
     "title": "Estrategia Comercial Internacional y Alianzas Estratégicas",
