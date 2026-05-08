@@ -24,13 +24,13 @@ const About = () => {
             </div>
 
             <div className="about-highlights">
-              <div className="highlight-item">
+              <a href="#allies" className="highlight-item" style={{ textDecoration: 'none', color: 'inherit' }}>
                 <span className="highlight-icon">🤝</span>
                 <div>
                   <strong>{t('about.h1')}</strong>
                   <span>{t('about.h1d')}</span>
                 </div>
-              </div>
+              </a>
               <div className="highlight-item">
                 <span className="highlight-icon">🔒</span>
                 <div>

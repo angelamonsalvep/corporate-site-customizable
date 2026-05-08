@@ -57,5 +57,18 @@
     "phoneDisplay": "+00 000 000000",
     "address": "Dirección de la empresa"
   },
+  "allies": {
+    "title": "Nuestros Aliados Estratégicos",
+    "description": "Trabajamos con los mejores profesionales y organizaciones a nivel internacional.",
+    "items": [
+      {
+        "id": "ally1",
+        "name": "Consultor Internacional",
+        "description": "Experto en comercio global.",
+        "image": "https://images.unsplash.com/photo-1556761175-5973dc0f32d7?auto=format&fit=crop&q=80",
+        "visible": true
+      }
+    ]
+  },
   "documentId": "generic"
 }

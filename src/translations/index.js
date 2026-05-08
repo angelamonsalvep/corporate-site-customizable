@@ -4,6 +4,7 @@ export const translations = {
       home: 'Inicio',
       about: 'Nosotros',
       services: 'Servicios',
+      allies: 'Aliados',
       contact: 'Contacto',
       admin: 'Admin'
     },
@@ -115,6 +116,14 @@ export const translations = {
         "Optimización financiera corporativa"
       ]
     },
+    allies: {
+      title: 'ESTRATEGIA COMERCIAL INTERNACIONAL Y ALIANZAS ESTRATÉGICAS',
+      desc: 'Trabajamos con una red global de consultores y socios estratégicos para garantizar el éxito de sus operaciones.',
+      items: {
+        a1_name: "ESTRATEGIA COMERCIAL INTERNACIONAL Y ALIANZAS ESTRATÉGICAS",
+        a1_desc: "Como parte de su estrategia de expansión y consolidación en mercados internacionales, C&S World Trading Corp ha establecido un enfoque orientado a la creación de alianzas estratégicas con actores clave en centros financieros y comerciales globales.\n\nEn este contexto, se contempla la vinculación con WT Group Türkiye, firma con presencia en Europa y experiencia en estructuración financiera y comercio internacional. Esta relación se proyecta como un eje estratégico para fortalecer la capacidad operativa de la compañía en mercados europeos y euroasiáticos.\n\nLa incorporación de este aliado estratégico permite a C&S World Trading Corp ampliar su alcance en áreas críticas como:\n\n- Estructuración y canalización de instrumentos financieros en jurisdicciones europeas.\n- Facilitación de operaciones de comercio internacional bajo estándares regulatorios internacionales.\n- Acceso a redes de clientes corporativos y oportunidades de inversión en Europa.\n- Optimización de procesos de monetización de activos financieros con respaldo internacional.\n\nAsimismo, esta alianza contribuye a reforzar la credibilidad institucional de la empresa frente a inversionistas, entidades financieras y contrapartes internacionales, al contar con un socio con conocimiento del entorno regulatorio europeo y experiencia en transacciones transfronterizas.\n\nDesde una perspectiva comercial, la estrategia conjunta se basa en un modelo de colaboración que permite la generación de oportunidades compartidas, incrementando la capacidad de originación de negocios y diversificando las fuentes de ingresos en mercados de alto valor.\n\nEn conclusión, la integración de WT Group Türkiye como aliado estratégico en Europa posiciona a C&S World Trading Corp como una plataforma con proyección global, fortaleciendo su competitividad, capacidad de ejecución y acceso a mercados internacionales clave."
+      }
+    },
     contact: {
       title: 'Contáctanos',
       subtitle: 'Estamos listos para asesorarlo y llevar su negocio al siguiente nivel internacional.',
@@ -141,6 +150,7 @@ export const translations = {
       home: 'Home',
       about: 'About',
       services: 'Services',
+      allies: 'Allies',
       contact: 'Contact',
       admin: 'Admin'
     },
@@ -252,6 +262,14 @@ export const translations = {
         "Corporate financial optimization"
       ]
     },
+    allies: {
+      title: 'INTERNATIONAL COMMERCIAL STRATEGY AND STRATEGIC ALLIANCES',
+      desc: 'We work with a global network of consultants and strategic partners to ensure the success of your operations.',
+      items: {
+        a1_name: "INTERNATIONAL COMMERCIAL STRATEGY AND STRATEGIC ALLIANCES",
+        a1_desc: "As part of its expansion and consolidation strategy in international markets, C&S World Trading Corp has established an approach aimed at creating strategic alliances with key players in global financial and commercial centers.\n\nIn this context, a partnership with WT Group Türkiye is planned, a firm with a presence in Europe and experience in financial structuring and international trade. This relationship is projected as a strategic axis to strengthen the company's operational capacity in European and Eurasian markets.\n\nThe incorporation of this strategic ally allows C&S World Trading Corp to expand its reach in critical areas such as:\n\n- Structuring and channeling of financial instruments in European jurisdictions.\n- Facilitation of international trade operations under international regulatory standards.\n- Access to corporate client networks and investment opportunities in Europe.\n- Optimization of monetization processes for internationally backed financial assets.\n\nLikewise, this alliance helps reinforce the company's institutional credibility with investors, financial entities, and international counterparts, by having a partner with knowledge of the European regulatory environment and experience in cross-border transactions.\n\nFrom a commercial perspective, the joint strategy is based on a collaboration model that allows the generation of shared opportunities, increasing business origination capacity and diversifying income sources in high-value markets.\n\nIn conclusion, the integration of WT Group Türkiye as a strategic ally in Europe positions C&S World Trading Corp as a platform with global projection, strengthening its competitiveness, execution capacity, and access to key international markets."
+      }
+    },
     contact: {
       title: 'Contact Us',
       subtitle: 'We are ready to advise you and take your business to the next international level.',
@@ -278,6 +296,7 @@ export const translations = {
       home: 'Início',
       about: 'Nós',
       services: 'Serviços',
+      allies: 'Aliados',
       contact: 'Contato',
       admin: 'Admin'
     },
@@ -389,6 +408,14 @@ export const translations = {
         "Otimização financeira corporativa"
       ]
     },
+    allies: {
+      title: 'ESTRATÉGIA COMERCIAL INTERNACIONAL E ALIANÇAS ESTRATÉGICAS',
+      desc: 'Trabalhamos com uma rede global de consultores e parceiros estratégicos para garantir o sucesso de suas operações.',
+      items: {
+        a1_name: "ESTRATÉGIA COMERCIAL INTERNACIONAL E ALIANÇAS ESTRATÉGICAS",
+        a1_desc: "Como parte de sua estratégia de expansão e consolidação nos mercados internacionais, a C&S World Trading Corp estabeleceu uma abordagem focada na criação de alianças estratégicas com atores-chave em centros financeiros e comerciais globais.\n\nNeste contexto, contempla-se a parceria com o WT Group Türkiye, empresa com presença na Europa e experiência em estruturação financeira e comércio internacional. Esta relação projeta-se como um eixo estratégico para fortalecer a capacidade operacional da empresa nos mercados europeu e eurasiático.\n\nA incorporação deste aliado estratégico permite à C&S World Trading Corp expandir seu alcance em áreas críticas como:\n\n- Estruturação e canalização de instrumentos financeiros em jurisdições europeias.\n- Facilitação de operações de comércio internacional sob padrões regulatórios internacionais.\n- Acesso a redes de clientes corporativos e oportunidades de investimento na Europa.\n- Otimização de processos de monetização de ativos financeiros com respaldo internacional.\n\nDa mesma forma, esta aliança contribui para reforçar a credibilidade institucional da empresa perante investidores, entidades financeiras e contrapartes internacionais, ao contar com um parceiro com conhecimento do ambiente regulatório europeu e experiência em transações transfronteiriças.\n\nDe uma perspectiva comercial, a estratégia conjunta baseia-se num modelo de colaboração que permite a geração de oportunidades partilhadas, aumentando a capacidade de originação de negócios e diversificando as fontes de receitas em mercados de alto valor.\n\nEm conclusão, a integração do WT Group Türkiye como um aliado estratégico na Europa posiciona a C&S World Trading Corp como uma plataforma com projeção global, fortalecendo sua competitividade, capacidade de execução e acesso a mercados internacionais fundamentais."
+      }
+    },
     contact: {
       title: 'Contate-nos',
       subtitle: 'Estamos prontos para aconselhá-lo e levar seu negócio ao próximo nível internacional.',
@@ -415,6 +442,7 @@ export const translations = {
       home: 'Accueil',
       about: 'À Propos',
       services: 'Services',
+      allies: 'Alliés',
       contact: 'Contact',
       admin: 'Admin'
     },
@@ -526,6 +554,14 @@ export const translations = {
         "Optimisation financière de l'entreprise"
       ]
     },
+    allies: {
+      title: 'STRATÉGIE COMMERCIALE INTERNATIONALE ET ALLIANCES STRATÉGIQUES',
+      desc: 'Nous travaillons avec un réseau mondial de consultants et de partenaires stratégiques pour assurer le succès de vos opérations.',
+      items: {
+        a1_name: "STRATÉGIE COMMERCIALE INTERNATIONALE ET ALLIANCES STRATÉGIQUES",
+        a1_desc: "Dans le cadre de sa stratégie d'expansion et de consolidation sur les marchés internationaux, C&S World Trading Corp a établi une approche visant à créer des alliances stratégiques avec des acteurs clés dans les centres financiers et commerciaux mondiaux.\n\nDans ce contexte, un partenariat avec WT Group Türkiye est envisagé, un cabinet présent en Europe et expérimenté dans la structuration financière et le commerce international. Cette relation se projette comme un axe stratégique pour renforcer la capacité opérationnelle de l'entreprise sur les marchés européens et eurasiatiques.\n\nL'intégration de cet allié stratégique permet à C&S World Trading Corp d'étendre sa portée dans des domaines critiques tels que :\n\n- Structuration et canalisation d'instruments financiers dans les juridictions européennes.\n- Facilitation des opérations de commerce international selon les normes réglementaires internationales.\n- Accès aux réseaux d'entreprises clientes et aux opportunités d'investissement en Europe.\n- Optimisation des processus de monétisation d'actifs financiers bénéficiant d'un soutien international.\n\nDe même, cette alliance contribue à renforcer la crédibilité institutionnelle de l'entreprise auprès des investisseurs, des entités financières et des contreparties internationales, en s'appuyant sur un partenaire connaissant l'environnement réglementaire européen et expérimenté dans les transactions transfrontalières.\n\nD'un point de vue commercial, la stratégie conjointe repose sur un modèle de collaboration qui permet la génération d'opportunités partagées, augmentant la capacité de création d'affaires et diversifiant les sources de revenus sur des marchés à forte valeur ajoutée.\n\nEn conclusion, l'intégration de WT Group Türkiye en tant qu'allié stratégique en Europe positionne C&S World Trading Corp comme une plateforme à projection mondiale, renforçant sa compétitivité, sa capacité d'exécution et son accès aux marchés internationaux clés."
+      }
+    },
     contact: {
       title: 'Contactez-nous',
       subtitle: 'Nous sommes prêts à vous conseiller et à porter votre entreprise au prochain niveau international.',
@@ -552,6 +588,7 @@ export const translations = {
       home: '首页',
       about: '关于我们',
       services: '服务',
+      allies: '合作伙伴',
       contact: '联系我们',
       admin: '管理'
     },
@@ -666,6 +703,14 @@ export const translations = {
         "遗产规划",
         "企业财务优化"
       ]
+    },
+    allies: {
+      title: '国际商业战略与战略联盟',
+      desc: '我们与全球顾问和战略合作伙伴网络合作，以确保您的运营成功。',
+      items: {
+        a1_name: "国际商业战略与战略联盟",
+        a1_desc: "作为其在国际市场扩张和巩固战略的一部分，C&S World Trading Corp 确立了一种旨在与全球金融和商业中心的主要参与者建立战略联盟的方法。\n\n在这种背景下，计划与 WT Group Türkiye 建立合作伙伴关系，这是一家在欧洲设有分支机构并在财务结构和国际贸易方面具有丰富经验的公司。这种关系被预测为加强公司在欧洲和欧亚市场运营能力的战略轴心。\n\n纳入这一战略盟友使 C&S World Trading Corp 能够扩大其在关键领域的影响力，例如：\n\n- 在欧洲司法管辖区构建和引导金融工具。\n- 在国际监管标准下促进国际贸易运营。\n- 访问欧洲的企业客户网络和投资机会。\n- 优化具有国际支持的金融资产的货币化流程。\n\n同样，该联盟有助于巩固公司在投资者、金融实体和国际同行中的机构信誉，因为拥有一个了解欧洲监管环境并在跨境交易方面具有丰富经验的合作伙伴。\n\n从商业角度来看，联合战略基于一种合作模式，该模式允许产生共享机会，提高业务发起能力并在高价值市场中实现收入来源的多元化。\n\n总之，将 WT Group Türkiye 整合为欧洲的战略盟友，使 C&S World Trading Corp 成为具有全球影响力的平台，增强了其竞争力、执行能力和进入关键国际市场的渠道。"
+      }
     },
     contact: {
       title: '联系我们',

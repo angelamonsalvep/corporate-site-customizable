@@ -53,6 +53,7 @@ const Navbar = () => {
           <a href="#" onClick={() => setMobileMenuOpen(false)}>{t('nav.home')}</a>
           <a href="#about" onClick={() => setMobileMenuOpen(false)}>{t('nav.about')}</a>
           <a href="#services" onClick={() => setMobileMenuOpen(false)}>{t('nav.services')}</a>
+          <a href="#allies" onClick={() => setMobileMenuOpen(false)}>{t('nav.allies')}</a>
           <a href="#contact" onClick={() => setMobileMenuOpen(false)}>{t('nav.contact')}</a>
           
           {/* Selector de Idioma */}

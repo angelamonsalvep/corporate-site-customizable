@@ -6,6 +6,7 @@ import ServicesTabs from './components/ServicesTabs';
 import Contact from './components/Contact';
 import FloatingContact from './components/FloatingContact';
 import AdminPanel from './components/AdminPanel';
+import Allies from './components/Allies';
 import Footer from './components/Footer';
 import { ContentProvider, useContent } from './context/ContentContext';
 import { useEffect } from 'react';
@@ -24,6 +25,7 @@ function MainSite() {
         <Hero />
         <About />
         <ServicesTabs />
+        <Allies />
         <Contact />
       </main>
       <FloatingContact />

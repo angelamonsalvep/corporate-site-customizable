@@ -1,0 +1,125 @@
+.allies {
+  background-color: var(--color-background);
+  padding: 5rem 0;
+}
+
+.allies-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+  margin-top: 3rem;
+}
+
+.ally-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  display: block; /* Diseño de bloque para permitir flotado */
+}
+
+.ally-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+.ally-info {
+  background: linear-gradient(135deg, var(--color-primary), #1e3a5f);
+  padding: 3.5rem 4rem;
+  color: white;
+  display: block;
+}
+
+/* Clearfix */
+.ally-info::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.ally-info h4 {
+  color: #ffffff;
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  font-family: var(--font-heading);
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.ally-description {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  white-space: normal; /* Cambiado a normal porque el formato ahora maneja los párrafos */
+  text-align: justify;
+}
+
+.ally-paragraph {
+  margin-bottom: 1rem;
+}
+
+.ally-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+.ally-list {
+  list-style-type: none;
+  padding-left: 0;
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+}
+
+.ally-list li {
+  margin-bottom: 0.8rem;
+  display: block; /* O normal block flow */
+}
+
+.ally-list li::before {
+  content: "🔹 ";
+  margin-right: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--color-accent);
+}
+
+.ally-image-floated {
+  float: right;
+  width: 42%;
+  max-width: 400px;
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  margin: 0.5rem 0 2rem 3rem;
+  object-fit: contain;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  transition: transform 0.7s ease;
+}
+
+.ally-card:hover .ally-image-floated {
+  transform: scale(1.03);
+}
+
+/* Alternar orden en filas pares para diseño dinámico */
+.ally-card:nth-child(even) .ally-image-floated {
+  float: left;
+  margin: 0.5rem 3rem 2rem 0;
+}
+
+@media (max-width: 992px) {
+  .ally-image-floated,
+  .ally-card:nth-child(even) .ally-image-floated {
+    float: none;
+    width: 100%;
+    max-width: 100%;
+    margin: 1.5rem 0 2.5rem 0;
+    display: block;
+  }
+  
+  .ally-info {
+    padding: 2.5rem 2rem;
+  }
+  
+  .ally-info h4 {
+    font-size: 1.3rem;
+  }
+}

@@ -52,6 +52,21 @@ const ContentSchema = new mongoose.Schema({
     address: String,
     showWhatsApp: { type: Boolean, default: true },
     showPhone: { type: Boolean, default: true }
+  },
+  allies: {
+    title: String,
+    title_translations: { type: Object, default: {} },
+    description: String,
+    description_translations: { type: Object, default: {} },
+    items: [{
+      id: String,
+      name: String,
+      name_translations: { type: Object, default: {} },
+      description: String,
+      description_translations: { type: Object, default: {} },
+      image: String,
+      visible: { type: Boolean, default: true }
+    }]
   }
 }, { timestamps: true });
 

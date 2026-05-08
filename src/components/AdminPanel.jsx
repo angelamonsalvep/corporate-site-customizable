@@ -113,7 +113,10 @@ const AdminPanel = () => {
 
   useEffect(() => {
     if (content) {
-      setFormData(JSON.parse(JSON.stringify(content))); // Deep copy
+      const data = JSON.parse(JSON.stringify(content));
+      if (!data.allies) data.allies = { title: '', description: '', items: [] };
+      if (!data.allies.items) data.allies.items = [];
+      setFormData(data); // Deep copy with defaults
     }
   }, [content]);
 
@@ -300,6 +303,7 @@ const AdminPanel = () => {
           <button className={activeTab === 'about' ? 'active' : ''} onClick={() => selectTab('about')}>Quiénes Somos</button>
           <button className={activeTab === 'trade' ? 'active' : ''} onClick={() => selectTab('trade')}>Área Comercial</button>
           <button className={activeTab === 'financial' ? 'active' : ''} onClick={() => selectTab('financial')}>Área Financiera</button>
+          <button className={activeTab === 'allies' ? 'active' : ''} onClick={() => selectTab('allies')}>Aliados Estratégicos</button>
         </div>
         
         {mobileMenuOpen && <div className="admin-sidebar-overlay" onClick={() => setMobileMenuOpen(false)}></div>}
@@ -720,6 +724,89 @@ const AdminPanel = () => {
                   onClick={() => handleAddArrayItem('financial', 'services', { name: 'Nuevo Servicio', description: '', image: '', items: [] })}
                 >
                   ＋ Agregar Servicio Financiero
+                </button>
+              </div>
+            )}
+
+            {/* ALLIES TAB */}
+            {activeTab === 'allies' && (
+              <div className="admin-section animate-fade-in">
+                <h2>Aliados Estratégicos</h2>
+                <div className="form-group">
+                  <label>Título Principal</label>
+                  <input type="text" className="form-control" value={formData.allies.title || ''} onChange={(e) => handleChange('allies', 'title', e.target.value)} />
+                </div>
+                <div className="form-group">
+                  <label>Descripción General</label>
+                  <textarea className="form-control" rows="2" value={formData.allies.description || ''} onChange={(e) => handleChange('allies', 'description', e.target.value)}></textarea>
+                </div>
+
+                <div className="products-admin-list">
+                  {formData.allies.items.map((ally, index) => (
+                    <div key={ally.id || index} className={`admin-item-card ${ally.visible === false ? 'admin-item-hidden' : ''}`}>
+                      <div className="admin-item-header">
+                        <h3>Aliado {index + 1}{ally.visible === false && <span className="badge-hidden">Oculto</span>}</h3>
+                        <div className="admin-item-actions">
+                          <button type="button" title="Subir" className="btn-icon" onClick={() => handleMoveArrayItem('allies', 'items', index, 'up')} disabled={index === 0}>▲</button>
+                          <button type="button" title="Bajar" className="btn-icon" onClick={() => handleMoveArrayItem('allies', 'items', index, 'down')} disabled={index === formData.allies.items.length - 1}>▼</button>
+                          <button type="button" title={ally.visible === false ? 'Mostrar en el sitio' : 'Ocultar del sitio'} className={`btn-icon ${ally.visible === false ? 'btn-icon-warning' : 'btn-icon-muted'}`} onClick={() => handleToggleVisibility('allies', 'items', index)}>
+                            {ally.visible === false ? '👁️' : '🙈'}
+                          </button>
+                          <button type="button" title="Eliminar aliado" className="btn-icon btn-icon-danger" onClick={() => handleRemoveArrayItem('allies', 'items', index)}>🗑️</button>
+                        </div>
+                      </div>
+                      <div className="form-group">
+                        <label>Nombre del Aliado</label>
+                        <input type="text" className="form-control" value={ally.name || ''} onChange={(e) => handleArrayChange('allies', 'items', index, 'name', e.target.value)} />
+                      </div>
+                      <div className="form-group">
+                        <label>Imagen del Aliado</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="URL de imagen (opcional)"
+                          value={ally.image || ''}
+                          onChange={(e) => handleArrayChange('allies', 'items', index, 'image', e.target.value)}
+                        />
+                        <div className="image-actions-row">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="form-control"
+                            style={{ padding: '0.4rem', flex: 1, minWidth: '200px', marginBottom: 0 }}
+                            onChange={(e) => handleArrayImageUpload('allies', 'items', index, 'image', e)}
+                            disabled={uploadingField === `allies-items-${index}`}
+                          />
+                          <button type="button" className="btn btn-outline" style={{ padding: '0.4rem 1rem' }} onClick={() => openGallery({ section: 'allies', arrayKey: 'items', index, field: 'image' })}>
+                            🖼️ Elegir de Cloudinary
+                          </button>
+                          {uploadingField === `allies-items-${index}` && <small style={{ color: '#0369a1', width: '100%' }}>⏳ Subiendo a Cloudinary...</small>}
+                        </div>
+                        {ally.image && (
+                          <div style={{ marginTop: '0.75rem' }}>
+                            <img src={ally.image} alt={ally.name} style={{ height: '80px', borderRadius: '6px', objectFit: 'cover' }} />
+                          </div>
+                        )}
+                      </div>
+                      <div className="form-group">
+                        <label>
+                          Descripción del Aliado (opcional)
+                          <span style={{ display: 'block', fontSize: '0.85rem', color: '#666', fontWeight: 'normal', marginTop: '4px' }}>
+                            💡 <strong>Formato:</strong> Inicia una línea con un guion <code>- </code> para crear una lista. Usa <code>**texto**</code> para hacer <strong>negrita</strong>.
+                          </span>
+                        </label>
+                        <textarea className="form-control" rows="8" value={ally.description || ''} onChange={(e) => handleArrayChange('allies', 'items', index, 'description', e.target.value)} placeholder="Ejemplo:&#10;- Primer punto de la lista&#10;- Segundo punto&#10;Este aliado es **muy importante**..."></textarea>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <button
+                  type="button"
+                  className="btn btn-add-item"
+                  onClick={() => handleAddArrayItem('allies', 'items', { name: 'Nuevo Aliado', description: '', image: '' })}
+                >
+                  ＋ Agregar Aliado
                 </button>
               </div>
             )}

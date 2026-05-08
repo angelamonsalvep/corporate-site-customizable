@@ -37,6 +37,35 @@ const MONGO_URI = MONGO_URL ? `${MONGO_URL}${DB_NAME}?${MONGO_PARAMS}` : null;
 
 const DEFAULT_CLOUDINARY_FOLDER = process.env.CLOUDINARY_FOLDER || `clientes/${CLIENT_ID}`;
 
+// Helper to translate text using Google Translate free API
+const https = require('https');
+async function translateText(text, targetLang) {
+  if (!text || typeof text !== 'string') return text;
+  return new Promise((resolve, reject) => {
+    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=es&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`;
+    https.get(url, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        try {
+          const json = JSON.parse(data);
+          let translatedText = '';
+          if (json && json[0]) {
+            json[0].forEach(part => translatedText += part[0]);
+          }
+          resolve(translatedText || text);
+        } catch (e) {
+          console.error('Translation parse error:', e);
+          resolve(text); // Fallback to original text on error
+        }
+      });
+    }).on('error', (e) => {
+      console.error('Translation network error:', e);
+      resolve(text);
+    });
+  });
+}
+
 // Connection helper for Serverless
 async function ensureConnected() {
   if (mongoose.connection.readyState === 1) return true;
@@ -119,6 +148,38 @@ app.post('/api/content', async (req, res) => {
     // Basic validation
     if (!newContent || typeof newContent !== 'object') {
       return res.status(400).json({ error: 'Invalid content format' });
+    }
+
+    // Auto-translate allies dynamic content
+    if (newContent.allies) {
+      const targetLangs = ['en', 'fr', 'pt', 'zh'];
+      
+      const translateObject = async (text) => {
+        if (!text) return {};
+        const results = {};
+        for (const lang of targetLangs) {
+          results[lang] = await translateText(text, lang);
+        }
+        return results;
+      };
+
+      if (newContent.allies.title) {
+        newContent.allies.title_translations = await translateObject(newContent.allies.title);
+      }
+      if (newContent.allies.description) {
+        newContent.allies.description_translations = await translateObject(newContent.allies.description);
+      }
+      
+      if (newContent.allies.items && Array.isArray(newContent.allies.items)) {
+        for (const item of newContent.allies.items) {
+          if (item.name) {
+            item.name_translations = await translateObject(item.name);
+          }
+          if (item.description) {
+            item.description_translations = await translateObject(item.description);
+          }
+        }
+      }
     }
 
     const isConnected = await ensureConnected();
