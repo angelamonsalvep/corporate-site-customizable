@@ -145,28 +145,39 @@ app.get('/api/content', async (req, res) => {
   try {
     const isConnected = await ensureConnected();
 
-    // Helper: enrich data with SEO defaults from seed if missing
-    const enrichWithSeoDefaults = (data) => {
-      if (!data.seo || Object.keys(data.seo).length === 0) {
-        try {
-          const clientSeed = path.join(__dirname, 'seeds', `${CLIENT_ID}.json`);
-          const genericSeed = path.join(__dirname, 'seeds', 'generic.json');
-          const seedToUse = fs.existsSync(clientSeed) ? clientSeed : genericSeed;
-          const seedData = JSON.parse(fs.readFileSync(seedToUse, 'utf8'));
-          if (seedData.seo) {
-            data = { ...data.toObject ? data.toObject() : data, seo: seedData.seo };
-          }
-        } catch (e) {
-          console.warn('[SEO Defaults] Could not load seed defaults:', e.message);
-        }
+    // Helper: load SEO defaults from seed file
+    const getSeoDefaults = () => {
+      try {
+        const clientSeed = path.join(__dirname, 'seeds', `${CLIENT_ID}.json`);
+        const genericSeed = path.join(__dirname, 'seeds', 'generic.json');
+        const seedToUse = fs.existsSync(clientSeed) ? clientSeed : genericSeed;
+        const seedData = JSON.parse(fs.readFileSync(seedToUse, 'utf8'));
+        return seedData.seo || null;
+      } catch (e) {
+        console.warn('[SEO Defaults] Could not load seed:', e.message);
+        return null;
       }
-      return data;
     };
 
     if (isConnected) {
       let data = await Content.findOne({ documentId: CLIENT_ID });
       if (data) {
-        return res.json(enrichWithSeoDefaults(data));
+        // Check if seo fields are missing or empty (metaTitle is the key indicator)
+        if (!data.seo?.metaTitle) {
+          const seoDefaults = getSeoDefaults();
+          if (seoDefaults) {
+            // Persist defaults to MongoDB so next load they are already there
+            await Content.findOneAndUpdate(
+              { documentId: CLIENT_ID },
+              { $set: { seo: seoDefaults } }
+            );
+            console.log('[SEO Defaults] Injected and saved SEO defaults to MongoDB for', CLIENT_ID);
+            const plain = data.toObject();
+            plain.seo = seoDefaults;
+            return res.json(plain);
+          }
+        }
+        return res.json(data);
       }
       
       // Fallback si no hay datos en la colección
