@@ -232,6 +232,12 @@
     z-index: 1000;
   }
 
+  /* Forzar color oscuro en el icono de cerrar (X) cuando el menú está abierto */
+  .mobile-menu-btn .hamburger.open::before,
+  .mobile-menu-btn .hamburger.open::after {
+    background-color: #1e293b !important;
+  }
+
   .navbar.scrolled .hamburger,
   .navbar.scrolled .hamburger::before,
   .navbar.scrolled .hamburger::after {
@@ -248,9 +254,10 @@
   .lang-selector-btn {
     width: 100%;
     justify-content: space-between;
-    background: rgba(10, 25, 47, 0.5);
-    border: 1px solid var(--color-accent);
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--color-secondary);
     padding: 1rem;
+    color: #1e293b !important;
   }
   
   .lang-dropdown {
@@ -258,9 +265,23 @@
     top: 10px;
     right: 0;
     width: 100%;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.02);
     box-shadow: none;
     animation: none;
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .lang-dropdown .lang-option {
+    color: #1e293b !important; /* Forzar texto oscuro */
+  }
+
+  .lang-dropdown .lang-option:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  .lang-dropdown .lang-option.active {
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--color-accent) !important;
   }
 }
 
