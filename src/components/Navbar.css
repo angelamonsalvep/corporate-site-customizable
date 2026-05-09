@@ -254,10 +254,12 @@
   .lang-selector-btn {
     width: 100%;
     justify-content: space-between;
-    background: rgba(0, 0, 0, 0.05);
-    border: 1px solid var(--color-secondary);
+    background: #ffffff;
+    border: 1px solid rgba(10, 25, 47, 0.2);
     padding: 1rem;
     color: #1e293b !important;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   }
   
   .lang-dropdown {
