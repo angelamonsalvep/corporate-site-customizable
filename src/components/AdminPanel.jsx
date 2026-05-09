@@ -664,55 +664,64 @@ const AdminPanel = () => {
                   <input type="text" className="form-control" value={formData.contact.address} onChange={(e) => handleChange('contact', 'address', e.target.value)} />
                 </div>
 
-                <div className="form-group" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '1.5rem', background: '#f8fafc', padding: '1.5rem', borderRadius: '8px' }}>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500 }}>
+                <div className="form-group" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginTop: '1.5rem', background: '#f8fafc', padding: '1.5rem', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                  <label style={{ display: 'grid', gridTemplateColumns: '24px 1fr', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500 }}>
                     <input
                       type="checkbox"
                       checked={formData.contact.showWhatsApp !== false}
                       onChange={(e) => handleChange('contact', 'showWhatsApp', e.target.checked)}
+                      style={{ width: '18px', height: '18px' }}
                     />
-                    {t('admin.contact.enableWA1')}
+                    <span>{t('admin.contact.enableWA1')}</span>
                   </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500 }}>
+                  <label style={{ display: 'grid', gridTemplateColumns: '24px 1fr', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500 }}>
                     <input
                       type="checkbox"
                       checked={formData.contact.showSecondaryWhatsApp === true}
                       onChange={(e) => handleChange('contact', 'showSecondaryWhatsApp', e.target.checked)}
+                      style={{ width: '18px', height: '18px' }}
                     />
-                    {t('admin.contact.enableWA2')}
+                    <span>{t('admin.contact.enableWA2')}</span>
                   </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500 }}>
+                  <label style={{ display: 'grid', gridTemplateColumns: '24px 1fr', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500 }}>
                     <input
                       type="checkbox"
                       checked={formData.contact.showPhone !== false}
                       onChange={(e) => handleChange('contact', 'showPhone', e.target.checked)}
+                      style={{ width: '18px', height: '18px' }}
                     />
-                    {t('admin.contact.showPhone1')}
+                    <span>{t('admin.contact.showPhone1')}</span>
                   </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500 }}>
+                  <label style={{ display: 'grid', gridTemplateColumns: '24px 1fr', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500 }}>
                     <input
                       type="checkbox"
                       checked={formData.contact.showSecondaryPhone === true}
                       onChange={(e) => handleChange('contact', 'showSecondaryPhone', e.target.checked)}
+                      style={{ width: '18px', height: '18px' }}
                     />
-                    {t('admin.contact.showPhone2')}
+                    <span>{t('admin.contact.showPhone2')}</span>
                   </label>
 
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500, gridColumn: 'span 2', marginTop: '0.5rem', borderTop: '1px solid #e2e8f0', paddingTop: '0.8rem' }}>
+                  {/* Separador */}
+                  <div style={{ gridColumn: 'span 2', borderTop: '1px solid #cbd5e1', margin: '0.5rem 0' }}></div>
+
+                  <label style={{ display: 'grid', gridTemplateColumns: '24px 1fr', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500 }}>
                     <input
                       type="checkbox"
                       checked={formData.contact.showPrimaryLabel !== false}
                       onChange={(e) => handleChange('contact', 'showPrimaryLabel', e.target.checked)}
+                      style={{ width: '18px', height: '18px' }}
                     />
-                    {t('admin.contact.showPrimaryLabel')}
+                    <span>{t('admin.contact.showPrimaryLabel')}</span>
                   </label>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500, gridColumn: 'span 2' }}>
+                  <label style={{ display: 'grid', gridTemplateColumns: '24px 1fr', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500 }}>
                     <input
                       type="checkbox"
                       checked={formData.contact.showSecondaryLabel !== false}
                       onChange={(e) => handleChange('contact', 'showSecondaryLabel', e.target.checked)}
+                      style={{ width: '18px', height: '18px' }}
                     />
-                    {t('admin.contact.showSecondaryLabel')}
+                    <span>{t('admin.contact.showSecondaryLabel')}</span>
                   </label>
                 </div>
                 

@@ -154,6 +154,8 @@
     ]
   },
   "contact": {
+    "showPrimaryLabel": false,
+    "showSecondaryLabel": false,
     "showSecondaryWhatsApp": true,
     "showSecondaryPhone": true,
     "showWhatsApp": true,
