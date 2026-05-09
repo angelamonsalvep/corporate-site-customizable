@@ -3,16 +3,18 @@ import { useContent } from '../context/ContentContext';
 
 /**
  * SEOHead - Updates the document <head> dynamically with SEO meta-tags.
- * Supports: title, description, keywords, Open Graph, Twitter Cards, Schema.org JSON-LD.
+ * Language-aware: meta-tags reflect the active language with English as default.
+ * Supports: title, description, keywords, Open Graph, Twitter Cards, hreflang, Schema.org JSON-LD.
  */
 const SEOHead = () => {
-  const { content } = useContent();
+  const { content, language } = useContent();
 
   useEffect(() => {
     if (!content) return;
 
     const company = content.general?.companyName || 'Corporate Site';
     const seo = content.seo || {};
+    const lang = language || 'en';
 
     // --- Helpers ---
     const setMeta = (name, value, attr = 'name') => {
@@ -26,12 +28,16 @@ const SEOHead = () => {
       el.setAttribute('content', value);
     };
 
-    const setLink = (rel, href) => {
+    const setLink = (rel, href, extraAttrs = {}) => {
       if (!href) return;
-      let el = document.querySelector(`link[rel="${rel}"]`);
+      const selector = extraAttrs.hreflang
+        ? `link[rel="alternate"][hreflang="${extraAttrs.hreflang}"]`
+        : `link[rel="${rel}"]`;
+      let el = document.querySelector(selector);
       if (!el) {
         el = document.createElement('link');
         el.setAttribute('rel', rel);
+        Object.entries(extraAttrs).forEach(([k, v]) => el.setAttribute(k, v));
         document.head.appendChild(el);
       }
       el.setAttribute('href', href);
@@ -49,45 +55,63 @@ const SEOHead = () => {
       el.textContent = JSON.stringify(data, null, 2);
     };
 
-    // --- Derived values ---
-    const metaTitle = seo.metaTitle || company;
-    const metaDescription = seo.metaDescription || `${company} — Official Website`;
-    const ogImage = seo.ogImage || content.general?.logoImage || '';
-    const siteUrl = seo.siteUrl || window.location.origin;
-    const canonicalUrl = siteUrl.replace(/\/$/, '');
+    // --- Resolve title & description per active language ---
+    // Priority: translations[lang] → translations['en'] → base field → fallback
+    const resolveTranslated = (baseField, translationsField) => {
+      const translations = seo[translationsField] || {};
+      return translations[lang] || translations['en'] || seo[baseField] || null;
+    };
 
-    // --- 1. Title ---
+    const metaTitle = resolveTranslated('metaTitle', 'metaTitle_translations') || company;
+    const metaDescription = resolveTranslated('metaDescription', 'metaDescription_translations')
+      || `${company} — Official Website`;
+    const ogImage = seo.ogImage || content.general?.logoImage || '';
+    const siteUrl = (seo.siteUrl || window.location.origin).replace(/\/$/, '');
+    const canonicalUrl = siteUrl;
+
+    // --- 1. HTML lang attribute ---
+    document.documentElement.setAttribute('lang', lang);
+
+    // --- 2. Title ---
     document.title = metaTitle;
 
-    // --- 2. Basic meta-tags ---
+    // --- 3. Basic meta-tags ---
     setMeta('description', metaDescription);
     if (seo.metaKeywords) setMeta('keywords', seo.metaKeywords);
     setMeta('robots', 'index, follow');
     setMeta('author', company);
 
-    // --- 3. Google Site Verification ---
+    // --- 4. Google Site Verification ---
     if (seo.googleSiteVerification) {
       setMeta('google-site-verification', seo.googleSiteVerification);
     }
 
-    // --- 4. Canonical URL ---
+    // --- 5. Canonical URL ---
     setLink('canonical', canonicalUrl);
 
-    // --- 5. Open Graph (Facebook, WhatsApp, LinkedIn) ---
+    // --- 6. hreflang — tells Google the languages this site supports ---
+    const supportedLangs = ['en', 'es', 'pt', 'fr', 'zh'];
+    supportedLangs.forEach(l => {
+      setLink('alternate', canonicalUrl, { hreflang: l });
+    });
+    setLink('alternate', canonicalUrl, { hreflang: 'x-default' });
+
+    // --- 7. Open Graph (Facebook, WhatsApp, LinkedIn) ---
     setMeta('og:type', 'website', 'property');
     setMeta('og:title', metaTitle, 'property');
     setMeta('og:description', metaDescription, 'property');
     setMeta('og:url', canonicalUrl, 'property');
     setMeta('og:site_name', company, 'property');
+    setMeta('og:locale', lang, 'property');
     if (ogImage) setMeta('og:image', ogImage, 'property');
 
-    // --- 6. Twitter Card ---
+    // --- 8. Twitter Card ---
     setMeta('twitter:card', 'summary_large_image');
     setMeta('twitter:title', metaTitle);
     setMeta('twitter:description', metaDescription);
     if (ogImage) setMeta('twitter:image', ogImage);
 
-    // --- 7. Schema.org JSON-LD (Organization) ---
+    // --- 9. Schema.org JSON-LD (Organization) ---
     const schema = {
       '@context': 'https://schema.org',
       '@type': 'Organization',
@@ -107,17 +131,17 @@ const SEOHead = () => {
           '@type': 'ContactPoint',
           telephone: `+${content.contact.whatsappNumber}`,
           contactType: 'customer service',
-          availableLanguage: ['English', 'Spanish']
+          availableLanguage: ['English', 'Spanish', 'Portuguese', 'French', 'Chinese']
         }]
       }),
-      sameAs: [] // Aquí se pueden agregar redes sociales en el futuro
+      sameAs: []
     };
 
     setJsonLd(schema);
 
-  }, [content]);
+  }, [content, language]); // Re-runs when language changes
 
-  return null; // No renderiza nada en el DOM visible
+  return null;
 };
 
 export default SEOHead;
