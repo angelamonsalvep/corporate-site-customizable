@@ -46,9 +46,18 @@ const Contact = () => {
       } else {
         setSubmitStatus('error');
       }
+
+      // Auto-quitar mensaje después de 8 segundos
+      setTimeout(() => {
+        setSubmitStatus('');
+      }, 8000);
+
     } catch (error) {
       console.error('Error enviando formulario:', error);
       setSubmitStatus('error');
+      setTimeout(() => {
+        setSubmitStatus('');
+      }, 8000);
     } finally {
       setIsSubmitting(false);
     }
@@ -154,13 +163,27 @@ const Contact = () => {
               </div>
 
               {submitStatus === 'success' && (
-                <div style={{ backgroundColor: '#dcfce7', color: '#166534', padding: '1rem', borderRadius: '6px', marginBottom: '1.5rem', border: '1px solid #bbf7d0' }}>
+                <div style={{ position: 'relative', backgroundColor: '#dcfce7', color: '#166534', padding: '1rem 2.5rem 1rem 1rem', borderRadius: '6px', marginBottom: '1.5rem', border: '1px solid #bbf7d0' }}>
                   {t('contact.success')}
+                  <button 
+                    onClick={() => setSubmitStatus('')}
+                    style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: '#166534', cursor: 'pointer', fontSize: '1.2rem', fontWeight: 'bold' }}
+                    aria-label="Cerrar"
+                  >
+                    ×
+                  </button>
                 </div>
               )}
               {submitStatus === 'error' && (
-                <div style={{ backgroundColor: '#fee2e2', color: '#991b1b', padding: '1rem', borderRadius: '6px', marginBottom: '1.5rem', border: '1px solid #fecaca' }}>
+                <div style={{ position: 'relative', backgroundColor: '#fee2e2', color: '#991b1b', padding: '1rem 2.5rem 1rem 1rem', borderRadius: '6px', marginBottom: '1.5rem', border: '1px solid #fecaca' }}>
                   {t('contact.error')}
+                  <button 
+                    onClick={() => setSubmitStatus('')}
+                    style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: '#991b1b', cursor: 'pointer', fontSize: '1.2rem', fontWeight: 'bold' }}
+                    aria-label="Cerrar"
+                  >
+                    ×
+                  </button>
                 </div>
               )}
 
