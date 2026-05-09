@@ -457,7 +457,7 @@ app.post('/api/content', async (req, res) => {
 app.get('/api/cloudinary-gallery', async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
-    if (authHeader !== `Bearer ${ADMIN_PASSWORD}`) {
+    if (!(await ensureAuthorized(authHeader))) {
       return res.status(401).json({ error: 'No autorizado.' });
     }
 
