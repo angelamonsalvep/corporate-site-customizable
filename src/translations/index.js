@@ -172,7 +172,9 @@ export const translations = {
         enableWA1: 'Habilitar WhatsApp 1',
         enableWA2: 'Habilitar WhatsApp 2',
         showPhone1: 'Mostrar Teléfono 1',
-        showPhone2: 'Mostrar Teléfono 2'
+        showPhone2: 'Mostrar Teléfono 2',
+        showPrimaryLabel: 'Mostrar etiqueta "Línea Principal"',
+        showSecondaryLabel: 'Mostrar etiqueta "Línea Secundaria"'
       },
       actions: {
         save: '💾 Guardar Sección',
@@ -360,8 +362,9 @@ export const translations = {
         phone: 'Visible Phone',
         enableWA1: 'Enable WhatsApp 1',
         enableWA2: 'Enable WhatsApp 2',
-        showPhone1: 'Show Phone 1',
-        showPhone2: 'Show Phone 2'
+        showPhone2: 'Show Phone 2',
+        showPrimaryLabel: 'Show "Primary Line" label',
+        showSecondaryLabel: 'Show "Secondary Line" label'
       },
       actions: {
         save: '💾 Save Section',

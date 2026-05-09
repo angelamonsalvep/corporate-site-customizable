@@ -8,8 +8,11 @@ const FloatingContact = () => {
   
   if (!siteContent || !siteContent.contact) return null;
 
-  const showWA1 = siteContent.contact.showWhatsApp !== false;
-  const showWA2 = siteContent.contact.showSecondaryWhatsApp === true;
+  const showWA1 = siteContent.contact.whatsappNumber && siteContent.contact.showWhatsApp !== false;
+  const showWA2 = siteContent.contact.secondaryWhatsappNumber && siteContent.contact.showSecondaryWhatsApp === true;
+  
+  const showPLabel = siteContent.contact.showPrimaryLabel !== false;
+  const showSLabel = siteContent.contact.showSecondaryLabel !== false;
 
   if (!showWA1 && !showWA2) return null;
 
@@ -57,12 +60,12 @@ const FloatingContact = () => {
             </div>
             <div className="menu-text">
               <span className="menu-label">{getLabel('whatsappLabel', 'whatsappLabelDefault')}</span>
-              <span className="menu-sublabel">{t('contact.whatsappPrimary')}</span>
+              {showPLabel && <span className="menu-sublabel">{t('contact.whatsappPrimary')}</span>}
             </div>
           </a>
         )}
         
-        {showWA2 && siteContent.contact.secondaryWhatsappNumber && (
+        {showWA2 && (
           <a 
             href={`https://wa.me/${siteContent.contact.secondaryWhatsappNumber}?text=${getWAMessage('secondaryWhatsappMessage')}`} 
             className="menu-item whatsapp secondary"
@@ -77,7 +80,7 @@ const FloatingContact = () => {
             </div>
             <div className="menu-text">
               <span className="menu-label">{getLabel('secondaryWhatsappLabel', 'secondaryWhatsappLabelDefault')}</span>
-              <span className="menu-sublabel">{t('contact.whatsappSecondary')}</span>
+              {showSLabel && <span className="menu-sublabel">{t('contact.whatsappSecondary')}</span>}
             </div>
           </a>
         )}

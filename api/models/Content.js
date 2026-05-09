@@ -76,7 +76,9 @@ const ContentSchema = new mongoose.Schema({
     showWhatsApp: { type: Boolean, default: true },
     showSecondaryWhatsApp: { type: Boolean, default: false },
     showPhone: { type: Boolean, default: true },
-    showSecondaryPhone: { type: Boolean, default: false }
+    showSecondaryPhone: { type: Boolean, default: false },
+    showPrimaryLabel: { type: Boolean, default: true },
+    showSecondaryLabel: { type: Boolean, default: true }
   },
   allies: {
     title: String,

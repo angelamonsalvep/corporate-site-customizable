@@ -697,6 +697,23 @@ const AdminPanel = () => {
                     />
                     {t('admin.contact.showPhone2')}
                   </label>
+
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500, gridColumn: 'span 2', marginTop: '0.5rem', borderTop: '1px solid #e2e8f0', paddingTop: '0.8rem' }}>
+                    <input
+                      type="checkbox"
+                      checked={formData.contact.showPrimaryLabel !== false}
+                      onChange={(e) => handleChange('contact', 'showPrimaryLabel', e.target.checked)}
+                    />
+                    {t('admin.contact.showPrimaryLabel')}
+                  </label>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontWeight: 500, gridColumn: 'span 2' }}>
+                    <input
+                      type="checkbox"
+                      checked={formData.contact.showSecondaryLabel !== false}
+                      onChange={(e) => handleChange('contact', 'showSecondaryLabel', e.target.checked)}
+                    />
+                    {t('admin.contact.showSecondaryLabel')}
+                  </label>
                 </div>
                 
                 <div className="section-save-container" style={{ marginTop: '2rem' }}>
