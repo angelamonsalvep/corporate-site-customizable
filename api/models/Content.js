@@ -95,6 +95,14 @@ const ContentSchema = new mongoose.Schema({
       visible: { type: Boolean, default: true }
     }]
   },
+  seo: {
+    metaTitle: String,
+    metaDescription: String,
+    metaKeywords: String,
+    ogImage: String,
+    siteUrl: String,
+    googleSiteVerification: String
+  },
   adminConfig: {
     passwordHash: String,
     securityQuestion: String,

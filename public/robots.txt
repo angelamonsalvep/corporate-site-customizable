@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# No indexar el panel admin
+Disallow: /admin
+
+# Sitemap
+Sitemap: /sitemap.xml

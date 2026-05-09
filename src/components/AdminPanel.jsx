@@ -143,6 +143,7 @@ const AdminPanel = () => {
       const data = JSON.parse(JSON.stringify(content));
       if (!data.allies) data.allies = { title: '', description: '', items: [] };
       if (!data.allies.items) data.allies.items = [];
+      if (!data.seo) data.seo = { metaTitle: '', metaDescription: '', metaKeywords: '', ogImage: '', siteUrl: '', googleSiteVerification: '' };
       setFormData(data); // Deep copy with defaults
     }
   }, [content]);
@@ -467,6 +468,7 @@ const AdminPanel = () => {
           <button className={activeTab === 'trade' ? 'active' : ''} onClick={() => selectTab('trade')}>{t('admin.tabs.trade')}</button>
           <button className={activeTab === 'financial' ? 'active' : ''} onClick={() => selectTab('financial')}>{t('admin.tabs.financial')}</button>
           <button className={activeTab === 'allies' ? 'active' : ''} onClick={() => selectTab('allies')}>{t('admin.tabs.allies')}</button>
+          <button className={activeTab === 'seo' ? 'active' : ''} onClick={() => selectTab('seo')}>🔍 SEO</button>
           <button className={activeTab === 'security' ? 'active' : ''} onClick={() => selectTab('security')}>{t('admin.tabs.security')}</button>
         </div>
         
@@ -1166,6 +1168,121 @@ const AdminPanel = () => {
                 <div className="section-save-container" style={{ marginTop: '2rem' }}>
                   <button type="button" className="btn btn-primary" onClick={() => handleSaveSection('allies')} disabled={isSaving}>
                     {isSaving ? 'Guardando...' : '💾 Guardar Aliados'}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Tab SEO */}
+            {activeTab === 'seo' && (
+              <div>
+                <h2>🔍 SEO &amp; Posicionamiento</h2>
+                <p style={{ color: '#64748b', marginBottom: '1.5rem', fontSize: '0.95rem' }}>
+                  Configura cómo aparece tu sitio en Google, WhatsApp y redes sociales.
+                </p>
+
+                <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '8px', padding: '1rem', marginBottom: '1.5rem' }}>
+                  <strong style={{ color: '#166534' }}>💡 Consejos:</strong>
+                  <ul style={{ color: '#166534', marginTop: '0.5rem', paddingLeft: '1.2rem', fontSize: '0.9rem' }}>
+                    <li>El <strong>Meta Título</strong> debe tener entre 50-60 caracteres.</li>
+                    <li>La <strong>Meta Descripción</strong> debe tener entre 120-160 caracteres.</li>
+                    <li>Las <strong>Palabras Clave</strong> deben separarse con comas.</li>
+                    <li>La <strong>URL del sitio</strong> debe ser la dirección completa (ej: https://misitio.com).</li>
+                  </ul>
+                </div>
+
+                <div className="form-group">
+                  <label>Meta Título <small style={{ color: '#94a3b8' }}>(50-60 caracteres recomendados)</small></label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={formData.seo?.metaTitle || ''}
+                    onChange={(e) => handleChange('seo', 'metaTitle', e.target.value)}
+                    placeholder={`Ej: ${formData.general?.companyName || 'Mi Empresa'} — Servicios Corporativos Internacionales`}
+                    maxLength={70}
+                  />
+                  <small style={{ color: formData.seo?.metaTitle?.length > 60 ? '#ef4444' : '#94a3b8' }}>
+                    {formData.seo?.metaTitle?.length || 0} / 60 caracteres
+                  </small>
+                </div>
+
+                <div className="form-group">
+                  <label>Meta Descripción <small style={{ color: '#94a3b8' }}>(120-160 caracteres recomendados)</small></label>
+                  <textarea
+                    className="form-control"
+                    rows="3"
+                    value={formData.seo?.metaDescription || ''}
+                    onChange={(e) => handleChange('seo', 'metaDescription', e.target.value)}
+                    placeholder="Ej: Somos una empresa especializada en comercio internacional y servicios financieros. Contáctenos para más información."
+                    maxLength={200}
+                  />
+                  <small style={{ color: formData.seo?.metaDescription?.length > 160 ? '#ef4444' : '#94a3b8' }}>
+                    {formData.seo?.metaDescription?.length || 0} / 160 caracteres
+                  </small>
+                </div>
+
+                <div className="form-group">
+                  <label>Palabras Clave <small style={{ color: '#94a3b8' }}>(separadas por coma)</small></label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={formData.seo?.metaKeywords || ''}
+                    onChange={(e) => handleChange('seo', 'metaKeywords', e.target.value)}
+                    placeholder="Ej: comercio internacional, servicios financieros, importación, exportación"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>URL del Sitio Web <small style={{ color: '#94a3b8' }}>(para links canónicos y Open Graph)</small></label>
+                  <input
+                    type="url"
+                    className="form-control"
+                    value={formData.seo?.siteUrl || ''}
+                    onChange={(e) => handleChange('seo', 'siteUrl', e.target.value)}
+                    placeholder="Ej: https://www.misitioweb.com"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Imagen para Redes Sociales (og:image) <small style={{ color: '#94a3b8' }}>(se ve al compartir en WhatsApp, LinkedIn, etc.)</small></label>
+                  <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                    <input
+                      type="url"
+                      className="form-control"
+                      value={formData.seo?.ogImage || ''}
+                      onChange={(e) => handleChange('seo', 'ogImage', e.target.value)}
+                      placeholder="URL de la imagen (o selecciona desde Cloudinary)"
+                    />
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      style={{ whiteSpace: 'nowrap', padding: '0.6rem 1rem' }}
+                      onClick={() => openGallery({ section: 'seo', field: 'ogImage' })}
+                    >
+                      📷 Galería
+                    </button>
+                  </div>
+                  {formData.seo?.ogImage && (
+                    <img src={formData.seo.ogImage} alt="Preview og:image" style={{ marginTop: '0.5rem', maxHeight: '120px', borderRadius: '8px', objectFit: 'cover' }} />
+                  )}
+                  <small style={{ color: '#94a3b8' }}>Recomendado: 1200×630 px. Si no se configura, se usará el logo de la empresa.</small>
+                </div>
+
+                <div className="form-group">
+                  <label>Código de Verificación Google Search Console <small style={{ color: '#94a3b8' }}>(opcional)</small></label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={formData.seo?.googleSiteVerification || ''}
+                    onChange={(e) => handleChange('seo', 'googleSiteVerification', e.target.value)}
+                    placeholder="Ej: AbCdEfGhIjKlMnOpQrStUvWxYz1234567890"
+                  />
+                  <small style={{ color: '#94a3b8' }}>Copia solo el valor del atributo content del meta-tag que te da Google.</small>
+                </div>
+
+                <div className="section-save-container" style={{ marginTop: '2rem' }}>
+                  <button type="button" className="btn btn-primary" onClick={() => handleSaveSection('seo')} disabled={isSaving}>
+                    {isSaving ? 'Guardando...' : '💾 Guardar SEO'}
                   </button>
                 </div>
               </div>

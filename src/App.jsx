@@ -8,6 +8,7 @@ import FloatingContact from './components/FloatingContact';
 import AdminPanel from './components/AdminPanel';
 import Allies from './components/Allies';
 import Footer from './components/Footer';
+import SEOHead from './components/SEOHead';
 import { ContentProvider, useContent } from './context/ContentContext';
 import { useEffect } from 'react';
 
@@ -20,6 +21,7 @@ function MainSite() {
 
   return (
     <>
+      <SEOHead />
       <FloatingContact />
       <Navbar />
       <main>
