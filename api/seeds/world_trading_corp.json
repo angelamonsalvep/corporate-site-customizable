@@ -251,5 +251,13 @@
   "documentId": "world_trading_corp",
   "__v": 0,
   "createdAt": "2026-05-02T12:21:29.098Z",
-  "updatedAt": "2026-05-08T01:40:59.150Z"
+  "updatedAt": "2026-05-08T01:40:59.150Z",
+  "seo": {
+    "metaTitle": "C&S World Trading Corp. — International Trade & Finance",
+    "metaDescription": "International trade and financial solutions from Panama. We specialize in Colombian commodities, corporate banking, and cross-border finance. Contact us today.",
+    "metaKeywords": "international trade, financial services, Colombian coffee export, sugar export, commodities, trade finance, SBLC monetization, corporate banking, Panama, wealth management, import export, cross-border finance",
+    "ogImage": "https://res.cloudinary.com/dg3qo1slx/image/upload/v1777726777/clientes/world-trading-corp/iok62yfpnjmlav1t1pwl.png",
+    "siteUrl": "https://www.csworldtradingcorp.com",
+    "googleSiteVerification": ""
+  }
 }
