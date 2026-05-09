@@ -145,10 +145,28 @@ app.get('/api/content', async (req, res) => {
   try {
     const isConnected = await ensureConnected();
 
+    // Helper: enrich data with SEO defaults from seed if missing
+    const enrichWithSeoDefaults = (data) => {
+      if (!data.seo || Object.keys(data.seo).length === 0) {
+        try {
+          const clientSeed = path.join(__dirname, 'seeds', `${CLIENT_ID}.json`);
+          const genericSeed = path.join(__dirname, 'seeds', 'generic.json');
+          const seedToUse = fs.existsSync(clientSeed) ? clientSeed : genericSeed;
+          const seedData = JSON.parse(fs.readFileSync(seedToUse, 'utf8'));
+          if (seedData.seo) {
+            data = { ...data.toObject ? data.toObject() : data, seo: seedData.seo };
+          }
+        } catch (e) {
+          console.warn('[SEO Defaults] Could not load seed defaults:', e.message);
+        }
+      }
+      return data;
+    };
+
     if (isConnected) {
       let data = await Content.findOne({ documentId: CLIENT_ID });
       if (data) {
-        return res.json(data);
+        return res.json(enrichWithSeoDefaults(data));
       }
       
       // Fallback si no hay datos en la colección
