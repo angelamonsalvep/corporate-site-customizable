@@ -21,7 +21,7 @@ Este proyecto permite a empresas corporativas mantener una presencia digital mod
 
 - **Frontend**: React.js (Vite)
 - **Backend**: Node.js + Express (API)
-- **Base de Datos**: MongoDB (Persistencia)
+- **Base de Datos**: MongoDB (Persistencia de contenido y seguridad)
 - **Imágenes**: Cloudinary API
 
 ---
@@ -40,12 +40,9 @@ VITE_CLOUDINARY_UPLOAD_PRESET=tu_preset
 ```
 
 ### 2. Variables del Backend (Carpeta `/api/.env`)
-Configura estas variables para la lógica del servidor, base de datos y seguridad:
+Configura estas variables para la lógica del servidor, base de datos e imágenes:
 
 ```env
-# Seguridad
-ADMIN_PASSWORD=tu_contraseña_maestra
-
 # Cloudinary (Credenciales completas para el servidor)
 CLOUDINARY_CLOUD_NAME=tu_cloud_name
 CLOUDINARY_API_KEY=tu_api_key
@@ -61,6 +58,9 @@ MONGO_URL=mongodb+srv://usuario:password@cluster.mongodb.net/
 MONGO_PARAMS=retryWrites=true&w=majority
 ```
 
+> [!IMPORTANT]
+> **Seguridad**: El acceso al panel administrativo se gestiona directamente desde la base de datos (colección de contenido). No se utiliza una variable de entorno para la contraseña por motivos de seguridad. La configuración inicial se realiza mediante el sistema de semillas (seeds) o configuración manual en DB.
+
 ---
 
 ## 💻 Instalación y Uso
@@ -74,10 +74,6 @@ MONGO_PARAMS=retryWrites=true&w=majority
    ```bash
    npm run dev:all
    ```
-
-3. **Otros comandos:**
-   - `npm run dev`: Solo Frontend.
-   - `npm run dev:server`: Solo API.
 
 ---
 
