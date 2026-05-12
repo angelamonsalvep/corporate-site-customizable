@@ -43,9 +43,6 @@ VITE_CLOUDINARY_UPLOAD_PRESET=tu_preset
 Configura estas variables para la lógica del servidor, base de datos e imágenes:
 
 ```env
-# Seguridad (Solo para primer acceso)
-ADMIN_PASSWORD=admin123  # Contraseña maestra temporal para la primera configuración
-
 # Cloudinary (Credenciales completas para el servidor)
 CLOUDINARY_CLOUD_NAME=tu_cloud_name
 CLOUDINARY_API_KEY=tu_api_key
@@ -61,8 +58,10 @@ MONGO_URL=mongodb+srv://usuario:password@cluster.mongodb.net/
 MONGO_PARAMS=retryWrites=true&w=majority
 ```
 
-> [!NOTE]
-> **Nota sobre ADMIN_PASSWORD**: Esta variable solo se utiliza como **mecanismo de acceso inicial** o cuando la base de datos no está disponible. Una vez que configures la seguridad desde el panel (`/admin`), el sistema priorizará la contraseña cifrada guardada en la base de datos.
+> [!IMPORTANT]
+> **Seguridad**: Por motivos de seguridad, la contraseña del administrador **NO** se gestiona mediante variables de entorno. Se almacena de forma cifrada directamente en la base de datos. 
+> - La contraseña inicial por defecto (si usas los seeds incluidos) es: `admin123`.
+> - Se recomienda cambiarla inmediatamente desde el panel `/admin` tras el primer inicio de sesión.
 
 ---
 
@@ -73,7 +72,14 @@ MONGO_PARAMS=retryWrites=true&w=majority
    npm install
    ```
 
-2. **Iniciar en modo desarrollo (Frontend + API):**
+2. **Inicializar Base de Datos (Opcional):**
+   Si deseas cargar los datos de ejemplo y la configuración de seguridad inicial:
+   ```bash
+   cd api
+   node seed.js
+   ```
+
+3. **Iniciar en modo desarrollo (Frontend + API):**
    ```bash
    npm run dev:all
    ```

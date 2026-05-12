@@ -28,7 +28,7 @@ cloudinary.config({
 const app = express();
 const PORT = process.env.PORT || 3001;
 const DB_FILE = path.join(__dirname, 'database.json');
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
+const DB_FILE = path.join(__dirname, 'database.json');
 const CLIENT_ID = process.env.CLIENT_ID || 'default_site';
 const DB_NAME = process.env.DB_NAME || CLIENT_ID;
 const MONGO_URL = process.env.MONGO_URL;
@@ -193,12 +193,8 @@ app.post('/api/verify-password', async (req, res) => {
       }
     }
 
-    // Fallback a la contraseña de .env (primera vez o sin DB)
-    if (password === ADMIN_PASSWORD) {
-      res.json({ success: true });
-    } else {
-      res.status(401).json({ success: false, error: 'Contraseña incorrecta' });
-    }
+    // Sin configuración en DB, denegar acceso (ahora se requiere seed inicial)
+    res.status(401).json({ success: false, error: 'Credenciales no configuradas en el servidor' });
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ success: false, error: 'Error en el servidor' });
@@ -209,21 +205,17 @@ app.post('/api/verify-password', async (req, res) => {
 app.post('/api/admin/setup-security', async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
-    if (authHeader !== `Bearer ${ADMIN_PASSWORD}`) {
-      // Intentar validar con la contraseña encriptada actual si ya existe
-      const isConnected = await ensureConnected();
-      if (isConnected) {
-        const data = await Content.findOne({ documentId: CLIENT_ID });
-        if (data && data.adminConfig && data.adminConfig.passwordHash) {
-          const isAuthorized = await bcrypt.compare(authHeader.replace('Bearer ', ''), data.adminConfig.passwordHash);
-          if (!isAuthorized) return res.status(401).json({ error: 'No autorizado' });
-        } else if (authHeader !== `Bearer ${ADMIN_PASSWORD}`) {
-           return res.status(401).json({ error: 'No autorizado' });
-        }
-      } else {
-        return res.status(401).json({ error: 'No autorizado' });
-      }
+    const isConnected = await ensureConnected();
+    if (!isConnected) return res.status(500).json({ error: 'Base de datos no conectada' });
+
+    const data = await Content.findOne({ documentId: CLIENT_ID });
+    if (!data || !data.adminConfig || !data.adminConfig.passwordHash) {
+      return res.status(401).json({ error: 'Seguridad no inicializada en la base de datos' });
     }
+
+    const password = authHeader?.replace('Bearer ', '');
+    const isAuthorized = await bcrypt.compare(password, data.adminConfig.passwordHash);
+    if (!isAuthorized) return res.status(401).json({ error: 'No autorizado' });
 
     const { newPassword, securityQuestion, securityAnswer } = req.body;
     const isConnected = await ensureConnected();
@@ -273,10 +265,7 @@ const ensureAuthorized = async (authHeader) => {
   if (!authHeader) return false;
   const password = authHeader.replace('Bearer ', '');
   
-  // Try ENV password
-  if (password === ADMIN_PASSWORD) return true;
-  
-  // Try DB hash
+  // Validar estrictamente contra la base de datos
   const isConnected = await ensureConnected();
   if (isConnected) {
     const data = await Content.findOne({ documentId: CLIENT_ID });

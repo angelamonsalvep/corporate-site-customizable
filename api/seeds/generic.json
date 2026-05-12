@@ -78,5 +78,10 @@
       }
     ]
   },
-  "documentId": "generic"
+  "documentId": "generic",
+  "adminConfig": {
+    "passwordHash": "$2b$10$CoheGhUSFDCAldGNYQSUCuBn7C4lD9eYA/xCs6fidtA2WInBDbfSW",
+    "securityQuestion": "¿Cuál es el nombre de la empresa?",
+    "securityAnswerHash": "$2b$10$CoheGhUSFDCAldGNYQSUCuBn7C4lD9eYA/xCs6fidtA2WInBDbfSW"
+  }
 }
