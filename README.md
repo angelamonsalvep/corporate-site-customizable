@@ -2,22 +2,18 @@
 
 **Plataforma web profesional y autogestionable para empresas de servicios y comercio.**
 
-Este proyecto permite a empresas corporativas mantener una presencia digital moderna con un panel administrativo integrado. Los administradores pueden actualizar la información clave, catálogos de servicios y aliados estratégicos de forma sencilla, asegurando una comunicación fluida con sus clientes.
+Este proyecto permite a empresas corporativas mantener una presencia digital moderna con un panel administrativo integrado. Los administradores pueden actualizar la información clave, catálogos de servicios y aliados estratégicos de forma sencilla.
 
 ---
 
 ## ✨ Características Principales
 
 - **⚙️ Panel de Administración**: Acceso privado en `/admin` para gestionar todo el contenido.
-- **🖼️ Gestión de Identidad**: Personalización del Logo principal, Isotipo (favicon) y elementos visuales de la marca.
-- **📱 Diseño Responsivo**: Interfaz optimizada para móviles, tablets y escritorio.
-- **🛍️ Catálogos Dinámicos**:
-  - **Sección Comercial**: Listado de productos con imagen, título y descripción.
-  - **Sección Financiera**: Servicios detallados con soporte para listas de características (sub-ítems).
-- **🤝 Red de Aliados**: Módulo para mostrar socios estratégicos con descripciones formateadas.
-- **🌍 Soporte Multiidioma**: Interfaz traducida a Español, Inglés, Portugués, Francés y Chino.
-- **🔒 Seguridad Administrativa**: Control de acceso mediante contraseña y pregunta de seguridad para recuperación.
-- **☁️ Galería Multimedia**: Integración con Cloudinary para la carga y gestión de imágenes desde el panel.
+- **🖼️ Gestión de Identidad**: Personalización de logotipos e isotipos (favicon).
+- **🛍️ Catálogos Dinámicos**: Gestión de Áreas Comerciales (productos) y Financieras (servicios).
+- **🤝 Red de Aliados**: Módulo para socios estratégicos con soporte para formato de texto.
+- **🌍 Soporte Multiidioma**: Interfaz disponible en 5 idiomas.
+- **☁️ Galería Multimedia**: Integración con Cloudinary para gestión de imágenes.
 
 ---
 
@@ -25,39 +21,63 @@ Este proyecto permite a empresas corporativas mantener una presencia digital mod
 
 - **Frontend**: React.js (Vite)
 - **Backend**: Node.js + Express (API)
-- **Base de Datos**: MongoDB (Persistencia de contenido)
-- **Estilos**: Vanilla CSS (Modern Design)
-- **Despliegue**: Preparado para Vercel (Configuración mediante `vercel.json`)
+- **Base de Datos**: MongoDB (Persistencia)
 - **Imágenes**: Cloudinary API
 
 ---
 
-## 🚀 Instalación y Configuración
+## 🚀 Configuración del Proyecto
 
-### Requisitos
+El proyecto requiere la configuración de variables de entorno tanto para el **Frontend** como para el **Backend (API)**.
 
-- Node.js instalado.
-- Base de Datos MongoDB activa.
-- Credenciales de Cloudinary.
+### 1. Variables del Frontend (Raíz `/.env`)
+Configura estas variables para el funcionamiento de la interfaz de usuario:
 
-### Pasos
+```env
+# Cloudinary (Solo datos públicos para el widget de subida)
+VITE_CLOUDINARY_CLOUD_NAME=tu_cloud_name
+VITE_CLOUDINARY_UPLOAD_PRESET=tu_preset
+```
+
+### 2. Variables del Backend (Carpeta `/api/.env`)
+Configura estas variables para la lógica del servidor, base de datos y seguridad:
+
+```env
+# Seguridad
+ADMIN_PASSWORD=tu_contraseña_maestra
+
+# Cloudinary (Credenciales completas para el servidor)
+CLOUDINARY_CLOUD_NAME=tu_cloud_name
+CLOUDINARY_API_KEY=tu_api_key
+CLOUDINARY_API_SECRET=tu_api_secret
+CLOUDINARY_FOLDER=nombre_de_carpeta_del_cliente
+
+# Identificación del Cliente
+CLIENT_ID=id_unico_del_cliente  # ej: world_trading_corp
+DB_NAME=nombre_de_la_db         # ej: world_trading_corp
+
+# Base de Datos MongoDB
+MONGO_URL=mongodb+srv://usuario:password@cluster.mongodb.net/
+MONGO_PARAMS=retryWrites=true&w=majority
+```
+
+---
+
+## 💻 Instalación y Uso
 
 1. **Instalar dependencias:**
    ```bash
    npm install
    ```
 
-2. **Variables de Entorno:**
-   Configura un archivo `.env` en la raíz con tus credenciales de Cloudinary y la URL de la API:
-   ```env
-   VITE_CLOUDINARY_CLOUD_NAME=tu_usuario
-   VITE_CLOUDINARY_UPLOAD_PRESET=tu_preset
+2. **Iniciar en modo desarrollo (Frontend + API):**
+   ```bash
+   npm run dev:all
    ```
 
-3. **Iniciar el proyecto:**
-   - Desarrollo (Frontend + Backend): `npm run dev:all`
-   - Solo Frontend: `npm run dev`
-   - Solo API: `npm run dev:server`
+3. **Otros comandos:**
+   - `npm run dev`: Solo Frontend.
+   - `npm run dev:server`: Solo API.
 
 ---
 
