@@ -1,89 +1,70 @@
 # 🌐 Corporate Site Customizable
 
-**Una solución web corporativa profesional, dinámica y gestionable para empresas de servicios y comercio.**
+**Plataforma web profesional y autogestionable para empresas de servicios y comercio.**
 
-Este proyecto es una plataforma web personalizable diseñada para empresas que buscan una presencia digital sólida. Permite a los administradores gestionar el contenido principal del sitio, catálogos de servicios y aliados estratégicos desde un panel de control integrado, asegurando que la información esté siempre actualizada sin necesidad de conocimientos técnicos.
+Este proyecto permite a empresas corporativas mantener una presencia digital moderna con un panel administrativo integrado. Los administradores pueden actualizar la información clave, catálogos de servicios y aliados estratégicos de forma sencilla, asegurando una comunicación fluida con sus clientes.
 
 ---
 
 ## ✨ Características Principales
 
-- **⚙️ Panel Administrativo**: Gestión centralizada de todo el contenido del sitio desde `/admin`.
-- **🖼️ Gestión de Marca**: Cambia el logotipo principal, el logotipo secundario y el isotipo del navegador (favicon) de forma dinámica.
-- **📱 Mobile First & Responsive**: Diseño moderno y fluido que se adapta perfectamente a cualquier dispositivo.
-- **🛍️ Catálogo de Productos y Servicios**: 
-  - Gestión de **Área Comercial** para productos con imágenes y descripciones.
-  - Gestión de **Área Financiera** con soporte para listas de ítems detallados por servicio.
-- **🤝 Módulo de Aliados**: Sección dedicada para partners corporativos con soporte para formato de texto enriquecido (listas y negritas).
-- **🌍 Sistema Multilingüe**: Soporte integrado para 5 idiomas (Español, Inglés, Portugués, Francés y Chino).
-- **🔒 Seguridad**: Acceso protegido al panel mediante contraseña y pregunta de recuperación.
-- **☁️ Integración con Cloudinary**: Sube imágenes directamente desde el panel y gestiónalas en una galería centralizada.
+- **⚙️ Panel de Administración**: Acceso privado en `/admin` para gestionar todo el contenido.
+- **🖼️ Gestión de Identidad**: Personalización del Logo principal, Isotipo (favicon) y elementos visuales de la marca.
+- **📱 Diseño Responsivo**: Interfaz optimizada para móviles, tablets y escritorio.
+- **🛍️ Catálogos Dinámicos**:
+  - **Sección Comercial**: Listado de productos con imagen, título y descripción.
+  - **Sección Financiera**: Servicios detallados con soporte para listas de características (sub-ítems).
+- **🤝 Red de Aliados**: Módulo para mostrar socios estratégicos con descripciones formateadas.
+- **🌍 Soporte Multiidioma**: Interfaz traducida a Español, Inglés, Portugués, Francés y Chino.
+- **🔒 Seguridad Administrativa**: Control de acceso mediante contraseña y pregunta de seguridad para recuperación.
+- **☁️ Galería Multimedia**: Integración con Cloudinary para la carga y gestión de imágenes desde el panel.
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
+## 🛠️ Tecnologías
 
-- **Frontend**: [React.js](https://reactjs.org/) + [Vite](https://vitejs.dev/)
-- **Gestión de Datos**: React Context API para sincronización de contenido en tiempo real.
-- **Estilos**: Vanilla CSS con un sistema de diseño basado en variables para máxima ligereza.
-- **Backend**: Vercel Serverless Functions.
-- **Base de Datos**: MongoDB (para persistencia de configuraciones y contenido).
-- **Imágenes**: Cloudinary API (almacenamiento en la nube).
+- **Frontend**: React.js (Vite)
+- **Backend**: Node.js + Express (API)
+- **Base de Datos**: MongoDB (Persistencia de contenido)
+- **Estilos**: Vanilla CSS (Modern Design)
+- **Despliegue**: Preparado para Vercel (Configuración mediante `vercel.json`)
+- **Imágenes**: Cloudinary API
 
 ---
 
-## 🚀 Inicio Rápido
+## 🚀 Instalación y Configuración
 
-### Requisitos Previos
+### Requisitos
 
-- [Node.js](https://nodejs.org/) (v16 o superior)
-- Una instancia de MongoDB (local o Atlas).
-- Cuenta de Cloudinary para la gestión de imágenes.
+- Node.js instalado.
+- Base de Datos MongoDB activa.
+- Credenciales de Cloudinary.
 
-### Instalación
+### Pasos
 
-1. **Clonar el repositorio:**
-   ```bash
-   git clone https://github.com/angelamonsalvep/corporate-site-customizable.git
-   cd corporate-site-customizable
-   ```
-
-2. **Instalar dependencias:**
+1. **Instalar dependencias:**
    ```bash
    npm install
    ```
 
-3. **Configurar variables de entorno:**
-   Crea un archivo `.env` en la raíz (puedes guiarte por `.env.example` en la carpeta `api/`):
+2. **Variables de Entorno:**
+   Configura un archivo `.env` en la raíz con tus credenciales de Cloudinary y la URL de la API:
    ```env
-   VITE_CLOUDINARY_CLOUD_NAME=tu_cloud_name
+   VITE_CLOUDINARY_CLOUD_NAME=tu_usuario
    VITE_CLOUDINARY_UPLOAD_PRESET=tu_preset
    ```
 
-4. **Correr en desarrollo:**
-   ```bash
-   npm run dev
-   ```
-
----
-
-## 🛠️ Administración de Contenido
-
-Para gestionar el sitio, accede a la ruta `/admin`. Las secciones disponibles para personalizar son:
-
-- **General & Contacto**: Datos de la empresa, redes sociales y visibilidad de botones de contacto.
-- **Sección Hero**: Título principal, subtítulo e imagen de fondo de la cabecera.
-- **Quiénes Somos**: Descripción corporativa e imagen representativa.
-- **Áreas de Negocio**: Gestión completa de los productos y servicios financieros que ofrece la empresa.
-- **Aliados Estratégicos**: Gestión de partners y colaboraciones.
-- **Seguridad**: Cambio de credenciales de acceso.
+3. **Iniciar el proyecto:**
+   - Desarrollo (Frontend + Backend): `npm run dev:all`
+   - Solo Frontend: `npm run dev`
+   - Solo API: `npm run dev:server`
 
 ---
 
 ## 📄 Licencia
 
-Este proyecto se distribuye bajo la Licencia MIT.
+MIT License.
 
 ---
 
-**Desarrollado para potenciar la identidad digital de empresas globales.**
+**Solución integral para la transformación digital de empresas corporativas.**
