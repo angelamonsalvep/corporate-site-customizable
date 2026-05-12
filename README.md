@@ -43,6 +43,9 @@ VITE_CLOUDINARY_UPLOAD_PRESET=tu_preset
 Configura estas variables para la lógica del servidor, base de datos e imágenes:
 
 ```env
+# Seguridad (Solo para primer acceso)
+ADMIN_PASSWORD=admin123  # Contraseña maestra temporal para la primera configuración
+
 # Cloudinary (Credenciales completas para el servidor)
 CLOUDINARY_CLOUD_NAME=tu_cloud_name
 CLOUDINARY_API_KEY=tu_api_key
@@ -58,8 +61,8 @@ MONGO_URL=mongodb+srv://usuario:password@cluster.mongodb.net/
 MONGO_PARAMS=retryWrites=true&w=majority
 ```
 
-> [!IMPORTANT]
-> **Seguridad**: El acceso al panel administrativo se gestiona directamente desde la base de datos (colección de contenido). No se utiliza una variable de entorno para la contraseña por motivos de seguridad. La configuración inicial se realiza mediante el sistema de semillas (seeds) o configuración manual en DB.
+> [!NOTE]
+> **Nota sobre ADMIN_PASSWORD**: Esta variable solo se utiliza como **mecanismo de acceso inicial** o cuando la base de datos no está disponible. Una vez que configures la seguridad desde el panel (`/admin`), el sistema priorizará la contraseña cifrada guardada en la base de datos.
 
 ---
 
