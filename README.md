@@ -1,16 +1,42 @@
-# React + Vite
+# Corporate Site Customizable (Premium Edition)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este proyecto es una plataforma web corporativa altamente personalizable, diseñada para empresas que buscan una presencia digital profesional y autogestionable.
 
-Currently, two official plugins are available:
+## 🚀 Características Principales
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Personalización Total**: Cambia logos, colores, textos e imágenes desde el panel administrativo.
+- **Área Comercial y Financiera**: Secciones dedicadas para catálogos de productos y servicios con gestión de visibilidad.
+- **Aliados Estratégicos**: Sección para mostrar partners y alianzas con soporte para Markdown.
+- **Multilingüe**: Soporte para español, inglés, portugués, francés y chino.
+- **Cloudinary Integration**: Gestión de imágenes profesional con galería integrada.
 
-## React Compiler
+## 💎 Características Premium (Activadas en esta Rama)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Esta rama (`feature/seo-premium-suite`) incluye la **Suite de SEO Avanzado**:
 
-## Expanding the ESLint configuration
+- **Panel de Control SEO**: Gestión de Meta Titles, Meta Descriptions y Keywords dinámicas.
+- **Open Graph (Social SEO)**: Configuración de `og:image` para compartir en redes sociales y WhatsApp.
+- **Estructura de Datos**: Marcado Schema.org automático para buscadores.
+- **Indexación**: Generación automática de `sitemap.xml` y `robots.txt`.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Cómo activar las funciones Premium
+
+Asegúrate de tener la siguiente variable en tu archivo `.env`:
+
+```env
+VITE_ENABLE_SEO_PREMIUM=true
+```
+
+## 🛠️ Tecnologías
+
+- **Frontend**: React + Vite
+- **Styling**: Vanilla CSS (Modern design)
+- **Backend/API**: Vercel Serverless Functions + MongoDB
+- **Hosting**: Vercel
+
+## 📦 Instalación
+
+1. Clonar el repositorio.
+2. `npm install`
+3. Configurar variables de entorno (MongoDB, Cloudinary).
+4. `npm run dev`
