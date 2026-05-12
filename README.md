@@ -1,31 +1,34 @@
 # 🌐 Corporate Site Customizable
 
-**Una solución web moderna, profesional y 100% autogestionable para empresas de servicios.**
+**Una solución web corporativa profesional, dinámica y gestionable para empresas de servicios y comercio.**
 
-Este proyecto es una plataforma web corporativa diseñada para empresas que necesitan una presencia digital de alto impacto, con un panel administrativo intuitivo que permite cambiar cualquier aspecto del sitio sin tocar una sola línea de código.
+Este proyecto es una plataforma web personalizable diseñada para empresas que buscan una presencia digital sólida. Permite a los administradores gestionar el contenido principal del sitio, catálogos de servicios y aliados estratégicos desde un panel de control integrado, asegurando que la información esté siempre actualizada sin necesidad de conocimientos técnicos.
 
 ---
 
 ## ✨ Características Principales
 
-- **🎨 Personalización en Tiempo Real**: Cambia logos, paleta de colores, tipografías y textos directamente desde el panel de control.
-- **📱 Mobile First & Responsive**: Optimizado para una experiencia perfecta en smartphones, tablets y ordenadores.
-- **💼 Gestión de Catálogo**: Secciones dinámicas para Productos Comerciales y Servicios Financieros.
-- **🤝 Red de Aliados**: Módulo dedicado para gestionar socios estratégicos con descripciones enriquecidas.
-- **🌍 Multilingüe Ready**: Sistema de traducción integrado para Español, Inglés, Portugués, Francés y Chino.
-- **🔐 Seguridad de Datos**: Panel administrativo protegido con cifrado de contraseñas y sistema de recuperación.
-- **☁️ Gestión de Medios**: Integración con **Cloudinary** para subir y optimizar imágenes automáticamente.
+- **⚙️ Panel Administrativo**: Gestión centralizada de todo el contenido del sitio desde `/admin`.
+- **🖼️ Gestión de Marca**: Cambia el logotipo principal, el logotipo secundario y el isotipo del navegador (favicon) de forma dinámica.
+- **📱 Mobile First & Responsive**: Diseño moderno y fluido que se adapta perfectamente a cualquier dispositivo.
+- **🛍️ Catálogo de Productos y Servicios**: 
+  - Gestión de **Área Comercial** para productos con imágenes y descripciones.
+  - Gestión de **Área Financiera** con soporte para listas de ítems detallados por servicio.
+- **🤝 Módulo de Aliados**: Sección dedicada para partners corporativos con soporte para formato de texto enriquecido (listas y negritas).
+- **🌍 Sistema Multilingüe**: Soporte integrado para 5 idiomas (Español, Inglés, Portugués, Francés y Chino).
+- **🔒 Seguridad**: Acceso protegido al panel mediante contraseña y pregunta de recuperación.
+- **☁️ Integración con Cloudinary**: Sube imágenes directamente desde el panel y gestiónalas en una galería centralizada.
 
 ---
 
 ## 🛠️ Tecnologías Utilizadas
 
 - **Frontend**: [React.js](https://reactjs.org/) + [Vite](https://vitejs.dev/)
-- **Estado y Contexto**: React Context API para una gestión de datos fluida.
-- **Estilos**: Vanilla CSS con variables modernas (Modern Design System).
+- **Gestión de Datos**: React Context API para sincronización de contenido en tiempo real.
+- **Estilos**: Vanilla CSS con un sistema de diseño basado en variables para máxima ligereza.
 - **Backend**: Vercel Serverless Functions.
-- **Base de Datos**: MongoDB para persistencia de contenido.
-- **Imágenes**: Cloudinary API.
+- **Base de Datos**: MongoDB (para persistencia de configuraciones y contenido).
+- **Imágenes**: Cloudinary API (almacenamiento en la nube).
 
 ---
 
@@ -34,8 +37,8 @@ Este proyecto es una plataforma web corporativa diseñada para empresas que nece
 ### Requisitos Previos
 
 - [Node.js](https://nodejs.org/) (v16 o superior)
-- Una cuenta en [Cloudinary](https://cloudinary.com/) (para el panel de imágenes).
-- Una base de datos en [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
+- Una instancia de MongoDB (local o Atlas).
+- Cuenta de Cloudinary para la gestión de imágenes.
 
 ### Instalación
 
@@ -51,14 +54,10 @@ Este proyecto es una plataforma web corporativa diseñada para empresas que nece
    ```
 
 3. **Configurar variables de entorno:**
-   Crea un archivo `.env` en la raíz con el siguiente formato:
+   Crea un archivo `.env` en la raíz (puedes guiarte por `.env.example` en la carpeta `api/`):
    ```env
-   # Cloudinary Config
    VITE_CLOUDINARY_CLOUD_NAME=tu_cloud_name
    VITE_CLOUDINARY_UPLOAD_PRESET=tu_preset
-
-   # La URL de la API (en desarrollo suele ser local)
-   VITE_API_URL=http://localhost:3000/api
    ```
 
 4. **Correr en desarrollo:**
@@ -68,23 +67,23 @@ Este proyecto es una plataforma web corporativa diseñada para empresas que nece
 
 ---
 
-## 🛠️ Administración
+## 🛠️ Administración de Contenido
 
-Para acceder al panel de administración, navega a `/admin` en tu navegador. 
+Para gestionar el sitio, accede a la ruta `/admin`. Las secciones disponibles para personalizar son:
 
-**Desde allí podrás:**
-- Actualizar la información de contacto (WhatsApp, Email, Dirección).
-- Modificar el Hero (título e imágenes de fondo).
-- Añadir o quitar productos y servicios.
-- Cambiar el logo y el isotipo de la pestaña del navegador.
-- Gestionar la visibilidad de secciones completas.
+- **General & Contacto**: Datos de la empresa, redes sociales y visibilidad de botones de contacto.
+- **Sección Hero**: Título principal, subtítulo e imagen de fondo de la cabecera.
+- **Quiénes Somos**: Descripción corporativa e imagen representativa.
+- **Áreas de Negocio**: Gestión completa de los productos y servicios financieros que ofrece la empresa.
+- **Aliados Estratégicos**: Gestión de partners y colaboraciones.
+- **Seguridad**: Cambio de credenciales de acceso.
 
 ---
 
 ## 📄 Licencia
 
-Este proyecto está bajo la Licencia MIT. Puedes usarlo, modificarlo y distribuirlo libremente para tus proyectos personales o comerciales.
+Este proyecto se distribuye bajo la Licencia MIT.
 
 ---
 
-**Desarrollado con ❤️ para empresas que buscan excelencia digital.**
+**Desarrollado para potenciar la identidad digital de empresas globales.**
