@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useContent } from '../context/ContentContext';
+import { features } from '../config/features';
 import { uploadToCloudinary } from '../utils/cloudinaryUpload';
 import CloudinaryGallery from './CloudinaryGallery';
 import './AdminPanel.css';
@@ -127,10 +128,14 @@ const AdminPanel = () => {
     setUploadingField(uploadKey);
     try {
       const url = await uploadToCloudinary(file, cloudinaryFolder);
-      setFormData(prev => ({
-        ...prev,
-        [section]: { ...prev[section], [field]: url }
-      }));
+      setFormData(prev => {
+        const newData = { ...prev };
+        if (!newData[section]) newData[section] = {};
+        return {
+          ...newData,
+          [section]: { ...newData[section], [field]: url }
+        };
+      });
     } catch (err) {
       alert(`Error al subir imagen de ${section}: ` + err.message);
     } finally {
@@ -468,7 +473,9 @@ const AdminPanel = () => {
           <button className={activeTab === 'trade' ? 'active' : ''} onClick={() => selectTab('trade')}>{t('admin.tabs.trade')}</button>
           <button className={activeTab === 'financial' ? 'active' : ''} onClick={() => selectTab('financial')}>{t('admin.tabs.financial')}</button>
           <button className={activeTab === 'allies' ? 'active' : ''} onClick={() => selectTab('allies')}>{t('admin.tabs.allies')}</button>
-          <button className={activeTab === 'seo' ? 'active' : ''} onClick={() => selectTab('seo')}>🔍 SEO</button>
+          {features.seoPremium && (
+            <button className={activeTab === 'seo' ? 'active' : ''} onClick={() => selectTab('seo')}>🔍 SEO</button>
+          )}
           <button className={activeTab === 'security' ? 'active' : ''} onClick={() => selectTab('security')}>{t('admin.tabs.security')}</button>
         </div>
         
@@ -1174,8 +1181,8 @@ const AdminPanel = () => {
             )}
 
             {/* Tab SEO */}
-            {activeTab === 'seo' && (
-              <div>
+            {features.seoPremium && activeTab === 'seo' && (
+              <div className="admin-section animate-fade-in">
                 <h2>🔍 SEO &amp; Posicionamiento</h2>
                 <p style={{ color: '#64748b', marginBottom: '1.5rem', fontSize: '0.95rem' }}>
                   Configura cómo aparece tu sitio en Google, WhatsApp y redes sociales.
