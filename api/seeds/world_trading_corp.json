@@ -249,11 +249,6 @@
   },
   "_id": "69f5ec499119bfdeb8b94db8",
   "documentId": "world_trading_corp",
-  "adminConfig": {
-    "passwordHash": "$2b$10$CoheGhUSFDCAldGNYQSUCuBn7C4lD9eYA/xCs6fidtA2WInBDbfSW",
-    "securityQuestion": "¿Cuál es el nombre de la empresa?",
-    "securityAnswerHash": "$2b$10$CoheGhUSFDCAldGNYQSUCuBn7C4lD9eYA/xCs6fidtA2WInBDbfSW"
-  },
   "__v": 0,
   "createdAt": "2026-05-02T12:21:29.098Z",
   "updatedAt": "2026-05-08T01:40:59.150Z"

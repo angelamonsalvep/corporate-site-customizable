@@ -1,95 +1,120 @@
 # 🌐 Corporate Site Customizable
 
-**Plataforma web profesional y autogestionable para empresas de servicios y comercio.**
+**Plataforma web profesional, dinámica y autogestionable para empresas de servicios y comercio.**
 
-Este proyecto permite a empresas corporativas mantener una presencia digital moderna con un panel administrativo integrado. Los administradores pueden actualizar la información clave, catálogos de servicios y aliados estratégicos de forma sencilla.
+[![React](https://img.shields.io/badge/Frontend-React%2019-61DAFB?logo=react&logoColor=white)](https://reactjs.org/)
+[![Node.js](https://img.shields.io/badge/Backend-Node.js-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![MongoDB](https://img.shields.io/badge/Database-MongoDB-47A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Vite](https://img.shields.io/badge/Tool-Vite-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Cloudinary](https://img.shields.io/badge/Storage-Cloudinary-3448C5?logo=cloudinary&logoColor=white)](https://cloudinary.com/)
+
+Este proyecto proporciona una infraestructura base para desplegar sitios corporativos modernos con un panel administrativo integrado. Permite la gestión total de contenidos, desde la identidad visual hasta catálogos de servicios y aliados estratégicos.
 
 ---
 
 ## ✨ Características Principales
 
-- **⚙️ Panel de Administración**: Acceso privado en `/admin` para gestionar todo el contenido.
-- **🖼️ Gestión de Identidad**: Personalización de logotipos e isotipos (favicon).
-- **🛍️ Catálogos Dinámicos**: Gestión de Áreas Comerciales (productos) y Financieras (servicios).
-- **🤝 Red de Aliados**: Módulo para socios estratégicos con soporte para formato de texto.
-- **🌍 Soporte Multiidioma**: Interfaz disponible en 5 idiomas.
-- **☁️ Galería Multimedia**: Integración con Cloudinary para gestión de imágenes.
+- **⚙️ Panel Administrativo Robusto**: Acceso privado en `/admin` para gestionar contenido en tiempo real sin necesidad de tocar código.
+- **🖼️ Identidad Visual Flexible**: Personalización de logotipos, isotipos y temas visuales directamente desde el panel.
+- **🛍️ Catálogos de Negocio**: 
+  - **Áreas Comerciales**: Gestión de productos y bienes.
+  - **Áreas Financieras**: Gestión de servicios y consultoría.
+- **🤝 Red de Aliados**: Módulo dinámico para socios estratégicos con soporte para descripciones enriquecidas.
+- **🌍 Soporte Multiidioma**: Interfaz preparada para 5 idiomas, permitiendo alcance global.
+- **☁️ Gestión Multimedia**: Integración nativa con Cloudinary para optimización y almacenamiento de imágenes.
+- **🔑 Seguridad Integrada**: Sistema de autenticación con hashing de contraseñas y preguntas de seguridad.
 
 ---
 
 ## 🛠️ Tecnologías
 
-- **Frontend**: React.js (Vite)
-- **Backend**: Node.js + Express (API)
-- **Base de Datos**: MongoDB (Persistencia de contenido y seguridad)
-- **Imágenes**: Cloudinary API
+| Capa | Tecnología | Propósito |
+| :--- | :--- | :--- |
+| **Frontend** | React.js (Vite) | Interfaz de usuario rápida y reactiva. |
+| **Backend** | Node.js + Express | API REST para gestión de datos. |
+| **Base de Datos** | MongoDB | Persistencia flexible basada en documentos. |
+| **Multimedia** | Cloudinary | CDN y optimización de activos visuales. |
+| **Estilos** | CSS Moderno | Diseño responsive y adaptable. |
 
 ---
 
-## 🚀 Configuración del Proyecto
+## 🚀 Configuración del Entorno
 
-El proyecto requiere la configuración de variables de entorno tanto para el **Frontend** como para el **Backend (API)**.
+El proyecto se divide en un cliente (Frontend) y un servidor (API). Ambos requieren configuración independiente.
 
-### 1. Variables del Frontend (Raíz `/.env`)
-Configura estas variables para el funcionamiento de la interfaz de usuario:
+### 1. Frontend (`/.env`)
+
+Crea un archivo `.env` en la raíz del proyecto:
 
 ```env
-# Cloudinary (Solo datos públicos para el widget de subida)
+# Cloudinary (Configuración pública para el widget de subida)
 VITE_CLOUDINARY_CLOUD_NAME=tu_cloud_name
 VITE_CLOUDINARY_UPLOAD_PRESET=tu_preset
 ```
 
-### 2. Variables del Backend (Carpeta `/api/.env`)
-Configura estas variables para la lógica del servidor, base de datos e imágenes:
+### 2. Backend (`/api/.env`)
+
+Crea un archivo `.env` dentro de la carpeta `/api`:
 
 ```env
-# Cloudinary (Credenciales completas para el servidor)
+# Cloudinary (Credenciales privadas para el servidor)
 CLOUDINARY_CLOUD_NAME=tu_cloud_name
 CLOUDINARY_API_KEY=tu_api_key
 CLOUDINARY_API_SECRET=tu_api_secret
 CLOUDINARY_FOLDER=nombre_de_carpeta_del_cliente
 
-# Identificación del Cliente
-CLIENT_ID=id_unico_del_cliente  # ej: world_trading_corp
-DB_NAME=nombre_de_la_db         # ej: world_trading_corp
+# Identificación del Cliente (Controla qué seed se carga)
+CLIENT_ID=world_trading_corp  # Debe coincidir con el nombre del archivo en api/seeds/
+DB_NAME=world_trading_corp    # Nombre de la base de datos en MongoDB
 
 # Base de Datos MongoDB
 MONGO_URL=mongodb+srv://usuario:password@cluster.mongodb.net/
 MONGO_PARAMS=retryWrites=true&w=majority
 ```
 
-> [!IMPORTANT]
-> **Seguridad**: Por motivos de seguridad, la contraseña del administrador **NO** se gestiona mediante variables de entorno. Se almacena de forma cifrada directamente en la base de datos. 
-> - La contraseña inicial por defecto (si usas los seeds incluidos) es: `admin123`.
-> - Se recomienda cambiarla inmediatamente desde el panel `/admin` tras el primer inicio de sesión.
-
 ---
 
-## 💻 Instalación y Uso
+## 💻 Instalación y Puesta en Marcha
 
 1. **Instalar dependencias:**
    ```bash
    npm install
    ```
 
-2. **Inicializar Base de Datos (Opcional):**
-   Si deseas cargar los datos de ejemplo y la configuración de seguridad inicial:
+2. **Inicializar la Base de Datos (Seed):**
+   Este paso es crítico para crear el primer administrador. Ejecuta el script de semillas:
    ```bash
    cd api
    node seed.js
    ```
+   > [!IMPORTANT]
+   > El script generará una **contraseña aleatoria única** para el acceso administrativo inicial. Asegúrate de copiarla de la terminal.
 
-3. **Iniciar en modo desarrollo (Frontend + API):**
+3. **Ejecución en Desarrollo:**
+   Vuelve a la raíz y lanza ambos servicios simultáneamente:
    ```bash
    npm run dev:all
    ```
 
 ---
 
-## 📄 Licencia
+## 🎨 Personalización por Cliente
 
-MIT License.
+El sistema está diseñado para ser multi-tenencia mediante archivos de configuración:
+
+1. **Archivos Seed**: Ubicados en `api/seeds/`. Puedes crear un archivo `mi_empresa.json` siguiendo el esquema de `generic.json`.
+2. **Activación**: Cambia el `CLIENT_ID` en `api/.env` para que coincida con tu archivo JSON.
+3. **Re-Seeding**: Si deseas sobrescribir una base de datos existente con el archivo JSON actualizado, usa:
+   ```bash
+   node seed.js --force
+   ```
 
 ---
 
-**Solución integral para la transformación digital de empresas corporativas.**
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT.
+
+---
+
+**Desarrollado para la transformación digital y escalabilidad empresarial.**

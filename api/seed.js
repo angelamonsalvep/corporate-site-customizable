@@ -3,6 +3,8 @@ require('dotenv').config({ path: path.join(__dirname, '.env') });
 const mongoose = require('mongoose');
 const fs = require('fs');
 const Content = require('./models/Content');
+const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 
 const CLIENT_ID = process.env.CLIENT_ID || 'default_site';
 const DB_NAME = process.env.DB_NAME || CLIENT_ID;
@@ -39,8 +41,19 @@ const seedDatabase = async () => {
     const rawData = fs.readFileSync(seedToUse, 'utf8');
     const localData = JSON.parse(rawData);
 
+    // Generar contraseña inicial segura
+    const initialPassword = process.env.INITIAL_ADMIN_PASSWORD || crypto.randomBytes(8).toString('hex');
+    const passwordHash = await bcrypt.hash(initialPassword, 10);
+
     // Asegurarse de que el documentId coincida con el CLIENT_ID actual
     localData.documentId = CLIENT_ID;
+    
+    // Configuración de seguridad inicial
+    localData.adminConfig = {
+      passwordHash: passwordHash,
+      securityQuestion: "¿Cuál es el nombre de la empresa?",
+      securityAnswerHash: passwordHash
+    };
 
     await Content.findOneAndUpdate(
       { documentId: CLIENT_ID },
@@ -49,6 +62,13 @@ const seedDatabase = async () => {
     );
 
     console.log(`✅ Successfully seeded MongoDB [${DB_NAME}] with ${path.basename(seedToUse)} content!`);
+    console.log('\n' + '='.repeat(50));
+    console.log('🔐 CREDENCIALES DE ADMINISTRADOR INICIALES');
+    console.log('='.repeat(50));
+    console.log(`PASSWORD: ${initialPassword}`);
+    console.log('='.repeat(50));
+    console.log('⚠️  IMPORTANTE: Guarda esta contraseña y cámbiala en el panel /admin');
+    console.log('='.repeat(50) + '\n');
     process.exit(0);
   } catch (error) {
     console.error('❌ Error seeding database:', error);

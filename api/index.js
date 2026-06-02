@@ -28,7 +28,6 @@ cloudinary.config({
 const app = express();
 const PORT = process.env.PORT || 3001;
 const DB_FILE = path.join(__dirname, 'database.json');
-const DB_FILE = path.join(__dirname, 'database.json');
 const CLIENT_ID = process.env.CLIENT_ID || 'default_site';
 const DB_NAME = process.env.DB_NAME || CLIENT_ID;
 const MONGO_URL = process.env.MONGO_URL;
@@ -218,8 +217,6 @@ app.post('/api/admin/setup-security', async (req, res) => {
     if (!isAuthorized) return res.status(401).json({ error: 'No autorizado' });
 
     const { newPassword, securityQuestion, securityAnswer } = req.body;
-    const isConnected = await ensureConnected();
-    if (!isConnected) return res.status(500).json({ error: 'Database not connected' });
 
     const passwordHash = await bcrypt.hash(newPassword, 10);
     const securityAnswerHash = await bcrypt.hash(securityAnswer.toLowerCase().trim(), 10);
